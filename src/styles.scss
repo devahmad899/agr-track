@@ -20,3 +20,14 @@ $gutter: 1rem; //for primeflex grid system
 	margin: 0;
 	padding: 0;
 }
+.p-button-primary  {
+	background: var(--primary-color);
+	border-color: var(--primary-color);
+		&:hover {
+			border-color: var(--primary-color_hover);
+			background: var(--primary-color_hover);
+		}
+}
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+	color: #3ac07b;
+}

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Dictionary } from '@fullcalendar/core/internal';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { DataService, Users } from 'src/app/core/core.index';
 import { Product } from 'src/app/demo/api/product';
 
@@ -20,6 +20,10 @@ export class CustomersComponent {
   selectedUserId: number;
   serialNumberArray: any[];
   public totalData = 0;
+  noData: any
+  items: MenuItem[] | undefined;
+
+  home: MenuItem | undefined;
 
   get f() {
     return this.userForm.controls;
@@ -60,7 +64,9 @@ export class CustomersComponent {
 
   }
   ngOnInit() {
-    this.fetchCusotomerData()
+    this.fetchCusotomerData();
+    this.items = [{ label: 'Customers' }];
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
   ShowModal(id: number) {

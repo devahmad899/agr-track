@@ -11,7 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ToastModule } from 'primeng/toast';
-import { MessagesModule } from 'primeng/messages';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MessageService } from 'primeng/api';
 
 @NgModule({
@@ -30,6 +30,7 @@ import { MessageService } from 'primeng/api';
     InputTextareaModule,
     InputMaskModule,
     ToastModule,
+    BreadcrumbModule,
   ],
   providers: [MessageService]
 })

@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth/auth.service';
 import { routes } from '../../core.index';
 
 @Injectable()
@@ -33,7 +33,7 @@ export class TokenInterceptorInterceptor implements HttpInterceptor {
       }
     }
     else{
-      console.log('Token doesnt exist')
+      // console.log('Token doesnt exist')
       this.router.navigate(['/']);
     }
 

@@ -12,6 +12,8 @@ import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptorInterceptor } from './core/services/interceptor/token.interceptor';
 
 
 @NgModule({
@@ -20,7 +22,12 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, 
+        PhotoService, ProductService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptorInterceptor,
+            multi: true
+           }, 
     ],
     bootstrap: [AppComponent],
 })

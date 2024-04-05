@@ -1,8 +1,9 @@
 <div class="layout-topbar">
     <a class="layout-topbar-logo" routerLink="">
-        <img src="assets/layout/images/logo-agrTrack.png" alt="logo">
+        <img src="assets/layout/images/logo-min-agrTrack.png" alt="logo">
         <!-- <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo"> -->
-        <!-- <span>AgrTrack</span> -->
+        <span style="color: #0d703d;">Agr</span>
+            <span style="color: #f9de20;">Track</span>
     </a>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
@@ -27,9 +28,10 @@
                 <p-listbox [options]="cities" [(ngModel)]="selectedCity" optionLabel="name" [style]="{'width':'15rem'}" [listStyle]="{'max-height': '220px'}"></p-listbox>
             </ng-template>
         </p-overlayPanel>
-        <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
+        <button pButton type="button" (click)="menu.toggle($event)" class="p-link layout-topbar-button">
             <i class="pi pi-cog"></i>
             <span>Settings</span>
         </button>
+        <p-menu #menu [model]="items" [popup]="true"></p-menu>
     </div>
 </div>

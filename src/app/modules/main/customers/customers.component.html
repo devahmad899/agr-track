@@ -1,17 +1,28 @@
 <p-toast position="top-right"></p-toast>
 <div class="grid">
     <div class="col-12">
-        <div class="page-header">
-            <h2>Customers</h2>
-        </div>
+        
         <div class="card">
-            <div class="block text-right mb-5">
-                <p-button label="Add New" icon="pi pi-plus-circle" iconPos="right" (onClick)="ShowModal(1)"></p-button>
+            <div class="page-header">
+                <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+                <h2>Customers</h2>
             </div>
+            <div class="block text-right mb-5">
+                <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right" (onClick)="ShowModal(1)"></p-button>
+            </div>
+            <!-- <ng-container *ngIf="userList.length > 0; else noData"> -->
             <p-table [value]="userList" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
                 [tableStyle]="{ 'min-width': '50rem' }"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [rowsPerPageOptions]="[10, 25, 50,100]">
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                        </span>
+                    </div>
+                </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Sr No.</th>
@@ -47,15 +58,16 @@
                         </td>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="paginatorleft">
-                    <!-- <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button> -->
-                </ng-template>
-                <ng-template pTemplate="paginatorright">
-                    <!-- <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button> -->
-                </ng-template>
             </p-table>
-
-
+        <!-- </ng-container> -->
+        <!-- <ng-template #noData>
+            <h5 style="text-align: center;">No data found</h5>
+          </ng-template> -->
+          <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8">No customers found.</td>
+            </tr>
+        </ng-template>
         </div>
     </div>
 
@@ -142,7 +154,7 @@
                     </div>
                 </div>
                 <div class="btn-holder flex gap-3">
-                    <p-button type="submit" icon="pi pi-check mr-3" label="Submit" pAutoFocus [autofocus]="true"
+                    <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary" pAutoFocus [autofocus]="true"
                         [disabled]="userForm.invalid"></p-button>
                     <p-button severity="secondary" icon="pi pi-times" (click)="displayAddModal = false" label="Cancel"
                         pAutoFocus [autofocus]="true"></p-button>
@@ -237,7 +249,7 @@
                     </div>
                 </div>
                 <div class="btn-holder flex gap-3">
-                    <p-button type="submit" icon="pi pi-check mr-3" label="Submit" pAutoFocus [autofocus]="true"
+                    <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary" pAutoFocus [autofocus]="true"
                         [disabled]="userForm.invalid"></p-button>
                     <p-button severity="secondary" icon="pi pi-times" (click)="displayEditModal = false" label="Cancel"
                         pAutoFocus [autofocus]="true"></p-button>
