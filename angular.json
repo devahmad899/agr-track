@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/sakai-ng",
+                        "outputPath": "dist/agr-track-ng",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": [
@@ -71,7 +71,8 @@
                             "buildTarget": "sakai-ng:build:development"
                         }
                     },
-                    "defaultConfiguration": "development"
+                    "defaultConfiguration": "development",
+                    "options": {"disableHostCheck": true}
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
