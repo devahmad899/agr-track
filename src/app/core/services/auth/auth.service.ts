@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { Login, MenuItem, forgetPassword, resetPassword, Permissions } from '../interface/models';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { jwtDecode } from "jwt-decode";
+
 
 @Injectable({
   providedIn: 'root',
@@ -14,49 +16,70 @@ export class AuthService {
 
   private isAuthenticated = false;
   private token: string = localStorage.getItem('access_token') || '';
-  public currentCompany = ""
-  public companiesList = []
-  public isSuperUser!: boolean
-  public isHr!: boolean
   public user_name = "";
+  public roleName = "";
+  public superUserId!: number
   public user_id!: number;
   public role_id!: number;
 
-  decodeToken(): any {
-    // Retrieve the token from local storage
+  decodeToken():any  {
     this.token = localStorage.getItem('access_token') || '';
-
     // Check if the token is present
     if (!this.token) {
       console.error('Access token not found in local storage.');
       return null; // or handle the absence of the token according to your requirements
     }
-
-    try {
-      // Decode the token
-      const base64Url = this.token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const decodedPayload = JSON.parse(atob(base64));
-
-      // Access the decoded payload properties
-      this.companiesList = decodedPayload.companies;
-      this.currentCompany = decodedPayload.currentCompany.name;
-      this.isSuperUser = decodedPayload.superuser;
-      this.isHr = decodedPayload.isHR;
-      this.user_name = decodedPayload.firstname;
+    let decodedPayload: any = jwtDecode(this.token)
+    
+    // Access the decoded payload properties
+     
+      // this.isSuperUser = decodedPayload.superuser;
+      // this.user_name = decodedPayload.firstname;
       this.user_id = decodedPayload.user_id;
-      this.role_id = decodedPayload.roleID
-
-      // Log the decoded payload
-      console.log('Token decoded:', decodedPayload);
-
-      // Return the decoded payload
-      return decodedPayload;
-    } catch (error) {
-      // console.error('Error decoding token:', error);
-      return null; // or handle the decoding error according to your requirements
-    }
+      this.roleName = decodedPayload.roleName;
+      this.role_id = decodedPayload.role_id;
+      console.log(this.role_id)
+      this.superUserId = decodedPayload.superUserId;
+      // this.role_id = decodedPayload.roleID
+    return decodedPayload
   }
+
+
+  // decodeToken(): any {
+  //   // Retrieve the token from local storage
+  //   this.token = localStorage.getItem('access_token') || '';
+
+  //   // Check if the token is present
+  //   if (!this.token) {
+  //     console.error('Access token not found in local storage.');
+  //     return null; // or handle the absence of the token according to your requirements
+  //   }
+
+  //   try {
+  //     // Decode the token
+  //     const base64Url = this.token.split('.')[1];
+  //     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  //     const decodedPayload = JSON.parse(atob(base64));
+
+  //     // Access the decoded payload properties
+  //     this.companiesList = decodedPayload.companies;
+  //     this.currentCompany = decodedPayload.currentCompany.name;
+  //     this.isSuperUser = decodedPayload.superuser;
+  //     this.isHr = decodedPayload.isHR;
+  //     this.user_name = decodedPayload.firstname;
+  //     this.user_id = decodedPayload.user_id;
+  //     this.role_id = decodedPayload.roleID
+
+  //     // Log the decoded payload
+  //     console.log('Token decoded:', decodedPayload);
+
+  //     // Return the decoded payload
+  //     return decodedPayload;
+  //   } catch (error) {
+  //     // console.error('Error decoding token:', error);
+  //     return null; // or handle the decoding error according to your requirements
+  //   }
+  // }
   isAdmin(): boolean {
     if (this.role_id && this.role_id == 1) {
       console.log(true)
@@ -114,7 +137,7 @@ export class AuthService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     });
-    return this.http.get<any>(`${environment.apiUrl}/users/`, {headers});
+    return this.http.get<any>(`${environment.apiUrl}/users/`, { headers });
   }
   // change password
 

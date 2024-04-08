@@ -38,7 +38,13 @@ export class routes {
     return this.baseUrl + '/crops';
   }
   public static get inventory(): string {
-    return this.baseUrl + '/inventory';
+    return this.baseUrl + 'crops/inventory';
+  }
+  public static get sale(): string {
+    return this.baseUrl + 'crops/sale';
+  }
+  public static get purchase(): string {
+    return this.baseUrl + 'crops/purchase';
   }
   public static get accountability(): string {
     return this.baseUrl + '/accountability';
@@ -48,5 +54,11 @@ export class routes {
   }
   public static get system_settings(): string {
     return this.baseUrl + '/system-settings';
+  }
+  public static get userProfile(): string {
+    return this.baseUrl + '/user-profile';
+  }
+  public static get changePassword(): string {
+    return this.baseUrl + '/change-password';
   }
 }

@@ -17,12 +17,25 @@ import { routes } from '../core/core.index';
         .layout-topbar .layout-topbar-logo span {
                 font-size: 1.8rem;
             }
+            .profile-img-wrap {
+            height: 30px;
+            width: 30px;
+            overflow: hidden;
+            text-align: center;
+            border-radius: 50%;
+                
+            img {
+                width:100%;
+            }
+            }
+
     `]
 
 })
 export class AppTopBarComponent {
 
     items!: MenuItem[];
+    public routes = routes;
 
     @ViewChild('menubutton') menuButton!: ElementRef;
 
@@ -30,19 +43,19 @@ export class AppTopBarComponent {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-    constructor(public layoutService: LayoutService, private primengConfig: PrimeNGConfig, private router : Router) { }
+    constructor(public layoutService: LayoutService, private primengConfig: PrimeNGConfig, private router: Router) { }
     ngOnInit() {
         this.items = [
             {
-                label: 'Update',
-                icon: 'pi pi-refresh',
+                label: 'Change Password',
+                icon: 'pi pi-lock',
                 command: () => {
-                    this.update();
+                    this.router.navigate([routes.changePassword])
                 }
             },
             {
                 label: 'Log Out',
-                icon: 'pi-sign-out',
+                icon: 'pi pi-sign-out',
                 command: () => {
                     this.logout();
                 }
@@ -58,5 +71,5 @@ export class AppTopBarComponent {
         localStorage.removeItem('access_token');
         sessionStorage.removeItem('access_token');
         this.router.navigate([routes.login]);
-      }
+    }
 }

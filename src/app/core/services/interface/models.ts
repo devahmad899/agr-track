@@ -185,6 +185,13 @@ export interface Users {
   roleId: number
   isRemoved: boolean
 }
+  export interface Stocks {
+  srNo: number
+  productId: number
+  productName: string
+  AvailaibleQuantity: number
+  TotalQuantity: number
+}
 
 
 export interface SideBarMenu {

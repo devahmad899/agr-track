@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'http://0.tcp.ap.ngrok.io:17435',
+  apiUrl: 'http://0.tcp.ap.ngrok.io:14701',
   // apiUrl: 'https://0503-58-27-207-214.ngrok-free.app',
-  apiUrl: 'https://staginghrms.thetowertech.com',
+  // apiUrl: 'https://staginghrms.thetowertech.com',
 };
 
 /*

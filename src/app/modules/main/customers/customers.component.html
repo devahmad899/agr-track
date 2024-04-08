@@ -15,14 +15,14 @@
                 [tableStyle]="{ 'min-width': '50rem' }"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [rowsPerPageOptions]="[10, 25, 50,100]">
-                <ng-template pTemplate="caption">
+                <!-- <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
                         </span>
                     </div>
-                </ng-template>
+                </ng-template> -->
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Sr No.</th>
@@ -65,7 +65,7 @@
           </ng-template> -->
           <ng-template pTemplate="emptymessage">
             <tr>
-                <td colspan="8">No customers found.</td>
+                <td colspan="6" class="text-center">No records found.</td>
             </tr>
         </ng-template>
         </div>
@@ -147,13 +147,8 @@
                         <label for="address" class="block mb-2">Address</label>
                         <input pInputText id="address" formControlName="address">
                     </div>
-                    <div class="col-12">
-                        <label for="landinfo" class="block mb-2">Land Information</label>
-                        <textarea [rows]="5" [cols]="30" pInputTextarea [autoResize]="true"
-                            formControlName="landinfo"></textarea>
-                    </div>
                 </div>
-                <div class="btn-holder flex gap-3">
+                <div class="btn-holder flex gap-3 mt-5">
                     <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary" pAutoFocus [autofocus]="true"
                         [disabled]="userForm.invalid"></p-button>
                     <p-button severity="secondary" icon="pi pi-times" (click)="displayAddModal = false" label="Cancel"
@@ -238,17 +233,14 @@
                                 format.</small>
                         </div>
                     </div>
-                    <div class="col-12">
+                    <div class="col-12 ">
                         <label for="address" class="block mb-2">Address</label>
+                        <!-- <textarea [rows]="4" [cols]="30" pInputTextarea [autoResize]="true"
+                            formControlName="address"></textarea> -->
                         <input pInputText id="address" formControlName="address">
-                    </div>
-                    <div class="col-12">
-                        <label for="landinfo" class="block mb-2">Land Information</label>
-                        <textarea [rows]="5" [cols]="30" pInputTextarea [autoResize]="true"
-                            formControlName="landinfo"></textarea>
-                    </div>
+                    </div>                    
                 </div>
-                <div class="btn-holder flex gap-3">
+                <div class="btn-holder flex gap-3 mt-5">
                     <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary" pAutoFocus [autofocus]="true"
                         [disabled]="userForm.invalid"></p-button>
                     <p-button severity="secondary" icon="pi pi-times" (click)="displayEditModal = false" label="Cancel"

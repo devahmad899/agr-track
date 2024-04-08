@@ -13,10 +13,28 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { ToastModule } from 'primeng/toast';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MessageService } from 'primeng/api';
+import { FarmersComponent } from './farmers/farmers.component';
+import { EmployeesComponent } from './employees/employees.component';
+import { CropsComponent } from './crops/crops.component';
+import { InventoryComponent } from './inventory/inventory.component';
+import { PurchaseComponent } from './purchase/purchase.component';
+import { SaleComponent } from './sale/sale.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { PasswordModule } from 'primeng/password';
+
 
 @NgModule({
   declarations: [
-    CustomersComponent
+    CustomersComponent,
+    FarmersComponent,
+    EmployeesComponent,
+    CropsComponent,
+    InventoryComponent,
+    PurchaseComponent,
+    SaleComponent,
+    UserProfileComponent,
+    ChangePasswordComponent
   ],
   imports: [
     CommonModule,
@@ -31,6 +49,8 @@ import { MessageService } from 'primeng/api';
     InputMaskModule,
     ToastModule,
     BreadcrumbModule,
+    PasswordModule
+    
   ],
   providers: [MessageService]
 })

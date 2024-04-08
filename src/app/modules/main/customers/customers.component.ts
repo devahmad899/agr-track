@@ -41,7 +41,6 @@ export class CustomersComponent {
       phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]], // 10 digit number
       cnic: ['', [Validators.required, Validators.pattern(/\d{5}\d{7}\d/)]], // CNIC pattern
       address: [''],
-      landinfo: [''],
     });
   }
   private fetchCusotomerData(): void {

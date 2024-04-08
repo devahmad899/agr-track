@@ -142,6 +142,54 @@ export class DataService {
       { headers }
     );
   }
+  public getInventory(): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.get<any>(`${environment.apiUrl}/stock/`, {
+      headers,
+    });
+  }
+  public getStock(roleId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.get<any>(`${environment.apiUrl}/stock/`, {
+      headers,
+    });
+  }
+  public addStock(requestBody: Users): Observable<Users> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.post<Users>(
+      `${environment.apiUrl}/stock/`,
+      requestBody,
+      { headers }
+    );
+  }
+  public editStock(id:number,requestBody: Users): Observable<Users> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.patch<Users>(
+      `${environment.apiUrl}/stock/${id}/`,
+      requestBody,
+      { headers }
+    );
+  }
+  public deleteStock(id:number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.delete<any>(
+      `${environment.apiUrl}/stock/${id}/`,
+      { headers }
+    );
+  }
  
   // Employee Management
   public getEmployee(

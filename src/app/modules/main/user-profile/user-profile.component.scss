@@ -1,0 +1,49 @@
+.profile-img-wrap {
+    height: 120px;
+    position: absolute;
+    width: 120px;
+    background: #0d703d;
+    overflow: hidden;
+    text-align: center;
+
+    &.edit-img {
+        border-radius: 50%;
+        margin: 0 auto 30px;
+        position: relative;
+    }
+
+    img {
+        border-radius: 50%;
+        height: 120px;
+        width: 120px;
+    }
+
+    .fileupload {
+        background: rgba(33, 33, 33, 0.5);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 0;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        .btn-text {
+            color: #fff;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .upload {
+            cursor: pointer;
+            filter: alpha(opacity=0);
+            font-size: 20px;
+            opacity: 0;
+            margin: 0;
+            padding: 5px;
+            position: absolute;
+            top: -3px;
+            right: -3px;
+        }
+    }
+}

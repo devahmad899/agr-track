@@ -35,11 +35,16 @@ export class AppMenuComponent implements OnInit {
                     //                     },
                     //                 ]
                     //             },
-                    { label: 'Crops', icon: 'pi pi-fw pi-sun', routerLink: routes.crops },
-                    { label: 'Inventory', icon: 'pi pi-fw pi-building', routerLink: routes.inventory },
+                    // routerLink: routes.crops
+                    { label: 'Crops', icon: 'pi pi-fw pi-sun',items: [
+                        { label: 'Inventory', routerLink: routes.inventory },
+                        { label: 'Sale', routerLink: routes.sale },
+                        { label: 'Purchase', routerLink: routes.purchase },
+                    ]  },
+                    // { label: 'Inventory', icon: 'pi pi-fw pi-building', routerLink: routes.inventory },
                     { label: 'Accountability', icon: 'pi pi-fw pi-percentage', routerLink: routes.accountability },
-                    { label: 'Configuration', icon: 'pi pi-fw pi-server', routerLink: routes.configuration },
-                    { label: 'System Settings', icon: 'pi pi-fw pi-wrench', routerLink: routes.system_settings },
+                    // { label: 'Configuration', icon: 'pi pi-fw pi-server', routerLink: routes.configuration },
+                    // { label: 'System Settings', icon: 'pi pi-fw pi-wrench', routerLink: routes.system_settings },
                     // { label: 'Documentation', icon: 'pi pi-fw pi-question', routerLink: ['/documentation'] },
                 ]
             },
