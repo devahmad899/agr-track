@@ -1,0 +1,36 @@
+<p-toast position="top-right"></p-toast>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div class="page-header">
+                <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+                <h2 class="mb-5">Inventory</h2>
+            </div>
+            <ng-container *ngIf="inventorykList.length > 0; else noData">
+            <p-table [value]="inventorykList" [paginator]="false" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Sr No.</th>
+                        <th>Name</th>
+                        <th>Available Quantity</th>
+                        <th>Total Quantity</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-inventory>
+                    <tr>
+                        <td>{{inventory.srNo}}</td>
+                        <td>{{inventory.productName}}</td>
+                        <td>{{inventory.AvailaibleQuantity}}</td>
+                        <td>{{inventory.TotalQuantity}}</td>
+                    </tr>
+                </ng-template>
+                <ng-template #noData>
+                    <h5 style="text-align: center;">No data found</h5>
+                  </ng-template>
+            </p-table>
+        </ng-container>
+            <ng-template #noData>
+                <h5 style="text-align: center;">No data found</h5>
+              </ng-template>
+        </div>
+    </div>

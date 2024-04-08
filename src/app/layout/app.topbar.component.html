@@ -1,7 +1,9 @@
 <div class="layout-topbar">
     <a class="layout-topbar-logo" routerLink="">
-        <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo">
-        <span>SAKAI</span>
+        <img src="assets/layout/images/logo-min-agrTrack.png" alt="logo">
+        <!-- <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo"> -->
+        <span style="color: #0d703d;">Agr</span>
+            <span style="color: #f9de20;">Track</span>
     </a>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
@@ -13,17 +15,21 @@
     </button>
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <button class="p-link layout-topbar-button">
+        <!-- <button class="p-link layout-topbar-button">
             <i class="pi pi-calendar"></i>
             <span>Calendar</span>
+        </button> -->
+        <button  class="p-link layout-topbar-button" [routerLink]="routes.userProfile">
+            
+            <!-- <i class="pi pi-user"></i> -->
+            <div class="profile-img-wrap edit-img">
+                <img class="inline-block" src="../../../../assets/layout/images/themes/profilepic.jpg" alt="user">
+            </div>
         </button>
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-user"></i>
-            <span>Profile</span>
-        </button>
-        <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
+        <button pButton type="button" (click)="menu.toggle($event)" class="p-link layout-topbar-button">
             <i class="pi pi-cog"></i>
             <span>Settings</span>
         </button>
+        <p-menu styleClass="w-auto" #menu [model]="items" [popup]="true"></p-menu>
     </div>
 </div>

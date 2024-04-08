@@ -1,0 +1,104 @@
+<p-toast position="top-right"></p-toast>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div class="page-header">
+                <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+                <h2>User Profile</h2>
+            </div>
+            <div class="col-12">
+                <div class="form-holder">
+                    <form [formGroup]="userForm" (ngSubmit)="UpdateUser()">
+                        <div class="grid p-fluid">
+                            <div class="col-12">
+                                <div class="author">
+                                    <div class="profile-img">
+                                        <img alt="" [src]="imageUrl">
+                                    </div>
+                                </div>
+                                <div class="profile-img-wrap edit-img">
+                                    <!-- <img class="inline-block" [src]="profilePictureBase64" alt="user"> -->
+                                    <img class="inline-block" src="../../../../assets/layout/images/themes/profilepic.jpg" alt="user">
+                                    <div class="fileupload btn">
+                                        <span class="btn-text">Change</span>
+                                        <input class="upload" type="file" (change)="onFileChange($event)"
+                                            accept="image/*">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6">
+                                <label for="fullname" class="block mb-2">Full Name <span
+                                        class="text-red-700">*</span></label>
+                                <input pInputText id="fullname" formControlName="fullname">
+                                <div class="p-error mb-3" *ngIf="f['fullname'].touched && f['fullname'].invalid"
+                                    class="text-danger">
+                                    <small class="p-error"
+                                        *ngIf="f['fullname'].errors && f['fullname'].errors['required']">Name
+                                        is
+                                        required.</small>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6">
+                                <label for="email" class="block mb-2">Email <span class="text-red-700">*</span></label>
+                                <input pInputText id="email" formControlName="email">
+                                <div class="p-error mb-3" *ngIf="f['email'].touched && f['email'].invalid"
+                                    class="text-danger">
+                                    <small class="p-error"
+                                        *ngIf="f['email'].errors && f['email'].errors['required']">Email is
+                                        required.</small>
+                                    <small class="p-error"
+                                        *ngIf="f['email'].errors && f['email'].errors['pattern']">Invalid
+                                        email
+                                        format.</small>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6">
+                                <label for="phoneNumber" class="block mb-2">Phone Number <span
+                                        class="text-red-700">*</span></label>
+                                <input pInputText id="phone" formControlName="phoneNumber" maxlength="11">
+                                <div class="p-error mb-3" *ngIf="f['phoneNumber'].touched && f['phoneNumber'].invalid"
+                                    class="text-danger">
+                                    <small class="p-error"
+                                        *ngIf="f['phoneNumber'].errors && f['phoneNumber'].errors['required']">Phone
+                                        Number is
+                                        required.</small>
+                                    <small class="p-error"
+                                        *ngIf="f['phoneNumber'].errors && f['phoneNumber'].errors['pattern']">Invalid
+                                        Phone
+                                        Number
+                                        format.</small>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6">
+                                <label for="cnic" class="block mb-2">CNIC <span class="text-red-700">*</span></label>
+                                <input pInputText id="cnic" formControlName="cnic" maxlength="13">
+                                <small class="text-xs" style="float: right;padding: 3px;">Without Dashes</small>
+                                <!-- <p-inputMask mask="99999-9999999-9" formControlName="value" placeholder=""></p-inputMask> -->
+                                <div class="p-error mb-3" *ngIf="f['cnic'].touched && f['cnic'].invalid"
+                                    class="text-danger">
+                                    <small class="p-error" *ngIf="f['cnic'].errors && f['cnic'].errors['required']">CNIC
+                                        Number
+                                        is
+                                        required.</small>
+                                    <small class="p-error"
+                                        *ngIf="f['cnic'].errors && f['cnic'].errors['pattern']">Invalid CNIC
+                                        format.</small>
+                                </div>
+                            </div>
+                            <div class="col-12 ">
+                                <label for="address" class="block mb-2">Address</label>
+                                <!-- <textarea [rows]="4" [cols]="30" pInputTextarea [autoResize]="true"
+                                    formControlName="address"></textarea> -->
+                                <input pInputText id="address" formControlName="address">
+                            </div>
+                        </div>
+                        <div class="btn-holder flex gap-3 mt-5">
+                            <p-button type="submit" icon="pi pi-check mr-3" label="Update Profile"
+                                styleClass="p-button-primary" pAutoFocus [autofocus]="true"
+                                [disabled]="userForm.invalid"></p-button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
