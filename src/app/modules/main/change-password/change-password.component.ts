@@ -50,6 +50,9 @@ export class ChangePasswordComponent {
   }
   ngOnInit() {
     // this.fetchCusotomerData();
+    this.form.patchValue({
+      email: this.authService.email
+    });
     this.items = [{ label: 'Change Password' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
   }

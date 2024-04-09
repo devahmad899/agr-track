@@ -198,6 +198,11 @@ export interface Product {
   name: string
   type: number
 }
+export interface UsersStats {
+  customers: number
+  farmers: number
+  employees: number
+}
 export interface Transaction {
   srNo: number;
   id: number;

@@ -27,6 +27,7 @@ import {
   TreeNode,
   UserProfile,
   Users,
+  UsersStats,
   allroles,
   apiResultFormat,
   genEmpCode,
@@ -225,6 +226,14 @@ export class DataService {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     });
     return this.http.get<Product>(`${environment.apiUrl}/salePurchase/`, {
+      headers,
+    });
+  }
+  public getUsersStats(): Observable<UsersStats> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.get<UsersStats>(`${environment.apiUrl}/userRoleCount/`, {
       headers,
     });
   }

@@ -4,7 +4,7 @@ import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { DataService } from 'src/app/core/core.index';
+import { DataService, UsersStats } from 'src/app/core/core.index';
 import { Dictionary } from '@fullcalendar/core/internal';
 
 @Component({
@@ -16,14 +16,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     items!: MenuItem[];
 
     products!: Product[];
+    usersCount!: Dictionary
 
     chartData: any;
 
     chartOptions: any;
+    doughnutChartData: any;
+    doughnutChartOptions: any;
 
     subscription!: Subscription;
-    sale :string
-    purchase :string
+    sale: string
+    purchase: string
 
     constructor(private productService: ProductService, public layoutService: LayoutService, private data: DataService, private messageService: MessageService) {
         this.subscription = this.layoutService.configUpdate$
@@ -34,7 +37,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.fetchUsersStats()
         this.initChart();
+        // this.initDoughnutChart({ customers: 1, farmers: 1, employees: 1 });
         this.productService.getProductsSmall().then(data => this.products = data);
 
         this.items = [
@@ -46,7 +51,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     getSalePurchase() {
         this.data.getSalePurchase().subscribe(
             (res: Dictionary) => {
-                console.log('API response:', res);
+                // console.log('API response:', res);
                 if (res && res['status'] === 200) {
                     this.sale = res['sale']
                     this.purchase = res['purchase']
@@ -60,6 +65,47 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
                 console.error('Error in API', error);
             });
+    }
+    fetchUsersStats() {
+        this.data.getUsersStats().subscribe(
+            (res: Dictionary) => {
+                // console.log('API response:', res);
+
+                this.usersCount = res
+                this,this.initDoughnutChart(this.usersCount)
+                console.log('API usercount:', this.usersCount);
+
+                // this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });
+            },
+            (error) => {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+                console.error('Error in API', error);
+            });
+    }
+    initDoughnutChart(data: { [key: string]: number }) {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+
+        this.doughnutChartData = {
+            labels: Object.keys(data),
+            datasets: [
+                {
+                    data: Object.values(data),
+                    backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500')],
+                    hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400')]
+                }
+            ]
+        };
+        this.doughnutChartOptions = {
+            cutout: '60%',
+            plugins: {
+                legend: {
+                    labels: {
+                        color: textColor
+                    }
+                }
+            }
+        };
     }
     initChart() {
         const documentStyle = getComputedStyle(document.documentElement);
