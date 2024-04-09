@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://staging.zerocarbon.com.pk',
+  apiUrl: 'https://staging.zerocarbon.com.pk',
   // apiUrl: 'https://0503-58-27-207-214.ngrok-free.app',
   // apiUrl: 'https://staginghrms.thetowertech.com',
 };
