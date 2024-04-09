@@ -21,9 +21,9 @@
         </button> -->
         <button  class="p-link layout-topbar-button" [routerLink]="routes.userProfile">
             
-            <!-- <i class="pi pi-user"></i> -->
+            <i *ngIf="!profilePic" class="pi pi-user"></i>
             <div class="profile-img-wrap edit-img">
-                <img class="inline-block" src="../../../../assets/layout/images/themes/profilepic.jpg" alt="user">
+                <img alt="ProfilePicture" [src]="profilePic">
             </div>
         </button>
         <button pButton type="button" (click)="menu.toggle($event)" class="p-link layout-topbar-button">

@@ -185,14 +185,48 @@ export interface Users {
   roleId: number
   isRemoved: boolean
 }
-  export interface Stocks {
+export interface Stocks {
   srNo: number
   productId: number
   productName: string
   AvailaibleQuantity: number
   TotalQuantity: number
 }
-
+export interface Product {
+  id: number
+  name: string
+  type: number
+}
+export interface Transaction {
+  srNo: number;
+  id: number;
+  date: string;
+  productId: number;
+  productName: string;
+  purchasePerRateInMann: number | string; // Assuming it can be a number or string
+  purchasePerRateInKg: number | string; // Assuming it can be a number or string
+  saleBy: string;
+  purchaseBy: string;
+  saleByid: number;
+  purchaseByid: number;
+  SalePerRateInMann: number | string; // Assuming it can be a number or string
+  SalePerRateInKg: number | string; // Assuming it can be a number or string
+  QuantityInMann: number;
+  QuantityInKg: number;
+  Bill: number;
+}
+export interface Profile {
+  id: number;
+  fullname: string;
+  email: string;
+  cnic: string;
+  phoneNumber: string;
+  address: string;
+  landInfo: string;
+  profilePicture: string;
+  roleId: number;
+  isRemoved: boolean;
+}
 
 export interface SideBarMenu {
   showMyTab?: boolean;

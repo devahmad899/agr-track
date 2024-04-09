@@ -49,6 +49,9 @@ export class routes {
   public static get accountability(): string {
     return this.baseUrl + '/accountability';
   }
+  public static get transactions(): string {
+    return this.baseUrl + '/accountability/transactions';
+  }
   public static get configuration(): string {
     return this.baseUrl + '/configuration';
   }

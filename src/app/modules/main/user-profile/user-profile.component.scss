@@ -35,15 +35,11 @@
         }
 
         .upload {
-            cursor: pointer;
-            filter: alpha(opacity=0);
-            font-size: 20px;
-            opacity: 0;
-            margin: 0;
-            padding: 5px;
             position: absolute;
-            top: -3px;
-            right: -3px;
+            inset: 0;
+            opacity: 0;
+            width: auto;
+            cursor: pointer;
         }
     }
 }

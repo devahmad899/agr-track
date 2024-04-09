@@ -30,15 +30,14 @@ export class AuthService {
       return null; // or handle the absence of the token according to your requirements
     }
     let decodedPayload: any = jwtDecode(this.token)
-    
+    console.log('decodedToken', decodedPayload)
     // Access the decoded payload properties
      
       // this.isSuperUser = decodedPayload.superuser;
       // this.user_name = decodedPayload.firstname;
       this.user_id = decodedPayload.user_id;
       this.roleName = decodedPayload.roleName;
-      this.role_id = decodedPayload.role_id;
-      console.log(this.role_id)
+      this.role_id = decodedPayload.roleId;
       this.superUserId = decodedPayload.superUserId;
       // this.role_id = decodedPayload.roleID
     return decodedPayload
