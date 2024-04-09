@@ -12,6 +12,7 @@ import { SaleComponent } from './sale/sale.component';
 import { PurchaseComponent } from './purchase/purchase.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { TransactionsComponent } from './transactions/transactions.component';
 
 
 
@@ -29,6 +30,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     { path: 'system-settings',component: SystemSettingsComponent, data: { breadcrumb: 'Menu' } },
     { path: 'user-profile',component: UserProfileComponent, data: { breadcrumb: 'Menu' } },
     { path: 'change-password',component: ChangePasswordComponent, data: { breadcrumb: 'Menu' } },
+    { path: 'accountability/transactions',component: TransactionsComponent, data: { breadcrumb: 'Menu' } },
 ])],
 exports: [RouterModule]
 })

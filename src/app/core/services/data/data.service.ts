@@ -16,11 +16,13 @@ import {
   MyTreeNode,
   Organization,
   OrganizationLink,
+  Product,
   ProfileInfo,
   Shifts,
   SideBar,
   SideBarMenu,
   TokenCompaniesList,
+  Transaction,
   TreeNode,
   UserProfile,
   Users,
@@ -55,52 +57,13 @@ export class DataService {
     }),
   };
 
-  // fetch Roles
-  public getRoles(): Observable<any> {
+  public getProfile(): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     });
-    return this.http.get<any>(`${environment.apiUrl}/roleDetails/`, {
+    return this.http.get<any>(`${environment.apiUrl}/profile/`, {
       headers,
     });
-  }
-  // update Roles
-  public updateRoles(
-    role_id: number,
-    updatedRoleData: allroles
-  ): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-    });
-    return this.http.patch<any>(
-      `${environment.apiUrl}/roleDetails/${role_id}/`,
-      updatedRoleData,
-      { headers }
-    );
-  }
-  // delete Roles
-  public deleteRoles(role_id: number): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-    });
-    return this.http.delete<any>(
-      `${environment.apiUrl}/roleDetails/${role_id}/`,
-      { headers }
-    );
-  }
-  // Create Role
-  public createRole(roleName: allroles): Observable<allroles> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-    });
-    return this.http.post<allroles>(
-      `${environment.apiUrl}/roleDetails/`,
-      roleName,
-      { headers }
-    );
   }
   public getUsers(roleId: number): Observable<any> {
     const headers = new HttpHeaders({
@@ -189,6 +152,31 @@ export class DataService {
       `${environment.apiUrl}/stock/${id}/`,
       { headers }
     );
+  }
+  public getTransaction(): Observable<Transaction> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.get<Transaction>(`${environment.apiUrl}/transactionHistory/`, {
+      headers,
+    });
+  }
+  
+  public getDropDownUsers(roleId:number): Observable<Users> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.get<Users>(`${environment.apiUrl}/dropdownUsers/?roleId=${roleId}`, {
+      headers,
+    });
+  }
+  public getProductList(): Observable<Product> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.get<Product>(`${environment.apiUrl}/dropdownProducts/`, {
+      headers,
+    });
   }
  
   // Employee Management

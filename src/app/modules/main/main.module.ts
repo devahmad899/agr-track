@@ -22,8 +22,10 @@ import { SaleComponent } from './sale/sale.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { PasswordModule } from 'primeng/password';
-
-
+import { TransactionsComponent } from './transactions/transactions.component';
+import {SelectButtonModule} from 'primeng/selectbutton';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
 @NgModule({
   declarations: [
     CustomersComponent,
@@ -34,7 +36,8 @@ import { PasswordModule } from 'primeng/password';
     PurchaseComponent,
     SaleComponent,
     UserProfileComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    TransactionsComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +52,10 @@ import { PasswordModule } from 'primeng/password';
     InputMaskModule,
     ToastModule,
     BreadcrumbModule,
-    PasswordModule
+    PasswordModule,
+    DropdownModule,
+    SelectButtonModule,
+    InputNumberModule
     
   ],
   providers: [MessageService]

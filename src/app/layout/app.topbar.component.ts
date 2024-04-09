@@ -3,7 +3,8 @@ import { MenuItem, PrimeNGConfig, OverlayOptions } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
 import { OverlayModule } from 'primeng/overlay';
 import { Router } from '@angular/router';
-import { routes } from '../core/core.index';
+import { DataService, Profile, routes } from '../core/core.index';
+import { Dictionary } from '@fullcalendar/core/internal';
 @Component({
     selector: 'app-topbar',
     templateUrl: './app.topbar.component.html',
@@ -35,6 +36,8 @@ import { routes } from '../core/core.index';
 export class AppTopBarComponent {
 
     items!: MenuItem[];
+    userData : Profile
+    profilePic : string
     public routes = routes;
 
     @ViewChild('menubutton') menuButton!: ElementRef;
@@ -43,8 +46,9 @@ export class AppTopBarComponent {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-    constructor(public layoutService: LayoutService, private primengConfig: PrimeNGConfig, private router: Router) { }
+    constructor(public layoutService: LayoutService, private primengConfig: PrimeNGConfig, private router: Router, private data: DataService) { }
     ngOnInit() {
+        this.getProfileData()
         this.items = [
             {
                 label: 'Change Password',
@@ -62,7 +66,19 @@ export class AppTopBarComponent {
             }
         ];
     }
-
+getProfileData() {
+    this.data.getProfile().subscribe(
+        (res: Dictionary) => {
+          console.log('API response:', res);
+          if (res && res['status'] === 200) {
+            this.userData = res['data']
+            this.profilePic =  this.userData[0].profilePicture
+          }
+        },
+        (error) => {
+          console.error('Error in API', error);
+        });
+}
     update() {
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Updated' });
     }

@@ -43,7 +43,7 @@ export class ChangePasswordComponent {
         ],
     ],
       current_password: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      new_password: ['', [Validators.required]],
       confirm_password: ['', Validators.required],
 
     });
@@ -57,7 +57,11 @@ export class ChangePasswordComponent {
     const formData = this.form.value;
     console.log('formData',formData)
     if (formData.current_password === formData.new_password) {
-      this.messageService.add({ severity: 'warning', summary: 'Success', detail: 'Current password and new password cannot be the same.' });
+      this.messageService.add({ severity: 'warn', summary: 'Success', detail: 'Current password and new password cannot be the same.' });
+      return;
+    }
+    if (formData.new_password === formData.confirm_password) {
+      this.messageService.add({ severity: 'warn', summary: 'Success', detail: 'New password and Confirm password should be the same.' });
       return;
     }
     this.authService.changePassword(formData).subscribe((response:Dictionary)=>{
