@@ -18,20 +18,20 @@ import { TransactionsComponent } from './transactions/transactions.component';
 
 @NgModule({
   imports: [RouterModule.forChild([
-    { path: 'customer',component: CustomersComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'farmers',component: FarmersComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'employees',component: EmployeesComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'crops',component: CropsComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'crops/inventory',component: InventoryComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'crops/sale',component: SaleComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'crops/purchase',component: PurchaseComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'accountability',component: AccountabilityComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'configuration',component: ConfigurationComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'system-settings',component: SystemSettingsComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'user-profile',component: UserProfileComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'change-password',component: ChangePasswordComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'accountability/transactions',component: TransactionsComponent, data: { breadcrumb: 'Menu' } },
-])],
-exports: [RouterModule]
+    { path: 'customer', component: CustomersComponent, data: { breadcrumb: 'Menu' } },
+    { path: 'farmers', component: FarmersComponent, data: { breadcrumb: 'Menu' } },
+    { path: 'employees', component: EmployeesComponent, data: { breadcrumb: 'Menu' } },
+    { path: 'crops', component: CropsComponent, data: { breadcrumb: 'Menu' } },
+    { path: 'stock', component: InventoryComponent, data: { breadcrumb: 'Menu' } },
+    { path: 'crops/sale', component: SaleComponent, data: { breadcrumb: 'Menu' } },
+    { path: 'crops/purchase', component: PurchaseComponent, data: { breadcrumb: 'Menu' } },
+    { path: 'accountability', component: AccountabilityComponent, data: { breadcrumb: 'Menu' } },
+    { path: 'configuration', component: ConfigurationComponent, data: { breadcrumb: 'Menu' } },
+    { path: 'system-settings', component: SystemSettingsComponent, data: { breadcrumb: 'Menu' } },
+    { path: 'user-profile', component: UserProfileComponent, data: { breadcrumb: 'Menu' } },
+    { path: 'change-password', component: ChangePasswordComponent, data: { breadcrumb: 'Menu' } },
+    { path: 'transactions', component: TransactionsComponent, data: { breadcrumb: 'Menu' } },
+  ])],
+  exports: [RouterModule]
 })
 export class MainRoutingModule { }

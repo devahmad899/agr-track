@@ -125,7 +125,8 @@
                     </div>
                     <div class="col-12 md:col-6">
                         <label for="TotalQuantity" class="block mb-2">Quantity <span class="text-red-700">*</span></label>
-                        <p-inputNumber inputId="price" formControlName="quantity"></p-inputNumber>
+                        <p-inputNumber inputId="price" formControlName="quantity" formControl=""></p-inputNumber>
+                        <div *ngIf="quantityInKgs !== undefined">Quantity in kgs: {{ quantityInKgs }}</div>
                         <div class="p-error mb-3" *ngIf="f['quantity'].touched && f['quantity'].invalid"
                             class="text-danger">
                             <small class="p-error" *ngIf="f['quantity'].errors && f['quantity'].errors['required']">Available Quantity is required.</small>

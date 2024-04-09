@@ -1,12 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { DataService } from 'src/app/core/core.index';
+import { Dictionary } from '@fullcalendar/core/internal';
 
 @Component({
     templateUrl: './dashboard.component.html',
+    providers: [MessageService]
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
@@ -19,13 +22,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     chartOptions: any;
 
     subscription!: Subscription;
+    sale :string
+    purchase :string
 
-    constructor(private productService: ProductService, public layoutService: LayoutService) {
+    constructor(private productService: ProductService, public layoutService: LayoutService, private data: DataService, private messageService: MessageService) {
         this.subscription = this.layoutService.configUpdate$
-        .pipe(debounceTime(25))
-        .subscribe((config) => {
-            this.initChart();
-        });
+            .pipe(debounceTime(25))
+            .subscribe((config) => {
+                this.initChart();
+            });
     }
 
     ngOnInit() {
@@ -36,8 +41,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },
             { label: 'Remove', icon: 'pi pi-fw pi-minus' }
         ];
+        this.getSalePurchase()
     }
-
+    getSalePurchase() {
+        this.data.getSalePurchase().subscribe(
+            (res: Dictionary) => {
+                console.log('API response:', res);
+                if (res && res['status'] === 200) {
+                    this.sale = res['sale']
+                    this.purchase = res['purchase']
+                    // this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });
+                }
+                else {
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
+                }
+            },
+            (error) => {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+                console.error('Error in API', error);
+            });
+    }
     initChart() {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');

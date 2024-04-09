@@ -114,11 +114,11 @@ export class DataService {
       headers,
     });
   }
-  public getStock(roleId: number): Observable<any> {
+  public getStock(): Observable<Stocks> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     });
-    return this.http.get<any>(`${environment.apiUrl}/stock/`, {
+    return this.http.get<Stocks>(`${environment.apiUrl}/stock/`, {
       headers,
     });
   }
@@ -154,6 +154,46 @@ export class DataService {
       { headers }
     );
   }
+  public getProduct(): Observable<Stocks> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.get<Stocks>(`${environment.apiUrl}/products/`, {
+      headers,
+    });
+  }
+  public addProduct(requestBody: Stocks): Observable<Product> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.post<Product>(
+      `${environment.apiUrl}/products/`,
+      requestBody,
+      { headers }
+    );
+  }
+  public editProduct(id:number,requestBody: Users): Observable<Product> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.patch<Product>(
+      `${environment.apiUrl}/products/${id}/`,
+      requestBody,
+      { headers }
+    );
+  }
+  public deleteProduct(id:number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.delete<any>(
+      `${environment.apiUrl}/products/${id}/`,
+      { headers }
+    );
+  }
   public getTransaction(): Observable<Transaction> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
@@ -176,6 +216,15 @@ export class DataService {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     });
     return this.http.get<Product>(`${environment.apiUrl}/dropdownProducts/`, {
+      headers,
+    });
+  }
+ 
+  public getSalePurchase(): Observable<Product> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.get<Product>(`${environment.apiUrl}/salePurchase/`, {
       headers,
     });
   }

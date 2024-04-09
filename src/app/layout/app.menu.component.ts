@@ -37,28 +37,29 @@ export class AppMenuComponent implements OnInit {
                     //             },
                     // routerLink: routes.crops
                     {
-                        label: 'Crops', icon: 'pi pi-fw pi-sun', routerLink: routes.inventory
+                        label: 'Crops', icon: 'pi pi-fw pi-sun', routerLink: routes.crops
                         // items: [
                         //     { label: 'Inventory', routerLink: routes.inventory },
                         //     { label: 'Sale', routerLink: routes.sale },
                         //     { label: 'Purchase', routerLink: routes.purchase },
                         // ]
                     },
-                    // { label: 'Inventory', icon: 'pi pi-fw pi-building', routerLink: routes.inventory },
                     {
-                        label: 'Accountability', icon: 'pi pi-fw pi-percentage',
-                        items: [
-                            { label: 'Transactions', routerLink: routes.transactions },
-                            // { label: 'Sale', routerLink: routes.sale },
-                            // { label: 'Purchase', routerLink: routes.purchase },
-                        ]
+                        label: 'Stock', icon: 'pi pi-fw pi-database', routerLink: routes.inventory
+                        // items: [
+                        //     { label: 'Inventory', routerLink: routes.inventory },
+                        //     { label: 'Sale', routerLink: routes.sale },
+                        //     { label: 'Purchase', routerLink: routes.purchase },
+                        // ]
+                    },
+                    {
+                        label: 'Transactions', icon: 'pi pi-fw pi-percentage', routerLink: routes.transactions
                     },
                     { label: 'System Settings', icon: 'pi pi-fw pi-wrench',
                     items: [
                         { label: 'Profile Settings', routerLink: routes.userProfile },
                         { label: 'Change Password', routerLink: routes.changePassword },
                     ] },
-                    // { label: 'Documentation', icon: 'pi pi-fw pi-question', routerLink: ['/documentation'] },
                 ]
             },
             // {

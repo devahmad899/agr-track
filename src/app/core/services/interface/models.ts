@@ -193,6 +193,7 @@ export interface Stocks {
   TotalQuantity: number
 }
 export interface Product {
+  srNo: number
   id: number
   name: string
   type: number

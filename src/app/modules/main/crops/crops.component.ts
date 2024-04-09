@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Dictionary } from '@fullcalendar/core/internal';
 import { MenuItem, MessageService } from 'primeng/api';
-import { DataService, Users } from 'src/app/core/core.index';
-import { Product } from 'src/app/demo/api/product';
+import { DataService, Product, Users } from 'src/app/core/core.index';
 
 @Component({
   selector: 'app-crops',
@@ -16,8 +15,8 @@ export class CropsComponent {
   displayEditModal = false;
   displayDeleteModal = false;
   cropsForm: FormGroup;
-  stockList: Users[];
-  selectedUserId: number;
+  productList: Product[];
+  selectedProductId: number;
   serialNumberArray: any[];
   public totalData = 0;
   noData: any
@@ -30,21 +29,21 @@ export class CropsComponent {
   }
   constructor(private fb: FormBuilder, private data: DataService, private messageService: MessageService) {
     this.cropsForm = this.fb.group({
-      productName: ['', [Validators.required]],
-      AvailaibleQuantity: ['', [Validators.required]],
-      TotalQuantity: ['', [Validators.required]],
+      name: ['', [Validators.required]],
+      // AvailaibleQuantity: ['', [Validators.required]],
+      // TotalQuantity: ['', [Validators.required]],
     });
   }
   private fetchCusotomerData(): void {
-    this.stockList = [];
+    this.productList = [];
     this.serialNumberArray = [];
     let id = 2
-    this.data.getUsers(id).subscribe(
+    this.data.getProduct().subscribe(
       (res: Dictionary) => {
         console.log('API response:', res);
         if (res && res['status'] === 200) {
-          this.stockList = res['data']
-          this.stockList.forEach((user, index) => {
+          this.productList = res['data']
+          this.productList.forEach((user, index) => {
             user.srNo = index + 1;
           });
         }
@@ -70,8 +69,8 @@ export class CropsComponent {
     }
   }
   ConfirmDelete() {
-    if (this.selectedUserId) {
-      this.data.deleteUser(this.selectedUserId).subscribe(
+    if (this.selectedProductId) {
+      this.data.deleteProduct(this.selectedProductId).subscribe(
         (res: Dictionary) => {
           console.log('API response:', res);
           if (res && res['status'] === 200) {
@@ -92,14 +91,12 @@ export class CropsComponent {
         });
     }
   }
-  onSelectUser(data: Users) {
-    console.log(data, this.selectedUserId)
-    this.selectedUserId = data.id
-    console.log('selectedUser', this.selectedUserId)
+  onSelectProduct(data: Product) {
+    console.log(data, this.selectedProductId)
+    this.selectedProductId = data.id
+    console.log('selectedUser', this.selectedProductId)
     this.cropsForm.patchValue({
-      name: data.fullname,
-      AvailaibleQuantity: data.email,
-      TotalQuantity: data.phoneNumber,
+      name: data.name
     });
   }
   resetAll() {
@@ -107,20 +104,19 @@ export class CropsComponent {
     this.displayEditModal = false
     this.displayDeleteModal = false
     this.cropsForm.reset()
-    this.selectedUserId = null
+    this.selectedProductId = null
   }
-  EditUser() {
+  EditProduct() {
     if (this.cropsForm && this.cropsForm.valid) {
       let formData = this.cropsForm.value;
       console.log(formData)
-      this.data.editUser(this.selectedUserId, formData).subscribe(
+      this.data.editProduct(this.selectedProductId, formData).subscribe(
         (res: Dictionary) => {
           console.log('API response:', res);
           if (res && res['status'] === 200) {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });
             this.fetchCusotomerData()
             this.resetAll()
-
           }
           else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
@@ -134,13 +130,11 @@ export class CropsComponent {
         });
     }
   }
-  AddUser() {
+  AddProduct() {
     if (this.cropsForm && this.cropsForm.valid) {
-      let formData = this.cropsForm.value;
-      const roleId = 2
-      formData = { ...this.cropsForm.value, roleId };
+      let formData = this.cropsForm.value;;
       console.log(formData)
-      this.data.addUser(formData).subscribe(
+      this.data.addProduct(formData).subscribe(
         (res: Dictionary) => {
           console.log('API response:', res);
           if (res && res['status'] === 200) {

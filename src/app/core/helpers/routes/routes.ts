@@ -38,7 +38,7 @@ export class routes {
     return this.baseUrl + '/crops';
   }
   public static get inventory(): string {
-    return this.baseUrl + 'crops/inventory';
+    return this.baseUrl + '/stock';
   }
   public static get sale(): string {
     return this.baseUrl + 'crops/sale';
@@ -50,7 +50,7 @@ export class routes {
     return this.baseUrl + '/accountability';
   }
   public static get transactions(): string {
-    return this.baseUrl + '/accountability/transactions';
+    return this.baseUrl + '/transactions';
   }
   public static get configuration(): string {
     return this.baseUrl + '/configuration';

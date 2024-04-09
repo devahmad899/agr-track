@@ -6,8 +6,8 @@
                 <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
                 <h2 class="mb-5">Inventory</h2>
             </div>
-            <ng-container *ngIf="inventorykList.length > 0; else noData">
-            <p-table [value]="inventorykList" [paginator]="false" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-container *ngIf="inventoryList && inventoryList.length > 0; else noData">
+            <p-table [value]="inventoryList" [paginator]="false" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Sr No.</th>

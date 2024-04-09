@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Dictionary } from '@fullcalendar/core/internal';
 import { MenuItem, MessageService } from 'primeng/api';
 import { DataService, Transaction, Users } from 'src/app/core/core.index';
@@ -25,6 +25,7 @@ export class TransactionsComponent {
   customersList: Users[]
   farmersList: Users[]
   productsList: Product[]
+  quantityControl = new FormControl();
 
   home: MenuItem | undefined;
   transectionType = [
@@ -32,6 +33,7 @@ export class TransactionsComponent {
     { name: 'Purchase', value: 'purchase' }
   ];
   selectedTransaction = 'sale';
+  quantityInKgs: number;
 
   get f() {
     return this.cropsForm.controls;
@@ -74,8 +76,14 @@ export class TransactionsComponent {
     this.cropsForm.get('selectedTransaction').valueChanges.subscribe(value => {
       this.selectedTransaction = value;
     });
+    this.quantityControl.valueChanges.subscribe(value => {
+      this.convertToKgs(value);
+    });
   }
-
+  convertToKgs(quantity: number) {
+    // Assuming the input quantity is in grams, convert it to kilograms
+    this.quantityInKgs = quantity * 40; // Convert grams to kilograms
+  }
   ShowModal(id: number) {
     if (id === 1) {
       this.displayAddModal = true;

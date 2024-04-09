@@ -13,7 +13,7 @@ import { Product } from 'src/app/demo/api/product';
 })
 export class InventoryComponent {
   products!: Product[];
-  inventorykList: Stocks[];
+  inventoryList: Stocks[];
   serialNumberArray: any[];
   public totalData = 0;
   noData: any
@@ -26,8 +26,8 @@ export class InventoryComponent {
       (res: Dictionary) => {
         console.log('API response:', res);
         if (res && res['status'] === 200) {
-          this.inventorykList = res['data']
-          this.inventorykList.forEach((user, index) => {
+          this.inventoryList = res['data']
+          this.inventoryList.forEach((user, index) => {
             user.srNo = index + 1;
           });
         }
@@ -39,7 +39,7 @@ export class InventoryComponent {
   }
   ngOnInit() {
     this.fetchCusotomerData();
-    this.items = [{ label: 'Crops'}, {label: 'Inventory'}];
+    this.items = [{label: 'Inventory'}];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
