@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://staginghrms.thetowertech.com',
+  apiUrl: 'http://staging.zerocarbon.com.pk',
 };
