@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://staging.zerocarbon.com.pk',
+  apiUrl: 'https://staging.zerocarbon.com.pk',
 };
