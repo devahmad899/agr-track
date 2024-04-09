@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Dictionary } from '@fullcalendar/core/internal';
 import { MenuItem, MessageService } from 'primeng/api';
-import { DataService, Transaction, Users } from 'src/app/core/core.index';
+import { AuthService, DataService, Transaction, Users } from 'src/app/core/core.index';
 import { Product } from 'src/app/demo/api/product';
 
 @Component({
@@ -26,6 +26,8 @@ export class TransactionsComponent {
   farmersList: Users[]
   productsList: Product[]
   quantityControl = new FormControl();
+  userRole: string = this.authService.roleName;
+
 
   home: MenuItem | undefined;
   transectionType = [
@@ -38,7 +40,7 @@ export class TransactionsComponent {
   get f() {
     return this.cropsForm.controls;
   }
-  constructor(private fb: FormBuilder, private data: DataService, private messageService: MessageService) {
+  constructor(private fb: FormBuilder, private data: DataService, private messageService: MessageService, private authService : AuthService) {
     this.cropsForm = this.fb.group({
       productId: ['', [Validators.required]],
       selectedTransaction: ['sale', [Validators.required]],

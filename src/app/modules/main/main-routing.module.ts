@@ -13,24 +13,86 @@ import { PurchaseComponent } from './purchase/purchase.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { TransactionsComponent } from './transactions/transactions.component';
+import { AuthRoleGuard } from 'src/app/core/services/auth-role.guard';
 
 
 
 @NgModule({
   imports: [RouterModule.forChild([
-    { path: 'customer', component: CustomersComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'farmers', component: FarmersComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'employees', component: EmployeesComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'crops', component: CropsComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'stock', component: InventoryComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'crops/sale', component: SaleComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'crops/purchase', component: PurchaseComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'accountability', component: AccountabilityComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'configuration', component: ConfigurationComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'system-settings', component: SystemSettingsComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'user-profile', component: UserProfileComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'change-password', component: ChangePasswordComponent, data: { breadcrumb: 'Menu' } },
-    { path: 'transactions', component: TransactionsComponent, data: { breadcrumb: 'Menu' } },
+    {
+      path: 'customer', component: CustomersComponent,
+      canActivate: [AuthRoleGuard],
+      data: {
+        breadcrumb: 'Menu',
+        expectedRoles: ['Admin']
+      }
+    },
+    {
+      path: 'farmers', component: FarmersComponent,
+      canActivate: [AuthRoleGuard],
+      data: {
+        breadcrumb: 'Menu',
+        expectedRoles: ['Admin']
+      }
+    },
+    {
+      path: 'employees', component: EmployeesComponent,
+      canActivate: [AuthRoleGuard],
+      data: {
+        breadcrumb: 'Menu',
+        expectedRoles: ['Admin']
+      }
+    },
+    {
+      path: 'crops', component: CropsComponent,
+      canActivate: [AuthRoleGuard],
+      data: {
+        breadcrumb: 'Menu',
+        expectedRoles: ['Admin', 'Employee']
+      }
+    },
+    {
+      path: 'stock', component: InventoryComponent,
+      canActivate: [AuthRoleGuard],
+      data: {
+        breadcrumb: 'Menu',
+        expectedRoles: ['Admin', 'Employee']
+      }
+    },
+    {
+      path: 'accountability', component: AccountabilityComponent,
+      canActivate: [AuthRoleGuard],
+      data: {
+        breadcrumb: 'Menu',
+        expectedRoles: ['Admin', 'Employee']
+      }
+    },
+    {
+      path: 'system-settings', component: SystemSettingsComponent,
+      data: {
+        breadcrumb: 'Menu',
+      }
+    },
+    {
+      path: 'user-profile', component: UserProfileComponent,
+      data: {
+        breadcrumb: 'Menu',
+      }
+    },
+    {
+      path: 'change-password', component: ChangePasswordComponent,
+      data: {
+        breadcrumb: 'Menu'
+      }
+    },
+    {
+      path: 'transactions', component: TransactionsComponent,
+
+      data: {
+        breadcrumb: 'Menu',
+
+      }
+    },
   ])],
   exports: [RouterModule]
 })
