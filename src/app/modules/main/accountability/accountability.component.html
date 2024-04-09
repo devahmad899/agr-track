@@ -1,1 +1,180 @@
-<p>accountability works!</p>
+<p-toast position="top-right"></p-toast>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div class="page-header">
+                <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+                <h2>Sale and Purchase</h2>
+            </div>
+            <div class="block text-right mb-5">
+                <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right" (onClick)="ShowModal(1)"></p-button>
+            </div>
+            <!-- <ng-container *ngIf="transactionlist.length > 0; else noData"> -->
+            <p-table [value]="transactionlist" [paginator]="false" [scrollable]="true" scrollHeight="720px" [rows]="10" [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 25, 50,100]">
+                <!-- <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                        </span>
+                    </div>
+                </ng-template> -->
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Sr No.</th>
+                        <th>Product Name</th>
+                        <th>Purchase Rate</th>
+                        <th>Sale By</th>
+                        <th>Purchase By</th>
+                        <th>Sale Rate</th>
+                        <th>Quantity</th>
+                        <th>Bill</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-stock>
+                    <tr>
+                        <td>{{stock.srNo}}</td>
+                        <td>{{stock.productName}}</td>
+                        <td>{{stock.purchasePerRateInMann}}</td>
+                        <td>{{stock.saleBy}}</td>
+                        <td>{{stock.purchaseBy}}</td>
+                        <td>{{stock.SalePerRateInMann}}</td>
+                        <td>{{stock.QuantityInMann}}</td>
+                        <td>{{stock.Bill}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        <!-- </ng-container> -->
+        <!-- <ng-template #noData>
+            <h5 style="text-align: center;">No data found</h5>
+          </ng-template> -->
+          <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8">No records found.</td>
+            </tr>
+        </ng-template>
+        </div>
+    </div>
+
+    <p-dialog header="Header" [(visible)]="displayAddModal" [modal]="true" [style]="{ width: '60rem' }"
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false"
+        [closable]="false">
+        <ng-template pTemplate="header">
+            <div class="inline-flex align-items-center justify-content-center gap-2">
+                <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
+                <h3 class="font-bold white-space-nowrap">Make Transactions</h3>
+            </div>
+            <div class="icons absolute" style="top: 16px;right: 15px;">
+                <button pbutton="" pripple="" type="button" icon="pi pi-times" (click)="resetAll();displayAddModal = false"
+                    class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
+                        class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
+                        style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
+                <!-- <button type="button" icon="pi pi-bookmark" (click)="resetAll();displayAddModal = false"
+                    class="p-element p-ripple p-button-secondary p-button-text p-button p-component mr-2 p-1">
+                    <span aria-hidden="true" class="p-button-icon pi pi-times"></span>
+                    <span class="p-ink" style="height: 42px; width: 42px; top: 0.75px; left: 17px;"></span>
+                </button> -->
+            </div>
+        </ng-template>
+        <div class="form-holder">
+            <form [formGroup]="cropsForm" (ngSubmit)="confirmTransaction()">
+                <div class="grid p-fluid">
+                    <div class="col-12 ">
+                        <label for="productName" class="block mb-2">Transaction Type</label>
+                        <p-selectButton [options]="transectionType" formControlName="selectedTransaction" optionLabel="name" optionValue="value" ></p-selectButton>
+                    </div>
+                    <div class="col-12 md:col-6">
+                        <label for="productName" class="block mb-2">Product Name <span class="text-red-700">*</span></label>
+                        <p-dropdown formControlName="productId" [options]="productsList" optionLabel="name" optionValue="id" placeholder="Select a Product"></p-dropdown>
+                        <div class="p-error mb-3" *ngIf="f['productId'].touched && f['productId'].invalid"
+                            class="text-danger">
+                            <small class="p-error" *ngIf="f['productId'].errors && f['productId'].errors['required']">Product
+                                is
+                                required.</small>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6" *ngIf="selectedTransaction === 'sale'">
+                        <label for="price" class="block mb-2">Sale To<span class="text-red-700">*</span></label>
+                        <!-- <input pInputText id="fullname" formControlName="price"> -->
+                        <p-dropdown formControlName="userId" [options]="customersList" optionLabel="fullname" optionValue="id" placeholder="Select a Customer"></p-dropdown>
+                        <div class="p-error mb-3" *ngIf="f['userId'].touched && f['userId'].invalid"
+                            class="text-danger">
+                            <small class="p-error" *ngIf="f['userId'].errors && f['userId'].errors['required']">Price is required.</small>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6" *ngIf="selectedTransaction === 'purchase'">
+                        <label for="price" class="block mb-2">Sale To<span class="text-red-700">*</span></label>
+                        <!-- <input pInputText id="fullname" formControlName="price"> -->
+                        <p-dropdown formControlName="userId" [options]="farmersList" optionLabel="fullname" optionValue="id" placeholder="Select a Farmer"></p-dropdown>
+                        <div class="p-error mb-3" *ngIf="f['userId'].touched && f['userId'].invalid"
+                            class="text-danger">
+                            <small class="p-error" *ngIf="f['userId'].errors && f['userId'].errors['required']">Price is required.</small>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6">
+                        <label for="price" class="block mb-2">Price in Rupees<span class="text-red-700">*</span></label>
+                        <!-- <input pInputText id="fullname" formControlName="price"> -->
+                        <p-inputNumber inputId="price" formControlName="price"></p-inputNumber>
+                        <div class="p-error mb-3" *ngIf="f['price'].touched && f['price'].invalid"
+                            class="text-danger">
+                            <small class="p-error" *ngIf="f['price'].errors && f['price'].errors['required']">Price is required.</small>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6">
+                        <label for="TotalQuantity" class="block mb-2">Quantity <span class="text-red-700">*</span></label>
+                        <input pInputText id="fullname" formControlName="quantity">
+                        <div class="p-error mb-3" *ngIf="f['quantity'].touched && f['quantity'].invalid"
+                            class="text-danger">
+                            <small class="p-error" *ngIf="f['quantity'].errors && f['quantity'].errors['required']">Available Quantity is required.</small>
+                        </div>
+                    </div>
+                    <!-- <div class="col-12 md:col-6" *ngIf="selectedTransaction === 'purchase'">
+                        <label for="TotalQuantity" class="block mb-2">Commision Rate <span class="text-red-700">*</span></label>
+                        <p-inputNumber inputId="price" formControlName="commissionRate"></p-inputNumber>
+                    </div> -->
+                </div>
+                <div class="btn-holder flex gap-3 mt-5">
+                    <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary" pAutoFocus [autofocus]="true"
+                        [disabled]="cropsForm.invalid"></p-button>
+                    <p-button severity="secondary" icon="pi pi-times" (click)="displayAddModal = false" label="Cancel"
+                        pAutoFocus [autofocus]="true"></p-button>
+                </div>
+            </form>
+        </div>
+        <!-- <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="displayAddModal = false" label="Ok" pAutoFocus
+            [autofocus]="true"></p-button>
+        </ng-template> -->
+    </p-dialog>
+    <p-dialog header="Header" [(visible)]="displayEditModal" [modal]="true" [style]="{ width: '60rem' }"
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false"
+        [closable]="false">
+        <ng-template pTemplate="header">
+            <div class="inline-flex align-items-center justify-content-center gap-2">
+                <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
+                <h3 class="font-bold white-space-nowrap">Edit Crops</h3>
+            </div>
+            <div class="icons absolute" style="top: 16px;right: 15px;">
+                <button pbutton="" pripple="" type="button" icon="pi pi-times" (click)="resetAll();displayEditModal = false"
+                    class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
+                        class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
+                        style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
+                <!-- <button type="button" icon="pi pi-bookmark" (click)="resetAll();displayEditModal = false"
+                    class="p-element p-ripple p-button-secondary p-button-text p-button p-component mr-2 p-1">
+                    <span aria-hidden="true" class="p-button-icon pi pi-times"></span>
+                    <span class="p-ink" style="height: 42px; width: 42px; top: 0.75px; left: 17px;"></span>
+                </button> -->
+            </div>
+        </ng-template>
+        <div class="form-holder">
+            
+        </div>
+        <!-- <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="displayEditModal = false" label="Ok" pAutoFocus
+            [autofocus]="true"></p-button>
+        </ng-template> -->
+    </p-dialog>
+    

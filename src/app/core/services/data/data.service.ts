@@ -21,6 +21,7 @@ import {
   Shifts,
   SideBar,
   SideBarMenu,
+  Stocks,
   TokenCompaniesList,
   Transaction,
   TreeNode,
@@ -121,12 +122,12 @@ export class DataService {
       headers,
     });
   }
-  public addStock(requestBody: Users): Observable<Users> {
+  public addStock(requestBody: Stocks): Observable<Stocks> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     });
-    return this.http.post<Users>(
+    return this.http.post<Stocks>(
       `${environment.apiUrl}/stock/`,
       requestBody,
       { headers }

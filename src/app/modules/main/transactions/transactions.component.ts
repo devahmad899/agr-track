@@ -31,7 +31,7 @@ export class TransactionsComponent {
     { name: 'Sale', value: 'sale' },
     { name: 'Purchase', value: 'purchase' }
   ];
-  selectedTransaction: any;
+  selectedTransaction = 'sale';
 
   get f() {
     return this.cropsForm.controls;
@@ -43,6 +43,7 @@ export class TransactionsComponent {
       quantity: ['', [Validators.required]],
       price: ['', [Validators.required]],
       userId: ['', [Validators.required]],
+      // commissionRate: ['',],
     });
   }
   private fetchTransactionHistory(): void {
@@ -112,7 +113,8 @@ export class TransactionsComponent {
         (res: Dictionary) => {
           console.log('API response:', res);
           if (res && res['status'] === 200) {
-            this.customersList = res['data']
+            console.log(res['data'])
+            this.farmersList = res['data']
             // this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });
 
           }
@@ -144,6 +146,43 @@ export class TransactionsComponent {
         console.error('Error in API', error);
       });
   }
+  confirmTransaction() {
+    if (this.cropsForm && this.cropsForm.valid) {
+      let formData = this.cropsForm.value;
+      if (formData.selectedTransaction === "sale") {
+        formData.sell = true;
+        formData.purchase = false;
+      } else {
+        formData.sell = false;
+        formData.purchase = true;
+      }
+      delete formData.selectedTransaction;
+      console.log(formData, 'formdata')
+      this.data.addStock(formData).subscribe(
+        (res: Dictionary) => {
+          console.log('API response:', res);
+          if (res && res['status'] === 200) {
+            this.fetchTransactionHistory()
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });
+            this.displayAddModal = false
+            this.resetAll()
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
+            this.displayAddModal = false
+            this.cropsForm.reset()
+          }
+        },
+        (error) => {
+          this.displayAddModal = false
+          this.cropsForm.reset()
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+
+          console.error('Error in API', error);
+        });
+    }
+  }
+
   ConfirmDelete() {
     if (this.selectedUserId) {
       this.data.deleteUser(this.selectedUserId).subscribe(
@@ -170,10 +209,11 @@ export class TransactionsComponent {
 
   resetAll() {
     this.displayAddModal = false
-    this.displayEditModal = false
-    this.displayDeleteModal = false
-    this.cropsForm.reset()
-    this.selectedUserId = null
+    // this.cropsForm.reset()
+    this.cropsForm.reset();
+    this.cropsForm.patchValue({
+      selectedTransaction: 'sale'
+    });
   }
   EditUser() {
     if (this.cropsForm && this.cropsForm.valid) {
@@ -196,37 +236,6 @@ export class TransactionsComponent {
         (error) => {
           this.resetAll()
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-          console.error('Error in API', error);
-        });
-    }
-  }
-  AddUser() {
-    if (this.cropsForm && this.cropsForm.valid) {
-      let formData = this.cropsForm.value;
-      const roleId = 2
-      formData = { ...this.cropsForm.value, roleId };
-      console.log(formData)
-      this.data.addUser(formData).subscribe(
-        (res: Dictionary) => {
-          console.log('API response:', res);
-          if (res && res['status'] === 200) {
-            this.fetchTransactionHistory()
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });
-            this.displayAddModal = false
-            this.cropsForm.reset()
-
-          }
-          else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
-            this.displayAddModal = false
-            this.cropsForm.reset()
-          }
-        },
-        (error) => {
-          this.displayAddModal = false
-          this.cropsForm.reset()
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-
           console.error('Error in API', error);
         });
     }

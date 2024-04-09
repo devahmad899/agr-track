@@ -26,6 +26,8 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { AccountabilityComponent } from './accountability/accountability.component';
+import { ReportsComponent } from './reports/reports.component';
 @NgModule({
   declarations: [
     CustomersComponent,
@@ -37,7 +39,9 @@ import { InputNumberModule } from 'primeng/inputnumber';
     SaleComponent,
     UserProfileComponent,
     ChangePasswordComponent,
-    TransactionsComponent
+    TransactionsComponent,
+    AccountabilityComponent,
+    ReportsComponent
   ],
   imports: [
     CommonModule,
