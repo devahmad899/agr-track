@@ -78,13 +78,13 @@ export class TransactionsComponent {
     this.cropsForm.get('selectedTransaction').valueChanges.subscribe(value => {
       this.selectedTransaction = value;
     });
-    this.quantityControl.valueChanges.subscribe(value => {
+    this.cropsForm.get('quantity').valueChanges.subscribe(value => {
       this.convertToKgs(value);
     });
   }
   convertToKgs(quantity: number) {
     // Assuming the input quantity is in grams, convert it to kilograms
-    this.quantityInKgs = quantity * 40; // Convert grams to kilograms
+    this.quantityInKgs = quantity * 37.3242; // Convert grams to kilograms
   }
   ShowModal(id: number) {
     if (id === 1) {
