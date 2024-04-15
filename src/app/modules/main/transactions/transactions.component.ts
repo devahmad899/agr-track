@@ -219,7 +219,6 @@ export class TransactionsComponent {
 
   resetAll() {
     this.displayAddModal = false
-    // this.cropsForm.reset()
     this.cropsForm.reset();
     this.cropsForm.patchValue({
       selectedTransaction: 'sale'

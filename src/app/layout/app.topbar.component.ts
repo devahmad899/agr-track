@@ -61,7 +61,7 @@ export class AppTopBarComponent {
                 label: 'Log Out',
                 icon: 'pi pi-sign-out',
                 command: () => {
-                    this.logout();
+                    this.logOut();
                 }
             }
         ];
@@ -83,8 +83,9 @@ getProfileData() {
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Updated' });
     }
 
-    logout() {
+    logOut() {
         localStorage.removeItem('access_token');
+        localStorage.removeItem('roleName');
         sessionStorage.removeItem('access_token');
         this.router.navigate([routes.login]);
     }

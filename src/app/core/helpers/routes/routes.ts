@@ -64,4 +64,7 @@ export class routes {
   public static get changePassword(): string {
     return this.baseUrl + '/change-password';
   }
+  public static get loan(): string {
+    return this.baseUrl + '/loan';
+  }
 }

@@ -18,7 +18,7 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit() {
         this.userRole = this.authService.roleName
-        // console.log('sitemenu', this.userRole)
+        console.log('sitemenu', this.userRole)
         if (this.userRole && this.userRole === 'Admin') {
             this.model = [
                 {
@@ -30,6 +30,7 @@ export class AppMenuComponent implements OnInit {
                         { label: 'Crops', icon: 'pi pi-fw pi-sun', routerLink: routes.crops, roles: ['Admin', 'Farmer'] },
                         { label: 'Stock', icon: 'pi pi-fw pi-database', routerLink: routes.inventory, roles: ['Admin'] },
                         { label: 'Transactions', icon: 'pi pi-fw pi-percentage', routerLink: routes.transactions, roles: ['Admin', 'Employee'] },
+                        { label: 'Loan', icon: 'pi pi-fw pi-money-bill', routerLink: routes.loan, roles: ['Admin', 'Employee', 'Farmer'] },
                         {
                             label: 'System Settings', icon: 'pi pi-fw pi-wrench',
                             items: [
@@ -48,6 +49,7 @@ export class AppMenuComponent implements OnInit {
                         { label: 'Crops', icon: 'pi pi-fw pi-sun', routerLink: routes.crops, roles: ['Admin', 'Farmer'] },
                         { label: 'Stock', icon: 'pi pi-fw pi-database', routerLink: routes.inventory, roles: ['Admin'] },
                         { label: 'Transactions', icon: 'pi pi-fw pi-percentage', routerLink: routes.transactions, roles: ['Admin', 'Employee'] },
+                        { label: 'Loan', icon: 'pi pi-fw pi-money-bill', routerLink: routes.loan, roles: ['Admin', 'Employee', 'Farmer'] },
                         {
                             label: 'System Settings', icon: 'pi pi-fw pi-wrench',
                             items: [
@@ -64,6 +66,7 @@ export class AppMenuComponent implements OnInit {
                     items: [
                         { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
                         { label: 'Transactions', icon: 'pi pi-fw pi-percentage', routerLink: routes.transactions, roles: ['Admin', 'Employee'] },
+                        { label: 'Loan', icon: 'pi pi-fw pi-money-bill', routerLink: routes.loan, roles: ['Admin', 'Employee', 'Farmer'] },
                         {
                             label: 'System Settings', icon: 'pi pi-fw pi-wrench',
                             items: [

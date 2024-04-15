@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Login, MenuItem, forgetPassword, resetPassword, Permissions } from '../interface/models';
@@ -10,7 +10,7 @@ import { jwtDecode } from "jwt-decode";
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService implements OnInit{
   constructor(private http: HttpClient, private router: Router) {
   }
 
@@ -38,7 +38,8 @@ export class AuthService {
     this.user_id = decodedPayload.user_id;
     this.email = decodedPayload.email;
     this.roleName = decodedPayload.roleName;
-    // console.log('rolename', this.roleName)
+    localStorage.setItem('roleName', this.roleName);
+    console.log('rolename', this.roleName)
     this.role_id = decodedPayload.roleId;
     this.superUserId = decodedPayload.superUserId;
     // this.role_id = decodedPayload.roleID
@@ -47,6 +48,8 @@ export class AuthService {
   ngOnInit() {
     this.decodedPayload = this.decodeToken
     this.roleName = this.decodedPayload.roleName
+    console.log('decodedToken', this.roleName)
+
   }
 
 

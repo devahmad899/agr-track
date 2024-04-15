@@ -14,6 +14,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { AuthRoleGuard } from 'src/app/core/services/auth-role.guard';
+import { LoanComponent } from './loan/loan.component';
 
 
 
@@ -90,6 +91,16 @@ import { AuthRoleGuard } from 'src/app/core/services/auth-role.guard';
 
       data: {
         breadcrumb: 'Menu',
+
+      }
+    },
+    {
+      path: 'loan', component: LoanComponent,
+
+      data: {
+        breadcrumb: 'Menu',
+        expectedRoles: ['Admin', 'Employee', 'Farmer']
+
 
       }
     },

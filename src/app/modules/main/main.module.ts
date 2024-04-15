@@ -28,6 +28,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { AccountabilityComponent } from './accountability/accountability.component';
 import { ReportsComponent } from './reports/reports.component';
+import { LoanComponent } from './loan/loan.component';
 @NgModule({
   declarations: [
     CustomersComponent,
@@ -41,7 +42,8 @@ import { ReportsComponent } from './reports/reports.component';
     ChangePasswordComponent,
     TransactionsComponent,
     AccountabilityComponent,
-    ReportsComponent
+    ReportsComponent,
+    LoanComponent
   ],
   imports: [
     CommonModule,
