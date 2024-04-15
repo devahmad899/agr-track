@@ -125,7 +125,7 @@
                     </div>
                     <div class="col-12 md:col-6">
                         <label for="TotalQuantity" class="block mb-2">Quantity in Mann<span class="text-red-700">*</span></label>
-                        <p-inputNumber inputId="price" formControlName="quantity" formControl=""></p-inputNumber>
+                        <p-inputNumber inputId="quantity" formControlName="quantity" formControl=""></p-inputNumber>
                         <small *ngIf="quantityInKgs !== undefined">Quantity in kgs: {{ quantityInKgs | number:'1.3-3' }}</small>
                         <div class="p-error mb-3" *ngIf="f['quantity'].touched && f['quantity'].invalid"
                             class="text-danger">
