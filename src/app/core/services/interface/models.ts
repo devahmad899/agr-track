@@ -207,6 +207,7 @@ export interface GetLoans {
   fullaname: string
   userId: number
   amount: number
+  description: string
   commissionRate: number
   status: boolean
 }

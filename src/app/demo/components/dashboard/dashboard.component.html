@@ -1,66 +1,70 @@
-    <div class="grid">
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Sales</span>
-                        <div class="text-900 font-medium text-xl" *ngIf="sale">{{sale}} Rs.</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
-                    </div>
+<div class="grid">
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Sales</span>
+                    <div class="text-900 font-medium text-xl" *ngIf="sale">{{sale}} Rs.</div>
                 </div>
-                <!-- <span class="text-green-500 font-medium">24 new </span>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
+                </div>
+            </div>
+            <!-- <span class="text-green-500 font-medium">24 new </span>
                 <span class="text-500">since last visit</span> -->
-            </div>
         </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Purchase</span>
-                        <div class="text-900 font-medium text-xl" *ngIf="purchase">{{purchase}} Rs.</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-map-marker text-orange-500 text-xl"></i>
-                    </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Purchase</span>
+                    <div class="text-900 font-medium text-xl" *ngIf="purchase">{{purchase}} Rs.</div>
                 </div>
-                <!-- <span class="text-green-500 font-medium">%52+ </span>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                </div>
+            </div>
+            <!-- <span class="text-green-500 font-medium">%52+ </span>
                 <span class="text-500">since last week</span> -->
-            </div>
         </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Customers</span>
-                        <div class="text-900 font-medium text-xl">{{usersCount['customers']}}</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-inbox text-cyan-500 text-xl"></i>
-                    </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Customers</span>
+                    <div class="text-900 font-medium text-xl">{{usersCount['customers']}}</div>
                 </div>
-                <!-- <span class="text-green-500 font-medium">520  </span>
-                <span class="text-500">newly registered</span> -->
-            </div>
-        </div>
-        <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Farmers</span>
-                        <div class="text-900 font-medium text-xl">{{usersCount['farmers']}}</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-inbox text-purple-500 text-xl"></i>
-                    </div>
+                <div class="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-inbox text-cyan-500 text-xl"></i>
                 </div>
-                <!-- <span class="text-green-500 font-medium">85 </span>
-                <span class="text-500">newly registered</span> -->
             </div>
+            <!-- <span class="text-green-500 font-medium">520  </span>
+                <span class="text-500">newly registered</span> -->
         </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Farmers</span>
+                    <div class="text-900 font-medium text-xl">{{usersCount['farmers']}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-purple-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-inbox text-purple-500 text-xl"></i>
+                </div>
+            </div>
+            <!-- <span class="text-green-500 font-medium">85 </span>
+                <span class="text-500">newly registered</span> -->
+        </div>
+    </div>
 
-        <!-- <div class="col-12 xl:col-6">
+    <!-- <div class="col-12 xl:col-6">
             <div class="card">
                 <h5>Recent Sales</h5>
                 <p-table [value]="products" [paginator]="true" [rows]="5" responsiveLayout="scroll">
@@ -171,13 +175,57 @@
             </div>
         </div> -->
 
-        <div class="col-12 xl:col-6">
-            <div class="card">
-                <h5>Sales Overview</h5>
-                <p-chart type="line" [data]="chartData" [options]="chartOptions"></p-chart>
+    <!-- <div class="col-12 xl:col-6">
+        <div class="card">
+            <h5>Sales Overview</h5>
+            <p-chart type="line" [data]="chartData" [options]="chartOptions"></p-chart>
+        </div>
+    </div> -->
+    <div class="col-12 xl:col-6" *ngIf="rolenName ==='Admin' || rolenName === 'Employee' ">
+        <div class="card" style="height: 100%;">
+            <h5>inventory Stats</h5>
+            <div class="card flex justify-content-center">
+                <ng-container *ngIf="inventoryList && inventoryList.length > 0; else noData">
+                    <p-table [value]="inventoryList" [paginator]="false" [showCurrentPageReport]="true"
+                        class="w-full">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Sr No.</th>
+                                <th>Name</th>
+                                <th>Available Quantity</th>
+                                <th>Total Quantity</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-inventory>
+                            <tr>
+                                <td>{{inventory.srNo}}</td>
+                                <td>{{inventory.productName}}</td>
+                                <td>{{inventory.AvailaibleQuantity}}</td>
+                                <td>{{inventory.TotalQuantity}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template #noData>
+                            <h5 style="text-align: center;">No data found</h5>
+                        </ng-template>
+                    </p-table>
+                </ng-container>
+                <ng-template #noData>
+                    <h5 style="text-align: center;">No data found</h5>
+                </ng-template>
+                <!-- <p-chart type="doughnut" [data]="doughnutChartData" [options]="doughnutChartOptions"></p-chart> -->
             </div>
-
-            <!-- <div class="card">
+        </div>
+    </div>
+    <div class="col-12 xl:col-6" *ngIf="rolenName ==='Admin' || rolenName === 'Employee'" >
+        <div class="card" style="height: 100%;">
+            <h5>Users Stats</h5>
+            <div class="card flex justify-content-center">
+                <p-chart type="doughnut" [data]="doughnutChartData" [options]="doughnutChartOptions"></p-chart>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="card">
                 <div class="flex align-items-center justify-content-between mb-4">
                     <h5>Notifications</h5>
                     <div>
@@ -222,13 +270,3 @@
                     </li>
                 </ul>
             </div> -->
-    </div>
-    <div class="col-12 xl:col-6">
-        <div class="card" style="height: 100%;">
-            <h5>Users Stats</h5>
-            <div class="card flex justify-content-center">
-                <p-chart type="doughnut" [data]="doughnutChartData" [options]="doughnutChartOptions"></p-chart>
-            </div>
-        </div>
-</div>
-

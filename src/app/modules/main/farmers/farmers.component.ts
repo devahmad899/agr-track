@@ -16,6 +16,7 @@ export class FarmersComponent {
   displayAddModal = false;
   displayEditModal = false;
   displayDeleteModal = false;
+  displayHistoryModal = false;
   userForm: FormGroup;
   userList: Users[];
   selectedUserId: number;
@@ -75,9 +76,14 @@ export class FarmersComponent {
       this.displayAddModal = true;
     } else if (id === 2) {
       this.displayEditModal = true;
+    } else if (id === 4) {
+      this.displayHistoryModal = true;
     } else {
       this.displayDeleteModal = true
     }
+  }
+  onSelectID(id: number) {
+    this.selectedUserId = id;
   }
   ConfirmDelete() {
     if (this.selectedUserId) {

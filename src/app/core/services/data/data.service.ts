@@ -212,7 +212,27 @@ export class DataService {
       headers,
     });
   }
-  
+  public addLoan(requestBody: Stocks): Observable<Stocks> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.post<Stocks>(
+      `${environment.apiUrl}/loanRequest/`,
+      requestBody,
+      { headers }
+    )
+  }
+  public receivedLoan(id:number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.delete<any>(
+      `${environment.apiUrl}/loanApproved/${id}/`,
+      { headers }
+    );
+  }
   public getDropDownUsers(roleId:number): Observable<Users> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,

@@ -1,14 +1,15 @@
 <p-toast position="top-right"></p-toast>
 <div class="grid">
     <div class="col-12">
-        
+
         <div class="card">
             <div class="page-header">
                 <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
                 <h2>Farmers</h2>
             </div>
             <div class="block text-right mb-5">
-                <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right" (onClick)="ShowModal(1)"></p-button>
+                <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right"
+                    (onClick)="ShowModal(1)"></p-button>
             </div>
             <!-- <ng-container *ngIf="userList.length > 0; else noData"> -->
             <p-table [value]="userList" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
@@ -36,7 +37,11 @@
                 <ng-template pTemplate="body" let-user>
                     <tr>
                         <td>{{user.srNo}}</td>
-                        <td>{{user.fullname}}</td>
+                        <td>
+                            <div (click)="ShowModal(4);onSelectID(user.id)" class="cursor-pointer">
+                                {{user.fullname}}
+                            </div>
+                        </td>
                         <td>{{user.email}}</td>
                         <td>{{user.cnic}}</td>
                         <td>{{user.phoneNumber}}</td>
@@ -59,15 +64,15 @@
                     </tr>
                 </ng-template>
             </p-table>
-        <!-- </ng-container> -->
-        <!-- <ng-template #noData>
+            <!-- </ng-container> -->
+            <!-- <ng-template #noData>
             <h5 style="text-align: center;">No data found</h5>
           </ng-template> -->
-          <ng-template pTemplate="emptymessage">
-            <tr>
-                <td colspan="8">No records found.</td>
-            </tr>
-        </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">No records found.</td>
+                </tr>
+            </ng-template>
         </div>
     </div>
 
@@ -80,7 +85,8 @@
                 <h3 class="font-bold white-space-nowrap">Add Farmers</h3>
             </div>
             <div class="icons absolute" style="top: 16px;right: 15px;">
-                <button pbutton="" pripple="" type="button" icon="pi pi-times" (click)="this.userForm.reset();displayAddModal = false"
+                <button pbutton="" pripple="" type="button" icon="pi pi-times"
+                    (click)="this.userForm.reset();displayAddModal = false"
                     class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
                         class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
                         style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
@@ -154,8 +160,8 @@
                     </div>
                 </div>
                 <div class="btn-holder flex gap-3">
-                    <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary" pAutoFocus [autofocus]="true"
-                        [disabled]="userForm.invalid"></p-button>
+                    <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary"
+                        pAutoFocus [autofocus]="true" [disabled]="userForm.invalid"></p-button>
                     <p-button severity="secondary" icon="pi pi-times" (click)="displayAddModal = false" label="Cancel"
                         pAutoFocus [autofocus]="true"></p-button>
                 </div>
@@ -175,7 +181,8 @@
                 <h3 class="font-bold white-space-nowrap">Edit Farmers</h3>
             </div>
             <div class="icons absolute" style="top: 16px;right: 15px;">
-                <button pbutton="" pripple="" type="button" icon="pi pi-times" (click)="this.userForm.reset();displayEditModal = false"
+                <button pbutton="" pripple="" type="button" icon="pi pi-times"
+                    (click)="this.userForm.reset();displayEditModal = false"
                     class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
                         class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
                         style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
@@ -249,8 +256,8 @@
                     </div>
                 </div>
                 <div class="btn-holder flex gap-3">
-                    <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary" pAutoFocus [autofocus]="true"
-                        [disabled]="userForm.invalid"></p-button>
+                    <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary"
+                        pAutoFocus [autofocus]="true" [disabled]="userForm.invalid"></p-button>
                     <p-button severity="secondary" icon="pi pi-times" (click)="displayEditModal = false" label="Cancel"
                         pAutoFocus [autofocus]="true"></p-button>
                 </div>
@@ -266,7 +273,8 @@
         [closable]="false">
         <ng-template pTemplate="header">
             <div class="icons absolute" style="top: 16px;right: 15px;">
-                <button pbutton="" pripple="" type="button" icon="pi pi-times" (click)="this.userForm.reset();displayDeleteModal = false"
+                <button pbutton="" pripple="" type="button" icon="pi pi-times"
+                    (click)="this.userForm.reset();displayDeleteModal = false"
                     class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
                         class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
                         style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
@@ -277,8 +285,31 @@
             <p>Are you sure you wanna delete this record</p>
         </div>
         <div class="btn-holder flex gap-3">
-            <p-button type="submit" icon="pi pi-check mr-3" severity="danger" label="Confirm" pAutoFocus [autofocus]="true" (onClick)="ConfirmDelete()"></p-button>
+            <p-button type="submit" icon="pi pi-check mr-3" severity="danger" label="Confirm" pAutoFocus
+                [autofocus]="true" (onClick)="ConfirmDelete()"></p-button>
             <p-button severity="secondary" icon="pi pi-times" (click)="displayDeleteModal = false" label="Cancel"
                 pAutoFocus [autofocus]="true"></p-button>
+        </div>
+    </p-dialog>
+    <p-dialog header="Header" [(visible)]="displayHistoryModal" [modal]="true" [style]="{ width: '40rem' }"
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false"
+        [closable]="false">
+        <ng-template pTemplate="header">
+            <div class="icons absolute" style="top: 16px;right: 15px;">
+                <button pbutton="" pripple="" type="button" icon="pi pi-times"
+                    (click)="this.userForm.reset();displayHistoryModal = false"
+                    class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
+                        class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
+                        style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
+            </div>
+        </ng-template>
+        <div class="form-holder mb-5">
+            <h3>Transaction History</h3>
+        </div>
+        <div class="btn-holder flex gap-3">
+            <p-button type="submit" icon="pi pi-check mr-3" styleClass="p-button-primary" label="Ok" (click)="this.userForm.reset();displayHistoryModal = false" pAutoFocus
+                [autofocus]="true" ></p-button>
+            <!-- <p-button severity="secondary" icon="pi pi-times" (click)="displayHistoryModal = false" label="Cancel"
+                pAutoFocus [autofocus]="true"></p-button> -->
         </div>
     </p-dialog>

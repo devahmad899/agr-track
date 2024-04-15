@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Dictionary } from '@fullcalendar/core/internal';
 import { MenuItem, MessageService } from 'primeng/api';
-import { AuthService, DataService, Transaction, Users } from 'src/app/core/core.index';
+import { AuthService, DataService, GetLoans, Transaction, Users } from 'src/app/core/core.index';
 import { Product } from 'src/app/demo/api/product';
 
 @Component({
@@ -14,7 +14,7 @@ export class LoanComponent {
   products!: Product[];
   displayAddModal = false;
   displayEditModal = false;
-  displayDeleteModal = false;
+  displayReceivedModal = false;
   loanForm: FormGroup;
   loanList: Transaction[];
   selectedUserId: number;
@@ -45,6 +45,7 @@ export class LoanComponent {
       userId: ['', [Validators.required]],
       amount: ['', [Validators.required]],
       commissionRate: ['', [Validators.required]],
+      description: ['', [Validators.required]],
       // commissionRate: ['',],
     });
   }
@@ -70,19 +71,7 @@ export class LoanComponent {
     this.fetchLoans();
     this.items = [{ label: 'Loans' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
-    this.getCustomerUsers()
     this.getFarmerUsers()
-    this.getProductsList()
-    this.loanForm.get('selectedTransaction').valueChanges.subscribe(value => {
-      this.selectedTransaction = value;
-    });
-    this.loanForm.get('quantity').valueChanges.subscribe(value => {
-      this.convertToKgs(value);
-    });
-  }
-  convertToKgs(quantity: number) {
-    // Assuming the input quantity is in grams, convert it to kilograms
-    this.quantityInKgs = quantity * 37.3242; // Convert grams to kilograms
   }
   ShowModal(id: number) {
     if (id === 1) {
@@ -90,28 +79,7 @@ export class LoanComponent {
     } else if (id === 2) {
       this.displayEditModal = true;
     } else {
-      this.displayDeleteModal = true
-    }
-  }
-  getCustomerUsers() {
-    const customerUser = 3
-    if (customerUser) {
-      this.data.getDropDownUsers(customerUser).subscribe(
-        (res: Dictionary) => {
-          console.log('API response:', res);
-          if (res && res['status'] === 200) {
-            this.customersList = res['data']
-            // this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });
-
-          }
-          else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
-          }
-        },
-        (error) => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-          console.error('Error in API', error);
-        });
+      this.displayReceivedModal = true
     }
   }
   getFarmerUsers() {
@@ -136,37 +104,19 @@ export class LoanComponent {
         });
     }
   }
-  getProductsList() {
-    this.data.getProductList().subscribe(
-      (res: Dictionary) => {
-        console.log('API response:', res);
-        if (res && res['status'] === 200) {
-          this.productsList = res['data']
-          // this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });
-
-        }
-        else {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
-        }
-      },
-      (error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-        console.error('Error in API', error);
-      });
-  }
-  confirmTransaction() {
+  addLoan() {
     if (this.loanForm && this.loanForm.valid) {
       let formData = this.loanForm.value;
-      if (formData.selectedTransaction === "sale") {
-        formData.sell = true;
-        formData.purchase = false;
-      } else {
-        formData.sell = false;
-        formData.purchase = true;
-      }
-      delete formData.selectedTransaction;
+      // if (formData.selectedTransaction === "sale") {
+      //   formData.sell = true;
+      //   formData.purchase = false;
+      // } else {
+      //   formData.sell = false;
+      //   formData.purchase = true;
+      // }
+      // delete formData.selectedTransaction;
       console.log(formData, 'formdata')
-      this.data.addStock(formData).subscribe(
+      this.data.addLoan(formData).subscribe(
         (res: Dictionary) => {
           console.log('API response:', res);
           if (res && res['status'] === 200) {
@@ -190,8 +140,10 @@ export class LoanComponent {
         });
     }
   }
-
-  ConfirmDelete() {
+  onSelectID(id: number) {
+    this.selectedUserId = id;
+  }
+  ConfirmReceived() {
     if (this.selectedUserId) {
       this.data.deleteUser(this.selectedUserId).subscribe(
         (res: Dictionary) => {
@@ -218,6 +170,7 @@ export class LoanComponent {
   resetAll() {
     this.displayAddModal = false
     this.loanForm.reset();
+    this.selectedUserId = null
   }
   EditUser() {
     if (this.loanForm && this.loanForm.valid) {

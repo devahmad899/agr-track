@@ -10,7 +10,7 @@
                 <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right" (onClick)="ShowModal(1)"></p-button>
             </div>
             <!-- <ng-container *ngIf="transactionlist.length > 0; else noData"> -->
-            <p-table [value]="transactionlist" [paginator]="true" [scrollable]="true" scrollHeight="720px" [rows]="10" [showCurrentPageReport]="true"
+            <p-table [columns]="cols" [value]="transactionlist" [paginator]="true" [scrollable]="true" scrollHeight="720px" [rows]="10" [showCurrentPageReport]="true"
                 [tableStyle]="{ 'min-width': '50rem' }"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [rowsPerPageOptions]="[10, 25, 50,100]">
@@ -22,18 +22,25 @@
                         </span>
                     </div>
                 </ng-template> -->
-                <ng-template pTemplate="header">
+                <ng-template pTemplate="header" let-columns>
                     <tr>
+                        <th *ngFor="let col of columns">
+                            {{ col.header }}
+                        </th>
+                    </tr>
+                </ng-template>
+               <!-- <ng-template pTemplate="header">
+                     <tr>
                         <th>Sr No.</th>
-                        <th>Product Name</th>
+                        <th>Crops Name</th>
                         <th>Purchase Rate</th>
-                        <th>Sale By</th>
-                        <th>Purchase By</th>
+                        <th>Saller</th>
+                        <th>Purchaser</th>
                         <th>Sale Rate</th>
                         <th>Quantity</th>
                         <th>Bill</th>
-                    </tr>
-                </ng-template>
+                    </tr> 
+                </ng-template> -->
                 <ng-template pTemplate="body" let-stock>
                     <tr>
                         <td>{{stock.srNo}}</td>
@@ -51,11 +58,6 @@
         <!-- <ng-template #noData>
             <h5 style="text-align: center;">No data found</h5>
           </ng-template> -->
-          <ng-template pTemplate="emptymessage">
-            <tr>
-                <td colspan="8">No records found.</td>
-            </tr>
-        </ng-template>
         </div>
     </div>
 
@@ -115,6 +117,26 @@
                         </div>
                     </div>
                     <div class="col-12 md:col-6">
+                        <label for="TotalQuantity" class="block mb-2">Quantity in Mann<span class="text-red-700">*</span></label>
+                        <p-inputNumber  inputId="minmaxfraction" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="5" formControlName="quantity"> </p-inputNumber>
+                        <!-- <small *ngIf="quantityInKgs !== undefined || quantityInKgs !== null">Quantity in kgs: {{ quantityInKgs | number:'1.3-3' }}</small> -->
+                        <div class="p-error mb-3" *ngIf="f['quantity'].touched && f['quantity'].invalid"
+                            class="text-danger">
+                            <small class="p-error" *ngIf="f['quantity'].errors && f['quantity'].errors['required']">Available Quantity is required.</small>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6">
+                        <label for="quantityInKg" class="block mb-2">Quantity in KG</label>
+                        <p-inputNumber  inputId="minmaxfraction" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="5" formControlName="quantityInKg"> </p-inputNumber>
+                        <div class="p-error mb-3" *ngIf="f['quantityInKg'].touched && f['quantityInKg'].invalid"
+                            class="text-danger">
+                            <small class="p-error" *ngIf="f['quantityInKg'].errors && f['quantityInKg'].errors['required']">Available Quantity is required.</small>
+                        </div>
+                    </div>
+                    <div class="col-12" *ngIf="quantityInKgs">
+                        <small class="text-center block">Total Quantity: {{ quantityInKgs }} KG</small>
+                    </div>
+                    <div class="col-12 md:col-6">
                         <label for="price" class="block mb-2">Price in Rupees<span class="text-red-700">*</span></label>
                         <!-- <input pInputText id="fullname" formControlName="price"> -->
                         <p-inputNumber inputId="price" formControlName="price"></p-inputNumber>
@@ -123,14 +145,9 @@
                             <small class="p-error" *ngIf="f['price'].errors && f['price'].errors['required']">Price is required.</small>
                         </div>
                     </div>
-                    <div class="col-12 md:col-6">
-                        <label for="TotalQuantity" class="block mb-2">Quantity in Mann<span class="text-red-700">*</span></label>
-                        <p-inputNumber inputId="quantity" formControlName="quantity" formControl=""></p-inputNumber>
-                        <small *ngIf="quantityInKgs !== undefined">Quantity in kgs: {{ quantityInKgs | number:'1.3-3' }}</small>
-                        <div class="p-error mb-3" *ngIf="f['quantity'].touched && f['quantity'].invalid"
-                            class="text-danger">
-                            <small class="p-error" *ngIf="f['quantity'].errors && f['quantity'].errors['required']">Available Quantity is required.</small>
-                        </div>
+                    <div class="col-12 md:col-6" *ngIf="selectedTransaction === 'purchase'">
+                        <label for="commissionRate" class="block mb-2">Commission Rate</label>
+                        <p-inputNumber  inputId="minmaxfraction" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="1" formControlName="commissionRate"> </p-inputNumber>
                     </div>
                     <!-- <div class="col-12 md:col-6" *ngIf="selectedTransaction === 'purchase'">
                         <label for="TotalQuantity" class="block mb-2">Commision Rate <span class="text-red-700">*</span></label>

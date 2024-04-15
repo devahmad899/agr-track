@@ -36,3 +36,9 @@ $gutter: 1rem; //for primeflex grid system
 	border-color: var(--primary-color_hover);
 	color: #ffffff;
 }
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+	color: var(--primary-color);
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight.p-focus {
+	background: #c1f8dc;
+}

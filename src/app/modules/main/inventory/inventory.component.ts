@@ -20,7 +20,7 @@ export class InventoryComponent {
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
   constructor(private data: DataService, private messageService: MessageService) {}
-  private fetchCusotomerData(): void {
+  private fetchIinventoryData(): void {
     this.serialNumberArray = [];
     this.data.getInventory().subscribe(
       (res: Dictionary) => {
@@ -38,7 +38,7 @@ export class InventoryComponent {
 
   }
   ngOnInit() {
-    this.fetchCusotomerData();
+    this.fetchIinventoryData();
     this.items = [{label: 'Inventory'}];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
   }

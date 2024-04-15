@@ -4,7 +4,7 @@ import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { AuthService, DataService, UsersStats } from 'src/app/core/core.index';
+import { AuthService, DataService, Stocks, UsersStats } from 'src/app/core/core.index';
 import { Dictionary } from '@fullcalendar/core/internal';
 
 @Component({
@@ -28,6 +28,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     subscription!: Subscription;
     sale: string
     purchase: string
+    serialNumberArray: any[];
+    inventoryList: Stocks[];
+
 
     constructor(private productService: ProductService, private authService: AuthService, public layoutService: LayoutService, private data: DataService, private messageService: MessageService) {
         this.subscription = this.layoutService.configUpdate$
@@ -41,6 +44,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.rolenName = this.authService.roleName
         this.fetchUsersStats()
         this.initChart();
+        this.fetchInventoryData()
         // this.initDoughnutChart({ customers: 1, farmers: 1, employees: 1 });
         this.productService.getProductsSmall().then(data => this.products = data);
 
@@ -83,6 +87,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
                 console.error('Error in API', error);
             });
+    }
+    private fetchInventoryData(): void {
+        this.serialNumberArray = [];
+        this.data.getInventory().subscribe(
+            (res: Dictionary) => {
+                console.log('API response:', res);
+                if (res && res['status'] === 200) {
+                    this.inventoryList = res['data']
+                    this.inventoryList.forEach((user, index) => {
+                        user.srNo = index + 1;
+                    });
+                }
+            },
+            (error) => {
+                console.error('Error in Inventory API', error);
+            });
+
     }
     initDoughnutChart(data: { [key: string]: number }) {
         const documentStyle = getComputedStyle(document.documentElement);
