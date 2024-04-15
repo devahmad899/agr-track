@@ -4,7 +4,7 @@ import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { DataService, UsersStats } from 'src/app/core/core.index';
+import { AuthService, DataService, UsersStats } from 'src/app/core/core.index';
 import { Dictionary } from '@fullcalendar/core/internal';
 
 @Component({
@@ -23,12 +23,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     chartOptions: any;
     doughnutChartData: any;
     doughnutChartOptions: any;
+    rolenName = '';
 
     subscription!: Subscription;
     sale: string
     purchase: string
 
-    constructor(private productService: ProductService, public layoutService: LayoutService, private data: DataService, private messageService: MessageService) {
+    constructor(private productService: ProductService, private authService: AuthService, public layoutService: LayoutService, private data: DataService, private messageService: MessageService) {
         this.subscription = this.layoutService.configUpdate$
             .pipe(debounceTime(25))
             .subscribe((config) => {
@@ -37,6 +38,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.rolenName = this.authService.roleName
         this.fetchUsersStats()
         this.initChart();
         // this.initDoughnutChart({ customers: 1, farmers: 1, employees: 1 });
@@ -72,7 +74,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 // console.log('API response:', res);
 
                 this.usersCount = res
-                this,this.initDoughnutChart(this.usersCount)
+                this, this.initDoughnutChart(this.usersCount)
                 console.log('API usercount:', this.usersCount);
 
                 // this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });

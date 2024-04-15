@@ -11,12 +11,14 @@ export class AppMenuComponent implements OnInit {
 
     model: any[] = [];
     model2: any[] = [];
-    userRole: string = this.authService.roleName;
+    userRole = '';
 
     constructor(public layoutService: LayoutService, private authService: AuthService) { }
 
 
     ngOnInit() {
+        this.userRole = this.authService.roleName
+        // console.log('sitemenu', this.userRole)
         if (this.userRole && this.userRole === 'Admin') {
             this.model = [
                 {
@@ -230,13 +232,13 @@ export class AppMenuComponent implements OnInit {
         //     ]
         // }
 
-        this.model2 = [
-            {
-                items: [
-                    { label: 'Documentation', icon: 'pi pi-fw pi-question', routerLink: ['/documentation'] },
-                ]
-            }
+        // this.model2 = [
+        //     {
+        //         items: [
+        //             { label: 'Documentation', icon: 'pi pi-fw pi-question', routerLink: ['/documentation'] },
+        //         ]
+        //     }
 
-        ];
+        // ];
     }
 }

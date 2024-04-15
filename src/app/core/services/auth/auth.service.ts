@@ -16,6 +16,7 @@ export class AuthService {
 
   private isAuthenticated = false;
   private token: string = localStorage.getItem('access_token') || '';
+  public decodedPayload: any;
   public user_name = "";
   public roleName = "";
   public email = "";
@@ -23,7 +24,7 @@ export class AuthService {
   public user_id!: number;
   public role_id!: number;
 
-  decodeToken():any  {
+  decodeToken(): any {
     this.token = localStorage.getItem('access_token') || '';
     // Check if the token is present
     if (!this.token) {
@@ -33,16 +34,19 @@ export class AuthService {
     let decodedPayload: any = jwtDecode(this.token)
     // console.log('decodedToken', decodedPayload)
     // Access the decoded payload properties
-     
-      // this.isSuperUser = decodedPayload.superuser;
-      // this.user_name = decodedPayload.firstname;
-      this.user_id = decodedPayload.user_id;
-      this.email = decodedPayload.email;
-      this.roleName = decodedPayload.roleName;
-      this.role_id = decodedPayload.roleId;
-      this.superUserId = decodedPayload.superUserId;
-      // this.role_id = decodedPayload.roleID
+
+    this.user_id = decodedPayload.user_id;
+    this.email = decodedPayload.email;
+    this.roleName = decodedPayload.roleName;
+    // console.log('rolename', this.roleName)
+    this.role_id = decodedPayload.roleId;
+    this.superUserId = decodedPayload.superUserId;
+    // this.role_id = decodedPayload.roleID
     return decodedPayload
+  }
+  ngOnInit() {
+    this.decodedPayload = this.decodeToken
+    this.roleName = this.decodedPayload.roleName
   }
 
 
