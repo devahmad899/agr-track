@@ -9,6 +9,7 @@ import {
   CompanyInfo,
   Department,
   EmployeeIds,
+  GetLoans,
   Grade,
   Holiday,
   HolidayEdit,
@@ -200,6 +201,14 @@ export class DataService {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     });
     return this.http.get<Transaction>(`${environment.apiUrl}/transactionHistory/`, {
+      headers,
+    });
+  }
+  public getLoans(): Observable<GetLoans> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.get<GetLoans>(`${environment.apiUrl}/loanRequest/`, {
       headers,
     });
   }

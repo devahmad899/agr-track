@@ -84,7 +84,7 @@ export class TransactionsComponent {
   }
   convertToKgs(quantity: number) {
     // Assuming the input quantity is in grams, convert it to kilograms
-    this.quantityInKgs = quantity * 37.3242; // Convert grams to kilograms
+    this.quantityInKgs = quantity * 40; // Convert grams to kilograms
   }
   ShowModal(id: number) {
     if (id === 1) {

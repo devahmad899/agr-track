@@ -203,6 +203,18 @@ export interface UsersStats {
   farmers: number
   employees: number
 }
+export interface GetLoans {
+  fullaname: string
+  userId: number
+  amount: number
+  commissionRate: number
+  status: boolean
+}
+export interface LoanCreate {
+  userId: number
+  amount: number
+  commissionRate: number
+}
 export interface Transaction {
   srNo: number;
   id: number;
