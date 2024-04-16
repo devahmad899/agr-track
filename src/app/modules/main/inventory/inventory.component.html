@@ -11,12 +11,24 @@
                     <h2 class="mb-5">Inventory Store</h2>
                 </div>
                 <div class="block text-right mb-5">
-                    <p-button styleClass="p-button-primary" label="Add New Store" icon="pi pi-plus-circle" iconPos="right"
-                        (onClick)="ShowModal(1)"></p-button>
+                    <p-button styleClass="p-button-primary" label="Add New Store" icon="pi pi-plus-circle"
+                        iconPos="right" (onClick)="ShowModal(1)"></p-button>
                 </div>
                 <ng-container *ngIf="storeList && storeList.length > 0; else noData">
-                    <p-table [value]="storeList" [paginator]="false" [showCurrentPageReport]="true"
-                        [tableStyle]="{ 'min-width': '50rem' }">
+                    <p-table #dt1 [value]="storeList" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50,100]" [globalFilterFields]="['name']">
+                        <ng-template pTemplate="caption">
+                            <div class="flex">
+                                <span class="p-input-icon-left ml-auto">
+                                    <i class="pi pi-search"></i>
+                                    <input pInputText type="text"
+                                        (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                                        placeholder="Search by name" />
+                                </span>
+                            </div>
+                        </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>Sr No.</th>
@@ -35,8 +47,10 @@
                                 <td>{{item.address}}</td>
                             </tr>
                         </ng-template>
-                        <ng-template #noData>
-                            <h5 style="text-align: center;">No data found</h5>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="100" class="text-center">No data found.</td>
+                            </tr>
                         </ng-template>
                     </p-table>
                 </ng-container>
@@ -79,7 +93,8 @@
                     <label for="address" class="block mb-2">Address <span class="text-red-700">*</span></label>
                     <input pInputText id="address" formControlName="address">
                     <div class="p-error mb-3" *ngIf="f['address'].touched && f['address'].invalid" class="text-danger">
-                        <small class="p-error" *ngIf="f['address'].errors && f['address'].errors['required']">Store Address
+                        <small class="p-error" *ngIf="f['address'].errors && f['address'].errors['required']">Store
+                            Address
                             is
                             required.</small>
                     </div>

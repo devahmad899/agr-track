@@ -14,56 +14,59 @@
                     <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right"
                         (onClick)="ShowModal(1)"></p-button>
                 </div>
-                <!-- <ng-container *ngIf="transactionlist.length > 0; else noData"> -->
-                <p-table [value]="loanList" [paginator]="true" [scrollable]="true" scrollHeight="720px" [rows]="10"
-                    [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+                <ng-container *ngIf="loanList.length > 0; else noData">
+                    <p-table #dt1 [value]="loanList" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                    [tableStyle]="{ 'min-width': '50rem' }"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                    [rowsPerPageOptions]="[10, 25, 50,100]">
-                    <!-- <ng-template pTemplate="caption">
-                    <div class="flex">
-                        <span class="p-input-icon-left ml-auto">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
-                        </span>
-                    </div>
-                </ng-template> -->
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th>Sr No.</th>
-                            <th>Name</th>
-                            <th>Amount</th>
-                            <th>Commision Rate</th>
-                            <th>Description</th>
-                            <th>Status</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-item>
-                        <tr>
-                            <td>{{item.srNo}}</td>
-                            <td>{{item.fullaname}}</td>
-                            <td>{{item.amount}}</td>
-                            <td>{{item.commissionRate}}</td>
-                            <td>{{item.description}}</td>
-                            <td>
-                                <div *ngIf="item.status">Paid</div>
-                                <div *ngIf="!item.status">Unpaid</div>
-                            </td>
-                            <td class="text-center">
-                                <p-button styleClass="p-button-primary" label="Received"
-                                    (onClick)="ShowModal();onSelectID(item.id)" *ngIf="!item.status"></p-button>
-                            </td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-                <!-- </ng-container> -->
-                <!-- <ng-template #noData>
-            <h5 style="text-align: center;">No data found</h5>
-          </ng-template> -->
-                <ng-template pTemplate="emptymessage">
-                    <tr>
-                        <td colspan="8">No records found.</td>
-                    </tr>
+                    [rowsPerPageOptions]="[10, 25, 50,100]"
+                    [globalFilterFields]="['fullaname']">
+                        <ng-template pTemplate="caption">
+                            <div class="flex">
+                                <span class="p-input-icon-left ml-auto">
+                                    <i class="pi pi-search"></i>
+                                    <input pInputText type="text"
+                                        (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                                        placeholder="Search by name" />
+                                </span>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Sr No.</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Commision Rate</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr>
+                                <td>{{item.srNo}}</td>
+                                <td>{{item.fullaname}}</td>
+                                <td>{{item.amount}}</td>
+                                <td>{{item.commissionRate}}</td>
+                                <td>{{item.description}}</td>
+                                <td>
+                                    <div *ngIf="item.status">Paid</div>
+                                    <div *ngIf="!item.status">Unpaid</div>
+                                </td>
+                                <td class="text-center">
+                                    <p-button styleClass="p-button-primary" label="Received"
+                                        (onClick)="ShowModal();onSelectID(item.id)" *ngIf="!item.status"></p-button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="100" class="text-center">No data found.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </ng-container>
+                <ng-template #noData>
+                    <h5 style="text-align: center;">No data found</h5>
                 </ng-template>
             </div>
         </div>
@@ -115,7 +118,7 @@
                 <div class="col-12 md:col-6">
                     <label for="commissionRate" class="block mb-2">Commision Rate<span
                             class="text-red-700">*</span></label>
-                            <p-inputNumber inputId="commissionRate" mode="decimal" [minFractionDigits]="0"
+                    <p-inputNumber inputId="commissionRate" mode="decimal" [minFractionDigits]="0"
                         [maxFractionDigits]="1" formControlName="commissionRate"> </p-inputNumber>
                     <div class="p-error mb-3" *ngIf="f['commissionRate'].touched && f['commissionRate'].invalid"
                         class="text-danger">

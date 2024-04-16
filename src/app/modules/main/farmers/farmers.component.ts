@@ -37,6 +37,7 @@ export class FarmersComponent {
   transactionlist: Transaction[];
   home: MenuItem | undefined;
   showLoader = false
+  historyLoader = false
   cols: Column[]
 
   get f() {
@@ -62,7 +63,7 @@ export class FarmersComponent {
     this.userList = [];
     this.serialNumberArray = [];
     let id = 4
-    this.showLoader=true
+    this.showLoader = true
     this.data.getUsers(id).subscribe(
       (res: Dictionary) => {
         console.log('API response:', res);
@@ -72,7 +73,7 @@ export class FarmersComponent {
             user.srNo = index + 1;
           });
           console.log(this.userList)
-          this.showLoader=false
+          this.showLoader = false
         }
         else {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
@@ -80,7 +81,7 @@ export class FarmersComponent {
         }
       },
       (error) => {
-        this.showLoader=false
+        this.showLoader = false
         console.error('Error in API', error);
       });
 
@@ -88,9 +89,11 @@ export class FarmersComponent {
   fetchTransactionHistory(): void {
     this.transactionlist = [];
     this.serialNumberArray = [];
+    this.historyLoader = true
     this.data.getTransactionById(this.selectedUserId).subscribe(
       (res: Dictionary) => {
         console.log('API response:', res);
+        this.historyLoader = false
         if (res && res['status'] === 200) {
           this.transactionlist = res['data']
           this.transactionlist.forEach((user, index) => {
@@ -99,6 +102,7 @@ export class FarmersComponent {
         }
       },
       (error) => {
+        this.historyLoader = false
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
         console.error('Error in API', error);
       });
@@ -177,7 +181,7 @@ export class FarmersComponent {
     this.displayDeleteModal = false
     this.userForm.reset()
     this.selectedUserId = null
-    this.transactionlist= []
+    this.transactionlist = []
   }
   EditUser() {
     if (this.userForm && this.userForm.valid) {
