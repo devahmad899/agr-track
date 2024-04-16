@@ -1,4 +1,3 @@
-
 <p-toast position="top-right"></p-toast>
 <div class="inner-loader relative">
     <div class="container-loader" *ngIf="showLoader">
@@ -12,59 +11,97 @@
                     <h2>Transactions</h2>
                 </div>
                 <div class="block text-right mb-5" *ngIf="userRole === 'Admin' || userRole === 'Employee'">
-                    <!-- <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="Download PDF" tooltipPosition="bottom"></button> -->
+                    <!-- pTooltip="Download PDF" tooltipPosition="bottom" -->
+                    <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
+                        class="p-button-warning mr-2" label="Download PDF"></button>
                     <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right"
                         (onClick)="ShowModal(1)"></p-button>
                 </div>
-                <!-- <ng-container *ngIf="transactionlist.length > 0; else noData"> -->
-                <p-table [columns]="cols" [value]="transactionlist" [paginator]="true" [scrollable]="true"
-                    scrollHeight="720px" [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                    [rowsPerPageOptions]="[10, 25, 50,100]">
-                    <!-- <ng-template pTemplate="caption">
-                        <div class="flex">
-                            <span class="p-input-icon-left ml-auto">
-                                <i class="pi pi-search"></i>
-                                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
-                            </span>
-                        </div>
-                    </ng-template> -->
-                    <ng-template pTemplate="header" let-columns>
-                        <tr>
-                            <th *ngFor="let col of columns">
-                                {{ col.header }}
-                            </th>
-                        </tr>
-                    </ng-template>
-                    <!-- <ng-template pTemplate="header">
-                         <tr>
-                            <th>Sr No.</th>
-                            <th>Crops Name</th>
-                            <th>Purchase Rate</th>
-                            <th>Saller</th>
-                            <th>Purchaser</th>
-                            <th>Sale Rate</th>
-                            <th>Quantity</th>
-                            <th>Bill</th>
-                        </tr> 
-                    </ng-template> -->
-                    <ng-template pTemplate="body" let-stock>
-                        <tr>
-                            <td>{{stock.srNo}}</td>
-                            <td>{{stock.productName}}</td>
-                            <td>{{stock.purchasePerRateInMann}}</td>
-                            <td>{{stock.saleBy}}</td>
-                            <td>{{stock.purchaseBy}}</td>
-                            <td>{{stock.SalePerRateInMann}}</td>
-                            <td>{{stock.QuantityInMann}}</td>
-                            <td>{{stock.Bill}}</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-                <!-- </ng-container> -->
-                <!-- <ng-template #noData>
-                <h5 style="text-align: center;">No data found</h5>
-              </ng-template> -->
+                <ng-container *ngIf="transactionlist.length > 0; else noData">
+
+                    <div class="card">
+                        <p-table #dt1 [columns]="cols" [value]="transactionlist" dataKey="id" [rows]="10"
+                            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading"
+                            [paginator]="true"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                            [globalFilterFields]="['productName','saleBy', 'purchaseBy']">
+                            <ng-template pTemplate="caption">
+                                <div class="flex">
+                                    <span class="p-input-icon-left ml-auto">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text"
+                                            (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                                            placeholder="Search keyword" />
+                                    </span>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th *ngFor="let col of columns">
+                                        {{ col.header }}
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-stock>
+                                <tr>
+                                    <td>{{stock.srNo}}</td>
+                                    <td>{{stock.productName}}</td>
+                                    <td>{{stock.saleBy}}</td>
+                                    <td>{{stock.date}}</td>
+                                    <td>{{stock.purchaseBy}}</td>
+                                    <td>{{stock.SalePerRateInMann}}</td>
+                                    <td>{{stock.purchasePerRateInMann}}</td>
+                                    <td>{{stock.QuantityInMann}}</td>
+                                    <td>{{stock.Bill}}</td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="100" class="text-center">No customers found.</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                    <!-- <p-table [columns]="cols" [value]="transactionlist" [paginator]="true" [scrollable]="true"
+                        scrollHeight="720px" [rows]="10" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50,100]"
+                        [globalFilterFields]="['productName', 'saleBy', 'purchaseBy']">
+                        <ng-template pTemplate="caption">
+                            <div class="flex">
+                                <span class="p-input-icon-left ml-auto">
+                                    <i class="pi pi-search"></i>
+                                    <input pInputText type="text"
+                                        (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                        placeholder="Search keyword" />
+                                </span>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th *ngFor="let col of columns">
+                                    {{ col.header }}
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-stock>
+                            <tr>
+                                <td>{{stock.srNo}}</td>
+                                <td>{{stock.productName}}</td>
+                                <td>{{stock.saleBy}}</td>
+                                <td>{{stock.purchaseBy}}</td>
+                                <td>{{stock.SalePerRateInMann}}</td>
+                                <td>{{stock.purchasePerRateInMann}}</td>
+                                <td>{{stock.QuantityInMann}}</td>
+                                <td>{{stock.Bill}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table> -->
+                </ng-container>
+                <ng-template #noData>
+                    <h5 style="text-align: center;">No data found</h5>
+                </ng-template>
             </div>
         </div>
     </div>
@@ -140,7 +177,9 @@
                 <div class="col-12 md:col-6">
                     <label for="productName" class="block mb-2">Product Name <span class="text-red-700">*</span></label>
                     <p-dropdown formControlName="productId" [options]="productsList" optionLabel="productName"
-                        optionValue="productId" placeholder="Select a Product"></p-dropdown>
+                        optionValue="productId" placeholder="Select a Product"
+                        [emptyMessage]="productsList?.length ? 'No crops found in this store' : 'Please select a store first'"></p-dropdown>
+
                     <div class="p-error mb-3" *ngIf="f['productId'].touched && f['productId'].invalid"
                         class="text-danger">
                         <small class="p-error"

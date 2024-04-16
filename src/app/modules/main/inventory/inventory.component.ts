@@ -106,7 +106,7 @@ export class InventoryComponent {
   }
   ngOnInit() {
     this.fetchIinventoryStore()
-    this.items = [{ label: 'Inventory' }];
+    this.items = [{ label: 'Stock' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
   AddStore() {

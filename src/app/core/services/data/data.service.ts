@@ -211,6 +211,14 @@ export class DataService {
       headers,
     });
   }
+  public getTransactionById(id:number): Observable<Transaction> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.get<Transaction>(`${environment.apiUrl}/transactionHistory/?id=${id}`, {
+      headers,
+    });
+  }
   public makeTransaction(requestBody: MakeTransaction): Observable<MakeTransaction> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -246,7 +254,7 @@ export class DataService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     });
-    return this.http.delete<any>(
+    return this.http.post<any>(
       `${environment.apiUrl}/loanApproved/${id}/`,
       { headers }
     );

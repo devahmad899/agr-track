@@ -18,7 +18,7 @@ interface ExportColumn {
 }
 
 @Component({
-  selector: 'app-transections',
+  selector: 'app-transactions',
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.scss'
 })
@@ -78,6 +78,7 @@ export class TransactionsComponent {
           this.transactionlist.forEach((user, index) => {
             user.srNo = index + 1;
           });
+          console.log(this.transactionlist,'transactionlist')
         }
         this.showLoader=false
       },
@@ -94,6 +95,7 @@ export class TransactionsComponent {
       { field: 'cropsName', header: 'Crops Name' },
       { field: 'saller', header: 'Saller' },
       { field: 'purchaser', header: 'Purchaser' },
+      { field: 'date', header: 'Date' },
       { field: 'saleRate', header: 'Sale Rate' },
       { field: 'purchaseRate', header: 'Purchase Rate' },
       { field: 'quantity', header: 'Quantity' },
@@ -172,11 +174,23 @@ export class TransactionsComponent {
   
         // Header content
         const header = `
-        AgrTrack
+        Company Name: AgrTrack
         Address: 123 Main Street, City, Country
         Phone: +1234567890
         Date: ${new Date().toLocaleDateString()}
         `;
+        const formattedTransactionList = this.transactionlist.map(transaction => [
+          transaction.srNo,
+          transaction.productName,
+          transaction.saleBy,
+          transaction.purchaseBy,
+          transaction.date,
+          transaction.SalePerRateInMann,
+          transaction.purchasePerRateInMann,
+          transaction.QuantityInMann,
+          transaction.Bill,
+        ]);
+        
   
         // Calculate header height
         const headerHeight = doc.getTextDimensions(header).h;
@@ -191,13 +205,13 @@ export class TransactionsComponent {
         (doc as any).autoTable({
           startY: startY,
           columns: this.exportColumns,
-          body: this.transactionlist,
+          body: formattedTransactionList,
           // headStyles: {
           //   fillColor: [100, 100, 255]
           // }
         });
   
-        doc.save('products.pdf');
+        doc.save('transactions-report.pdf');
       });
     });
   }

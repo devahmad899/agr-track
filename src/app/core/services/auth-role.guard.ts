@@ -17,7 +17,7 @@ export class AuthRoleGuard implements CanActivate {
     const currentUserRole =  localStorage.getItem('roleName') || '';
     ;
     // const currentUserRole = this.authService.roleName;
-    console.log('roleGuard', currentUserRole);
+    // console.log('roleGuard', currentUserRole);
 
     // Check if the current user's role matches the expected role
     const expectedRoles = next.data['expectedRoles']; // Access 'expectedRoles' using bracket notation

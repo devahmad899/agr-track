@@ -8,10 +8,10 @@
             <div class="card">
                 <div class="page-header">
                     <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
-                    <h2 class="mb-5">Inventory</h2>
+                    <h2 class="mb-5">Inventory Store</h2>
                 </div>
                 <div class="block text-right mb-5">
-                    <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right"
+                    <p-button styleClass="p-button-primary" label="Add New Store" icon="pi pi-plus-circle" iconPos="right"
                         (onClick)="ShowModal(1)"></p-button>
                 </div>
                 <ng-container *ngIf="storeList && storeList.length > 0; else noData">
@@ -20,8 +20,8 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>Sr No.</th>
-                                <th>Name</th>
-                                <th>Address</th>
+                                <th>Store Name</th>
+                                <th>Store Address</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-item>
@@ -70,7 +70,7 @@
                     <label for="name" class="block mb-2">Name <span class="text-red-700">*</span></label>
                     <input pInputText id="name" formControlName="name">
                     <div class="p-error mb-3" *ngIf="f['name'].touched && f['name'].invalid" class="text-danger">
-                        <small class="p-error" *ngIf="f['name'].errors && f['name'].errors['required']">Name
+                        <small class="p-error" *ngIf="f['name'].errors && f['name'].errors['required']">Store Name
                             is
                             required.</small>
                     </div>
@@ -79,7 +79,7 @@
                     <label for="address" class="block mb-2">Address <span class="text-red-700">*</span></label>
                     <input pInputText id="address" formControlName="address">
                     <div class="p-error mb-3" *ngIf="f['address'].touched && f['address'].invalid" class="text-danger">
-                        <small class="p-error" *ngIf="f['address'].errors && f['address'].errors['required']">Address
+                        <small class="p-error" *ngIf="f['address'].errors && f['address'].errors['required']">Store Address
                             is
                             required.</small>
                     </div>

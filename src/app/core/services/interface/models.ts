@@ -63,7 +63,18 @@ export interface Users {
   landInfo: string | null
   roleId: number
   isRemoved: boolean
+  loans: Loans[]
 }
+
+export interface Loans {
+  id: number,
+  amount: number,
+  commissionRate: number,
+  status: boolean,
+  description: string
+}
+
+
 export interface Stocks {
   srNo: number
   productId: number
@@ -128,7 +139,7 @@ export interface MakeTransaction {
   purchase: boolean,
   storeId: number;
   commissionRate: number
-  
+
 }
 export interface Profile {
   id: number;

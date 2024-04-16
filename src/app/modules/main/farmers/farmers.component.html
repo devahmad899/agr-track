@@ -14,12 +14,12 @@
                     <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right"
                         (onClick)="ShowModal(1)"></p-button>
                 </div>
-                <!-- <ng-container *ngIf="userList.length > 0; else noData"> -->
-                <p-table [value]="userList" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
-                    [tableStyle]="{ 'min-width': '50rem' }"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                    [rowsPerPageOptions]="[10, 25, 50,100]">
-                    <!-- <ng-template pTemplate="caption">
+                <ng-container *ngIf="userList.length > 0; else noData">
+                    <p-table [value]="userList" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50,100]">
+                        <!-- <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
                             <i class="pi pi-search"></i>
@@ -27,57 +27,55 @@
                         </span>
                     </div>
                 </ng-template> -->
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th>Sr No.</th>
-                            <th>Full Name</th>
-                            <th>Emai</th>
-                            <th>CNIC</th>
-                            <th>Phone Number</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-user>
-                        <tr>
-                            <td>{{user.srNo}}</td>
-                            <td>
-                                <div (click)="ShowModal(4);onSelectID(user.id)" class="cursor-pointer">
-                                    {{user.fullname}}
-                                </div>
-                            </td>
-                            <td>{{user.email}}</td>
-                            <td>{{user.cnic}}</td>
-                            <td>{{user.phoneNumber}}</td>
-                            <td>
-                                <div class="text-center">
-                                    <button type="button" icon="pi pi-bookmark"
-                                        (click)="ShowModal(2);onSelectUser(user)"
-                                        class="p-element p-ripple p-button-secondary p-button-text p-button p-component  mr-2 p-1">
-                                        <span class="p-button-icon pi pi-pencil" aria-hidden="true"></span>
-                                        <span class="p-ink"
-                                            style="height: 42px; width: 42px; top: 0.75px; left: 17px;"></span>
-                                    </button>
-                                    <button type="button" icon="pi pi-bookmark"
-                                        (click)="ShowModal(3);onSelectUser(user)"
-                                        class="p-element p-ripple p-button-secondary p-button-text p-button p-component  p-1">
-                                        <span class="p-button-icon pi pi-trash" aria-hidden="true"></span>
-                                        <span class="p-ink"
-                                            style="height: 42px; width: 42px; top: 0.75px; left: 17px;"></span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-                <!-- </ng-container> -->
-                <!-- <ng-template #noData>
-            <h5 style="text-align: center;">No data found</h5>
-          </ng-template> -->
-                <ng-template pTemplate="emptymessage">
-                    <tr>
-                        <td colspan="8">No records found.</td>
-                    </tr>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Sr No.</th>
+                                <th>Full Name</th>
+                                <th>Emai</th>
+                                <th>CNIC</th>
+                                <th>Phone Number</th>
+                                <th>Issued Loan</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-user>
+                            <tr>
+                                <td>{{user.srNo}}</td>
+                                <td>
+                                    <div (click)="ShowModal(4);onSelectID(user.id)" class="cursor-pointer">
+                                        {{user.fullname}}
+                                    </div>
+                                </td>
+                                <td>{{user.email}}</td>
+                                <td>{{user.cnic}}</td>
+                                <td>{{user.phoneNumber}}</td>
+                                <td>{{user.loans[0]?.amount}}</td>
+                                <td>
+                                    <div class="text-center">
+                                        <button type="button" icon="pi pi-bookmark"
+                                            (click)="ShowModal(2);onSelectUser(user)"
+                                            class="p-element p-ripple p-button-secondary p-button-text p-button p-component  mr-2 p-1">
+                                            <span class="p-button-icon pi pi-pencil" aria-hidden="true"></span>
+                                            <span class="p-ink"
+                                                style="height: 42px; width: 42px; top: 0.75px; left: 17px;"></span>
+                                        </button>
+                                        <button type="button" icon="pi pi-bookmark"
+                                            (click)="ShowModal(3);onSelectUser(user)"
+                                            class="p-element p-ripple p-button-secondary p-button-text p-button p-component  p-1">
+                                            <span class="p-button-icon pi pi-trash" aria-hidden="true"></span>
+                                            <span class="p-ink"
+                                                style="height: 42px; width: 42px; top: 0.75px; left: 17px;"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </ng-container>
+                <ng-template #noData>
+                    <h5 style="text-align: center;">No data found</h5>
                 </ng-template>
+
             </div>
         </div>
     </div>
@@ -293,12 +291,12 @@
             [autofocus]="true"></p-button>
     </div>
 </p-dialog>
-<p-dialog header="Header" [(visible)]="displayHistoryModal" [modal]="true" [style]="{ width: '40rem' }"
+<p-dialog header="Header" [(visible)]="displayHistoryModal" [modal]="true" [style]="{ width: '70rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false" [closable]="false">
     <ng-template pTemplate="header">
         <div class="icons absolute" style="top: 16px;right: 15px;">
             <button pbutton="" pripple="" type="button" icon="pi pi-times"
-                (click)="this.userForm.reset();displayHistoryModal = false"
+                (click)="this.resetAll();displayHistoryModal = false"
                 class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
                     class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
                     style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
@@ -307,10 +305,36 @@
     <div class="form-holder mb-5">
         <h3>Transaction History</h3>
     </div>
-    <div class="btn-holder flex gap-3">
-        <p-button type="submit" icon="pi pi-check mr-3" styleClass="p-button-primary" label="Ok"
-            (click)="this.userForm.reset();displayHistoryModal = false" pAutoFocus [autofocus]="true"></p-button>
-        <!-- <p-button severity="secondary" icon="pi pi-times" (click)="displayHistoryModal = false" label="Cancel"
-                pAutoFocus [autofocus]="true"></p-button> -->
+    <div class="form-holder">
+        <ng-container *ngIf="transactionlist?.length > 0; else noData">
+        <p-table [columns]="cols" [value]="transactionlist" [paginator]="true" [scrollable]="true" scrollHeight="720px"
+            [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[10, 25, 50,100]">
+
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{ col.header }}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-stock>
+                <tr>
+                    <td>{{stock.srNo}}</td>
+                    <td>{{stock.productName}}</td>
+                    <td>{{stock.purchasePerRateInMann}}</td>
+                    <td>{{stock.saleBy}}</td>
+                    <td>{{stock.purchaseBy}}</td>
+                    <td>{{stock.SalePerRateInMann}}</td>
+                    <td>{{stock.QuantityInMann}}</td>
+                    <td>{{stock.Bill}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+        </ng-container>
+        <ng-template #noData>
+            <h5 style="text-align: center;">No data found</h5>
+        </ng-template>
     </div>
 </p-dialog>

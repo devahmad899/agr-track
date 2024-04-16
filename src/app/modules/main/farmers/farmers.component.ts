@@ -2,8 +2,18 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Dictionary } from '@fullcalendar/core/internal';
 import { MenuItem, MessageService } from 'primeng/api';
-import { DataService, Users } from 'src/app/core/core.index';
+import { DataService, Transaction, Users } from 'src/app/core/core.index';
 import { Product } from 'src/app/demo/api/product';
+
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
 
 @Component({
   selector: 'app-farmers',
@@ -24,9 +34,10 @@ export class FarmersComponent {
   public totalData = 0;
   noData: any
   items: MenuItem[] | undefined;
-
+  transactionlist: Transaction[];
   home: MenuItem | undefined;
   showLoader = false
+  cols: Column[]
 
   get f() {
     return this.userForm.controls;
@@ -60,6 +71,7 @@ export class FarmersComponent {
           this.userList.forEach((user, index) => {
             user.srNo = index + 1;
           });
+          console.log(this.userList)
           this.showLoader=false
         }
         else {
@@ -73,7 +85,36 @@ export class FarmersComponent {
       });
 
   }
+  fetchTransactionHistory(): void {
+    this.transactionlist = [];
+    this.serialNumberArray = [];
+    this.data.getTransactionById(this.selectedUserId).subscribe(
+      (res: Dictionary) => {
+        console.log('API response:', res);
+        if (res && res['status'] === 200) {
+          this.transactionlist = res['data']
+          this.transactionlist.forEach((user, index) => {
+            user.srNo = index + 1;
+          });
+        }
+      },
+      (error) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+        console.error('Error in API', error);
+      });
+
+  }
   ngOnInit() {
+    this.cols = [
+      { field: 'srNo.', header: 'Sr No.', customExportHeader: 'Sr No.' },
+      { field: 'cropsName', header: 'Crops Name' },
+      { field: 'saller', header: 'Saller' },
+      { field: 'purchaser', header: 'Purchaser' },
+      { field: 'saleRate', header: 'Sale Rate' },
+      { field: 'purchaseRate', header: 'Purchase Rate' },
+      { field: 'quantity', header: 'Quantity' },
+      { field: 'bill', header: 'Bill' },
+    ];
     this.fetchCusotomerData();
     this.items = [{ label: 'Farmers' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
@@ -92,6 +133,7 @@ export class FarmersComponent {
   }
   onSelectID(id: number) {
     this.selectedUserId = id;
+    this.fetchTransactionHistory()
   }
   ConfirmDelete() {
     if (this.selectedUserId) {
@@ -135,6 +177,7 @@ export class FarmersComponent {
     this.displayDeleteModal = false
     this.userForm.reset()
     this.selectedUserId = null
+    this.transactionlist= []
   }
   EditUser() {
     if (this.userForm && this.userForm.valid) {

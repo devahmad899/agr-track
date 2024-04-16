@@ -39,7 +39,7 @@ export class AuthService implements OnInit{
     this.email = decodedPayload.email;
     this.roleName = decodedPayload.roleName;
     localStorage.setItem('roleName', this.roleName);
-    console.log('rolename', this.roleName)
+    // console.log('rolename', this.roleName)
     this.role_id = decodedPayload.roleId;
     this.superUserId = decodedPayload.superUserId;
     // this.role_id = decodedPayload.roleID

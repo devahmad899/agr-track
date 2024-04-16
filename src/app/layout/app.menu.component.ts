@@ -18,7 +18,6 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit() {
         this.userRole = this.authService.roleName
-        console.log('sitemenu', this.userRole)
         if (this.userRole && this.userRole === 'Admin') {
             this.model = [
                 {

@@ -46,12 +46,12 @@
                             <td>{{item.commissionRate}}</td>
                             <td>{{item.description}}</td>
                             <td>
-                                <div *ngIf="item.Status">Paid</div>
-                                <div *ngIf="!item.Status">Unpaid</div>
+                                <div *ngIf="item.status">Paid</div>
+                                <div *ngIf="!item.status">Unpaid</div>
                             </td>
                             <td class="text-center">
                                 <p-button styleClass="p-button-primary" label="Received"
-                                    (onClick)="ShowModal();onSelectID(item.id)" *ngIf="item.Status"></p-button>
+                                    (onClick)="ShowModal();onSelectID(item.id)" *ngIf="!item.status"></p-button>
                             </td>
                         </tr>
                     </ng-template>
@@ -115,7 +115,8 @@
                 <div class="col-12 md:col-6">
                     <label for="commissionRate" class="block mb-2">Commision Rate<span
                             class="text-red-700">*</span></label>
-                    <p-inputNumber inputId="commissionRate" formControlName="commissionRate"></p-inputNumber>
+                            <p-inputNumber inputId="commissionRate" mode="decimal" [minFractionDigits]="0"
+                        [maxFractionDigits]="1" formControlName="commissionRate"> </p-inputNumber>
                     <div class="p-error mb-3" *ngIf="f['commissionRate'].touched && f['commissionRate'].invalid"
                         class="text-danger">
                         <small class="p-error"
@@ -195,7 +196,7 @@
     </div>
     <div class="btn-holder flex gap-3">
         <p-button type="submit" icon="pi pi-check mr-3" styleClass="p-button-primary" label="Confirm" pAutoFocus
-            [autofocus]="true" (onClick)="ConfirmReceived()"></p-button>
+            [autofocus]="true" (onClick)="ConfirmReceived();displayReceivedModal = false"></p-button>
         <p-button severity="secondary" icon="pi pi-times" (click)="displayReceivedModal = false" label="Cancel"
             pAutoFocus [autofocus]="true"></p-button>
     </div>

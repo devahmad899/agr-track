@@ -153,7 +153,7 @@ export class LoanComponent {
   }
   ConfirmReceived() {
     if (this.selectedUserId) {
-      this.data.deleteUser(this.selectedUserId).subscribe(
+      this.data.receivedLoan(this.selectedUserId).subscribe(
         (res: Dictionary) => {
           console.log('API response:', res);
           if (res && res['status'] === 200) {
