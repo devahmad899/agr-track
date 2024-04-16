@@ -23,6 +23,7 @@ import {
   SideBar,
   SideBarMenu,
   Stocks,
+  Store,
   TokenCompaniesList,
   Transaction,
   TreeNode,
@@ -115,6 +116,35 @@ export class DataService {
     return this.http.get<any>(`${environment.apiUrl}/stock/`, {
       headers,
     });
+  }
+  public getStore(): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.get<any>(`${environment.apiUrl}/inventory/`, {
+      headers,
+    });
+  }
+  public addStore(requestBody: Store): Observable<Store> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.post<Store>(
+      `${environment.apiUrl}/inventory/`,
+      requestBody,
+      { headers }
+    );
+  }
+  public storeDetails(id:number): Observable<Stocks> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.get<Stocks>(
+      `${environment.apiUrl}/inventoryDetails/?id=${id}`,
+      { headers }
+    );
   }
   public getStock(): Observable<Stocks> {
     const headers = new HttpHeaders({

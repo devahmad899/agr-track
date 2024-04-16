@@ -29,6 +29,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { AccountabilityComponent } from './accountability/accountability.component';
 import { ReportsComponent } from './reports/reports.component';
 import { LoanComponent } from './loan/loan.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @NgModule({
   declarations: [
     CustomersComponent,
@@ -61,7 +62,8 @@ import { LoanComponent } from './loan/loan.component';
     PasswordModule,
     DropdownModule,
     SelectButtonModule,
-    InputNumberModule
+    InputNumberModule,
+    ProgressSpinnerModule
     
   ],
   providers: [MessageService]

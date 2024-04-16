@@ -6,23 +6,29 @@
                 <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
                 <h2 class="mb-5">Inventory</h2>
             </div>
-            <ng-container *ngIf="inventoryList && inventoryList.length > 0; else noData">
-                <p-table [value]="inventoryList" [paginator]="false" [showCurrentPageReport]="true"
+            <div class="block text-right mb-5">
+                <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right"
+                    (onClick)="ShowModal(1)"></p-button>
+            </div>
+            <ng-container *ngIf="storeList && storeList.length > 0; else noData">
+                <p-table [value]="storeList" [paginator]="false" [showCurrentPageReport]="true"
                     [tableStyle]="{ 'min-width': '50rem' }">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>Sr No.</th>
                             <th>Name</th>
-                            <th>Available Quantity</th>
-                            <th>Total Quantity</th>
+                            <th>Address</th>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-inventory>
+                    <ng-template pTemplate="body" let-item>
                         <tr>
-                            <td>{{inventory.srNo}}</td>
-                            <td>{{inventory.productName}}</td>
-                            <td>{{inventory.AvailaibleQuantity}}</td>
-                            <td>{{inventory.TotalQuantity}}</td>
+                            <td>{{item.srNo}}</td>
+                            <td>
+                                <div (click)="ShowModal();onSelectID(item.id)" class="cursor-pointer">
+                                    {{item.name}}
+                                </div>
+                            </td>
+                            <td>{{item.address}}</td>
                         </tr>
                     </ng-template>
                     <ng-template #noData>
@@ -35,3 +41,106 @@
             </ng-template>
         </div>
     </div>
+
+    <p-dialog header="Header" [(visible)]="displayAddModal" [modal]="true" [style]="{ width: '60rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false"
+    [closable]="false">
+    <ng-template pTemplate="header">
+        <div class="inline-flex align-items-center justify-content-center gap-2">
+            <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
+            <h3 class="font-bold white-space-nowrap">Add Store</h3>
+        </div>
+        <div class="icons absolute" style="top: 16px;right: 15px;">
+            <button pbutton="" pripple="" type="button" icon="pi pi-times"
+                (click)="this.storeForm.reset();displayAddModal = false"
+                class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
+                    class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
+                    style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
+        </div>
+    </ng-template>
+    <div class="form-holder">
+        <form [formGroup]="storeForm" (ngSubmit)="AddStore()">
+            <div class="grid p-fluid">
+                <div class="col-12 md:col-6">
+                    <label for="name" class="block mb-2">Name <span class="text-red-700">*</span></label>
+                    <input pInputText id="name" formControlName="name">
+                    <div class="p-error mb-3" *ngIf="f['name'].touched && f['name'].invalid"
+                        class="text-danger">
+                        <small class="p-error" *ngIf="f['name'].errors && f['name'].errors['required']">Name
+                            is
+                            required.</small>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6">
+                    <label for="address" class="block mb-2">Address <span class="text-red-700">*</span></label>
+                    <input pInputText id="address" formControlName="address">
+                    <div class="p-error mb-3" *ngIf="f['address'].touched && f['address'].invalid"
+                        class="text-danger">
+                        <small class="p-error" *ngIf="f['address'].errors && f['address'].errors['required']">Address
+                            is
+                            required.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-holder flex gap-3">
+                <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary"
+                    pAutoFocus [autofocus]="true" [disabled]="storeForm.invalid"></p-button>
+                <p-button severity="secondary" icon="pi pi-times" (click)="displayAddModal = false" label="Cancel"
+                    pAutoFocus [autofocus]="true"></p-button>
+            </div>
+        </form>
+    </div>
+    <!-- <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayAddModal = false" label="Ok" pAutoFocus
+        [autofocus]="true"></p-button>
+    </ng-template> -->
+</p-dialog>
+    <p-dialog header="Header" [(visible)]="displayDetailModal" [modal]="true" [style]="{ width: '60rem', position: 'relative' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false"
+    [closable]="false">
+    <!-- <div style="position: absolute;left: 50%;top: 50%;transform: translate(-50%); z-index: 99;">
+        <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+    </div> -->
+    <ng-template pTemplate="header">
+        <div class="inline-flex align-items-center justify-content-center gap-2">
+            <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
+            <h3 class="font-bold white-space-nowrap">Store Details</h3>
+        </div>
+        <div class="icons absolute" style="top: 16px;right: 15px;">
+            <button pbutton="" pripple="" type="button" icon="pi pi-times"
+                (click)="displayDetailModal = false; this.resetAll()"
+                class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
+                    class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
+                    style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
+        </div>
+    </ng-template>
+    <div class="form-holder">
+        <ng-container *ngIf="inventoryList && inventoryList.length > 0; else noData">
+            <p-table [value]="inventoryList" [paginator]="false" [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Sr No.</th>
+                        <th>Name</th>
+                        <th>Available Quantity</th>
+                        <th>Total Quantity</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-inventory>
+                    <tr>
+                        <td>{{inventory.srNo}}</td>
+                        <td>{{inventory.productName}}</td>
+                        <td>{{inventory.AvailaibleQuantity}}</td>
+                        <td>{{inventory.TotalQuantity}}</td>
+                    </tr>
+                </ng-template>
+                <ng-template #noData>
+                    <h5 style="text-align: center;">No data found</h5>
+                </ng-template>
+            </p-table>
+        </ng-container>
+        <ng-template #noData>
+            <h5 style="text-align: center;">No data found</h5>
+        </ng-template>
+    </div>
+</p-dialog>

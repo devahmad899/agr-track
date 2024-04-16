@@ -5,6 +5,9 @@ import { Dictionary } from '@fullcalendar/core/internal';
 import { MenuItem, MessageService } from 'primeng/api';
 import { AuthService, DataService, Transaction, Users } from 'src/app/core/core.index';
 import { Product } from 'src/app/demo/api/product';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
+
 interface Column {
   field: string;
   header: string;
@@ -37,8 +40,8 @@ export class TransactionsComponent {
   productsList: Product[]
   quantityControl = new FormControl();
   userRole: string = this.authService.roleName;
-cols: Column[]
-exportColumns!: ExportColumn[];
+  cols: Column[]
+  exportColumns!: ExportColumn[];
   home: MenuItem | undefined;
   transectionType = [
     { name: 'Sale', value: 'sale' },
@@ -80,7 +83,7 @@ exportColumns!: ExportColumn[];
       });
 
   }
-  
+
   ngOnInit() {
     this.cols = [
       { field: 'srNo.', header: 'Sr No.', customExportHeader: 'Sr No.' },
@@ -91,8 +94,8 @@ exportColumns!: ExportColumn[];
       { field: 'purchaseRate', header: 'Purchase Rate' },
       { field: 'quantity', header: 'Quantity' },
       { field: 'bill', header: 'Bill' },
-  ];
-  this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
+    ];
+    this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
 
     this.fetchTransactionHistory();
     this.items = [{ label: 'Transactions' }];
@@ -163,15 +166,44 @@ exportColumns!: ExportColumn[];
       this.displayDeleteModal = true
     }
   }
-//   exportPdf() {
-//     import('jspdf').then((jsPDF) => {
-//         import('jspdf-autotable').then((x) => {
-//             const doc = new jsPDF.default('p', 'px', 'a4');
-//             (doc as any).autoTable(this.exportColumns, this.products);
-//             doc.save('products.pdf');
-//         });
-//     });
-// }
+  exportPdf() {
+    import('jspdf').then((jsPDF) => {
+      import('jspdf-autotable').then((x) => {
+        const doc = new jsPDF.default('p', 'px', 'a4');
+  
+        // Header content
+        const header = `
+        AgrTrack
+        Address: 123 Main Street, City, Country
+        Phone: +1234567890
+        Date: ${new Date().toLocaleDateString()}
+        `;
+  
+        // Calculate header height
+        const headerHeight = doc.getTextDimensions(header).h;
+  
+        // Add header to PDF
+        doc.text(header, 10, 10);
+  
+        // Add some space after the header
+        const startY = 30 + headerHeight + 50; // Adjust this value as needed
+  
+        // Add table
+        (doc as any).autoTable({
+          startY: startY,
+          columns: this.exportColumns,
+          body: this.transactionlist,
+          // headStyles: {
+          //   fillColor: [100, 100, 255]
+          // }
+        });
+  
+        doc.save('products.pdf');
+      });
+    });
+  }
+  
+
   getCustomerUsers() {
     const customerUser = 3
     if (customerUser) {

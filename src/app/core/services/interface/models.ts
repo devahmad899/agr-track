@@ -192,6 +192,12 @@ export interface Stocks {
   AvailaibleQuantity: number
   TotalQuantity: number
 }
+export interface Store {
+  srNo: number
+  id: number
+  name: string
+  address: number
+}
 export interface Product {
   srNo: number
   id: number

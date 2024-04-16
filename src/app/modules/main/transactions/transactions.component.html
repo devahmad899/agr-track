@@ -7,6 +7,7 @@
                 <h2>Transactions</h2>
             </div>
             <div class="block text-right mb-5" *ngIf="userRole === 'Admin' || userRole === 'Employee'">
+                <!-- <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="Download PDF" tooltipPosition="bottom"></button> -->
                 <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right" (onClick)="ShowModal(1)"></p-button>
             </div>
             <!-- <ng-container *ngIf="transactionlist.length > 0; else noData"> -->
