@@ -1,50 +1,55 @@
 <p-toast position="top-right"></p-toast>
-<div class="grid">
-    <div class="col-12">
-        <div class="card">
-            <div class="page-header">
-                <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
-                <h2 class="mb-5">Inventory</h2>
+<div class="inner-loader relative">
+    <div class="container-loader" *ngIf="showLoader">
+        <div class="lds-dual-ring"></div>
+    </div>
+    <div class="grid">
+        <div class="col-12">
+            <div class="card">
+                <div class="page-header">
+                    <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+                    <h2 class="mb-5">Inventory</h2>
+                </div>
+                <div class="block text-right mb-5">
+                    <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right"
+                        (onClick)="ShowModal(1)"></p-button>
+                </div>
+                <ng-container *ngIf="storeList && storeList.length > 0; else noData">
+                    <p-table [value]="storeList" [paginator]="false" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Sr No.</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr>
+                                <td>{{item.srNo}}</td>
+                                <td>
+                                    <div (click)="ShowModal();onSelectID(item.id)" class="cursor-pointer">
+                                        {{item.name}}
+                                    </div>
+                                </td>
+                                <td>{{item.address}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template #noData>
+                            <h5 style="text-align: center;">No data found</h5>
+                        </ng-template>
+                    </p-table>
+                </ng-container>
+                <ng-template #noData>
+                    <h5 style="text-align: center;">No data found</h5>
+                </ng-template>
             </div>
-            <div class="block text-right mb-5">
-                <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right"
-                    (onClick)="ShowModal(1)"></p-button>
-            </div>
-            <ng-container *ngIf="storeList && storeList.length > 0; else noData">
-                <p-table [value]="storeList" [paginator]="false" [showCurrentPageReport]="true"
-                    [tableStyle]="{ 'min-width': '50rem' }">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th>Sr No.</th>
-                            <th>Name</th>
-                            <th>Address</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-item>
-                        <tr>
-                            <td>{{item.srNo}}</td>
-                            <td>
-                                <div (click)="ShowModal();onSelectID(item.id)" class="cursor-pointer">
-                                    {{item.name}}
-                                </div>
-                            </td>
-                            <td>{{item.address}}</td>
-                        </tr>
-                    </ng-template>
-                    <ng-template #noData>
-                        <h5 style="text-align: center;">No data found</h5>
-                    </ng-template>
-                </p-table>
-            </ng-container>
-            <ng-template #noData>
-                <h5 style="text-align: center;">No data found</h5>
-            </ng-template>
         </div>
     </div>
+</div>
 
-    <p-dialog header="Header" [(visible)]="displayAddModal" [modal]="true" [style]="{ width: '60rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false"
-    [closable]="false">
+<p-dialog header="Header" [(visible)]="displayAddModal" [modal]="true" [style]="{ width: '60rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false" [closable]="false">
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
@@ -64,8 +69,7 @@
                 <div class="col-12 md:col-6">
                     <label for="name" class="block mb-2">Name <span class="text-red-700">*</span></label>
                     <input pInputText id="name" formControlName="name">
-                    <div class="p-error mb-3" *ngIf="f['name'].touched && f['name'].invalid"
-                        class="text-danger">
+                    <div class="p-error mb-3" *ngIf="f['name'].touched && f['name'].invalid" class="text-danger">
                         <small class="p-error" *ngIf="f['name'].errors && f['name'].errors['required']">Name
                             is
                             required.</small>
@@ -74,8 +78,7 @@
                 <div class="col-12 md:col-6">
                     <label for="address" class="block mb-2">Address <span class="text-red-700">*</span></label>
                     <input pInputText id="address" formControlName="address">
-                    <div class="p-error mb-3" *ngIf="f['address'].touched && f['address'].invalid"
-                        class="text-danger">
+                    <div class="p-error mb-3" *ngIf="f['address'].touched && f['address'].invalid" class="text-danger">
                         <small class="p-error" *ngIf="f['address'].errors && f['address'].errors['required']">Address
                             is
                             required.</small>
@@ -83,8 +86,8 @@
                 </div>
             </div>
             <div class="btn-holder flex gap-3">
-                <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary"
-                    pAutoFocus [autofocus]="true" [disabled]="storeForm.invalid"></p-button>
+                <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary" pAutoFocus
+                    [autofocus]="true" [disabled]="storeForm.invalid"></p-button>
                 <p-button severity="secondary" icon="pi pi-times" (click)="displayAddModal = false" label="Cancel"
                     pAutoFocus [autofocus]="true"></p-button>
             </div>
@@ -95,9 +98,9 @@
         [autofocus]="true"></p-button>
     </ng-template> -->
 </p-dialog>
-    <p-dialog header="Header" [(visible)]="displayDetailModal" [modal]="true" [style]="{ width: '60rem', position: 'relative' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false"
-    [closable]="false">
+<p-dialog header="Header" [(visible)]="displayDetailModal" [modal]="true"
+    [style]="{ width: '60rem', position: 'relative' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [draggable]="false" [resizable]="false" [closable]="false">
     <!-- <div style="position: absolute;left: 50%;top: 50%;transform: translate(-50%); z-index: 99;">
         <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
     </div> -->

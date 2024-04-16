@@ -25,6 +25,7 @@ export class InventoryComponent {
   displayDetailModal: boolean;
   selectedUserId: number;
   storeForm: FormGroup;
+  showLoader = false
   get f() {
     return this.storeForm.controls;
   }
@@ -33,9 +34,10 @@ export class InventoryComponent {
       name: ['', [Validators.required]],
       address: ['', [Validators.required]],
     });
-   }
+  }
   private fetchIinventoryStore(): void {
     this.storeSerialNumberArray = [];
+    this.showLoader = true
     this.data.getStore().subscribe(
       (res: Dictionary) => {
         console.log('API response:', res);
@@ -43,10 +45,16 @@ export class InventoryComponent {
           this.storeList = res['data']
           this.storeList.forEach((user, index) => {
             user.srNo = index + 1;
-          });
+          }); 
+          this.showLoader = false
+        }
+        else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
+          this.showLoader = false
         }
       },
       (error) => {
+        this.showLoader = false
         console.error('Error in API', error);
       });
 
@@ -101,7 +109,7 @@ export class InventoryComponent {
     this.items = [{ label: 'Inventory' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
-  AddStore(){
+  AddStore() {
     if (this.storeForm && this.storeForm.valid) {
       let formData = this.storeForm.value;
       console.log(formData)

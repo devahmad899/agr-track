@@ -22,7 +22,7 @@ export class CustomersComponent {
   public totalData = 0;
   noData: any
   items: MenuItem[] | undefined;
-
+  showLoader = false
   home: MenuItem | undefined;
 
   get f() {
@@ -47,6 +47,7 @@ export class CustomersComponent {
     this.userList = [];
     this.serialNumberArray = [];
     let id = 3
+    this.showLoader = true
     this.data.getUsers(id).subscribe(
       (res: Dictionary) => {
         console.log('API response:', res);
@@ -55,9 +56,15 @@ export class CustomersComponent {
           this.userList.forEach((user, index) => {
             user.srNo = index + 1;
           });
+          this.showLoader=false
+        }
+        else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
+          this.showLoader = false
         }
       },
       (error) => {
+        this.showLoader = false
         console.error('Error in API', error);
       });
 

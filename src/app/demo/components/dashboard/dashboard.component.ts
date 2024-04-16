@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
@@ -9,9 +9,9 @@ import { Dictionary } from '@fullcalendar/core/internal';
 
 @Component({
     templateUrl: './dashboard.component.html',
-    providers: [MessageService]
+    providers: [MessageService],
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit  {
 
     items!: MenuItem[];
 
@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     usersCount!: Dictionary
 
     chartData: any;
-
+    showLoader = false
     chartOptions: any;
     doughnutChartData: any;
     doughnutChartOptions: any;
@@ -41,6 +41,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.showLoader = true
         this.rolenName = this.authService.roleName
         this.fetchUsersStats()
         this.initChart();
@@ -53,6 +54,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
             { label: 'Remove', icon: 'pi pi-fw pi-minus' }
         ];
         this.getSalePurchase()
+    }
+    ngAfterViewInit() {
+        this.showLoader = false
     }
     getSalePurchase() {
         this.data.getSalePurchase().subscribe(

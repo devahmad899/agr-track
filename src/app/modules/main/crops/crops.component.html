@@ -1,4 +1,8 @@
 <p-toast position="top-right"></p-toast>
+<div class="inner-loader relative">
+    <div class="container-loader" *ngIf="showLoader">
+        <div class="lds-dual-ring"></div>
+    </div>
 <div class="grid">
     <div class="col-12">
         <div class="card">
@@ -62,6 +66,8 @@
             </tr>
         </ng-template>
         </div>
+    </div>
+    </div>
     </div>
 
     <p-dialog header="Header" [(visible)]="displayAddModal" [modal]="true" [style]="{ width: '60rem' }"

@@ -3,8 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Dictionary } from '@fullcalendar/core/internal';
 import { MenuItem, MessageService } from 'primeng/api';
-import { AuthService, DataService, Transaction, Users } from 'src/app/core/core.index';
-import { Product } from 'src/app/demo/api/product';
+import { AuthService, DataService, Product, Store, Transaction, Users } from 'src/app/core/core.index';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -24,7 +23,7 @@ interface ExportColumn {
   styleUrl: './transactions.component.scss'
 })
 export class TransactionsComponent {
-  products!: Product[];
+
   displayAddModal = false;
   displayEditModal = false;
   displayDeleteModal = false;
@@ -38,6 +37,7 @@ export class TransactionsComponent {
   customersList: Users[]
   farmersList: Users[]
   productsList: Product[]
+  storeList: Store[]
   quantityControl = new FormControl();
   userRole: string = this.authService.roleName;
   cols: Column[]
@@ -49,12 +49,13 @@ export class TransactionsComponent {
   ];
   selectedTransaction = 'sale';
   quantityInKgs: number;
-
+  showLoader:boolean =false
   get f() {
     return this.cropsForm.controls;
   }
   constructor(private fb: FormBuilder, private data: DataService, private messageService: MessageService, private authService: AuthService) {
     this.cropsForm = this.fb.group({
+      storeId: ['', [Validators.required]],
       productId: ['', [Validators.required]],
       selectedTransaction: ['sale', [Validators.required]],
       quantity: ['', [Validators.required]],
@@ -68,6 +69,7 @@ export class TransactionsComponent {
   private fetchTransactionHistory(): void {
     this.transactionlist = [];
     this.serialNumberArray = [];
+    this.showLoader=true
     this.data.getTransaction().subscribe(
       (res: Dictionary) => {
         console.log('API response:', res);
@@ -77,8 +79,10 @@ export class TransactionsComponent {
             user.srNo = index + 1;
           });
         }
+        this.showLoader=false
       },
       (error) => {
+        this.showLoader=false
         console.error('Error in API', error);
       });
 
@@ -102,22 +106,23 @@ export class TransactionsComponent {
     this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.getCustomerUsers()
     this.getFarmerUsers()
-    this.getProductsList()
+    this.getStoreList()
     this.cropsForm.get('selectedTransaction').valueChanges.subscribe(value => {
       this.selectedTransaction = value;
     });
-    // this.cropsForm.get('quantity').valueChanges.subscribe(value => {
-    //   this.convertToKgs(value);
-    // });
-    // this.cropsForm.get('quantityinKg').valueChanges.subscribe(value => {
-    //   this.convertToKgs(value);
-    // });
     this.cropsForm.get('quantity').valueChanges.subscribe(() => {
       this.updateTotalQuantity();
     });
 
     this.cropsForm.get('quantityInKg').valueChanges.subscribe(() => {
       this.updateTotalQuantity();
+    });
+    this.cropsForm.get('storeId').valueChanges.subscribe(storeId => {
+      if (storeId) {
+        this.getProductsList(storeId);
+      } else {
+        this.productsList = [];
+      }
     });
   }
 
@@ -140,22 +145,16 @@ export class TransactionsComponent {
 
   // Function to convert Mann to KG
   convertMannToKg(quantityInMann: number): number {
-    // Your conversion logic goes here
-    // For example, if 1 Mann = 40 KG
     const conversionFactor = 40;
     return quantityInMann * conversionFactor;
   }
 
-  // Function to convert KG to Mann
   convertKgToMann(quantityInKg: number): number {
-    // Your conversion logic goes here
-    // For example, if 1 Mann = 40 KG
     const conversionFactor = 40;
     return quantityInKg / conversionFactor;
   }
   convertToKgs(quantity: number) {
-    // Assuming the input quantity is in grams, convert it to kilograms
-    this.quantityInKgs = quantity * 40; // Convert grams to kilograms
+    this.quantityInKgs = quantity * 40;
   }
   ShowModal(id: number) {
     if (id === 1) {
@@ -202,8 +201,23 @@ export class TransactionsComponent {
       });
     });
   }
-  
-
+  getStoreList() {
+      this.data.getStore().subscribe(
+        (res: Dictionary) => {
+          console.log('API response:', res);
+          if (res && res['status'] === 200) {
+            this.storeList = res['data']
+            // this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
+          }
+        },
+        (error) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+          console.error('Error in API', error);
+        });
+  }
   getCustomerUsers() {
     const customerUser = 3
     if (customerUser) {
@@ -247,14 +261,13 @@ export class TransactionsComponent {
         });
     }
   }
-  getProductsList() {
-    this.data.getProductList().subscribe(
+  getProductsList(id: number) {
+    this.data.storeDetails(id).subscribe(
       (res: Dictionary) => {
         console.log('API response:', res);
         if (res && res['status'] === 200) {
           this.productsList = res['data']
           // this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });
-
         }
         else {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });

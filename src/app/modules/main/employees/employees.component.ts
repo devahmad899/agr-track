@@ -24,6 +24,8 @@ export class EmployeesComponent {
   items: MenuItem[] | undefined;
 
   home: MenuItem | undefined;
+  showLoader = false
+
 
   get f() {
     return this.userForm.controls;
@@ -47,6 +49,7 @@ export class EmployeesComponent {
     this.userList = [];
     this.serialNumberArray = [];
     let id = 2
+    this.showLoader=true
     this.data.getUsers(id).subscribe(
       (res: Dictionary) => {
         console.log('API response:', res);
@@ -55,9 +58,15 @@ export class EmployeesComponent {
           this.userList.forEach((user, index) => {
             user.srNo = index + 1;
           });
+          this.showLoader = false
+        }
+        else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
+          this.showLoader = false
         }
       },
       (error) => {
+        this.showLoader = false
         console.error('Error in API', error);
       });
 

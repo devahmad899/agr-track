@@ -27,6 +27,7 @@ export class LoanComponent {
   productsList: Product[]
   quantityControl = new FormControl();
   userRole: string = this.authService.roleName;
+  showLoader = false
 
 
   home: MenuItem | undefined;
@@ -52,6 +53,7 @@ export class LoanComponent {
   private fetchLoans(): void {
     this.loanList = [];
     this.serialNumberArray = [];
+    this.showLoader = true
     this.data.getLoans().subscribe(
       (res: Dictionary) => {
         console.log('API response:', res);
@@ -60,9 +62,15 @@ export class LoanComponent {
           this.loanList.forEach((user, index) => {
             user.srNo = index + 1;
           });
+          this.showLoader = false
+        }
+        else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
+          this.showLoader = false
         }
       },
       (error) => {
+        this.showLoader = false
         console.error('Error in API', error);
       });
 

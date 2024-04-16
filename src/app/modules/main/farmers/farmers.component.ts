@@ -26,6 +26,7 @@ export class FarmersComponent {
   items: MenuItem[] | undefined;
 
   home: MenuItem | undefined;
+  showLoader = false
 
   get f() {
     return this.userForm.controls;
@@ -50,6 +51,7 @@ export class FarmersComponent {
     this.userList = [];
     this.serialNumberArray = [];
     let id = 4
+    this.showLoader=true
     this.data.getUsers(id).subscribe(
       (res: Dictionary) => {
         console.log('API response:', res);
@@ -58,9 +60,15 @@ export class FarmersComponent {
           this.userList.forEach((user, index) => {
             user.srNo = index + 1;
           });
+          this.showLoader=false
+        }
+        else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
+          this.showLoader = false
         }
       },
       (error) => {
+        this.showLoader=false
         console.error('Error in API', error);
       });
 

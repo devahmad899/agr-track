@@ -5,128 +5,7 @@ export interface apiResultFormat {
   data: Array<any>;
   totalData: number;
 }
-export interface CompanyList {
-  id: number;
-  name: string;
-}
-export interface Company {
-  id: number;
-  name: string;
-  abbreviation: string;
-  parentId: number | null;
-  parentName: string | null;
-  isCompany: boolean;
-  logo: string | null;
-  isRemoved: boolean;
-}
-export interface CompanyNode {
-  company: {
-    id: number | null;
-    name: string;
-    parentId: number | null;
-    parentName: string | null;
-    abbreviation: string | null;
-    isCompany: boolean;
-  };
-  childs?: CompanyNode[] | null;
-}
-export interface FlatNode {
-  id: number | null;
-  parentId: number | null;
-  parentName: string | null;
-  abbreviation: string | null;
-  email: string | null;
-  phoneNumber: string | null;
-  url: string | null;
-  address: string | null;
-  isCompany: boolean;
-  expandable: boolean;
-  name: string;
-  level: number;
-}
-export interface OrganizationLink {
-  id: number;
-  name: string;
-  abbreviation: string;
-  isCompany: boolean;
-  logo: string | null;
-  isRemoved: boolean;
-  parentId: number | null;
-  children?: OrganizationLink[];
-}
-export interface LinkWith {
-  id: number | null;
-  name: string | null;
-}
-export interface Organization {
-  name: string;
-  abbreviation: string;
-  parentId: number;
-  isCompany: boolean;
-}
-export interface globalSetup {
-  id?: number;
-  srNo?: number;
-  name: string;
-}
-export interface Leaves {
-  id?: number;
-  srNo?: number;
-  type?: string;
-  leaveQuota: number;
-}
-export interface Buildings {
-  srNo?: number;
-  id?: number;
-  name: string;
-  address: string;
-  orgName?: string
-}
 
-export interface Department {
-  srNo?: number;
-  id?: number;
-  name: string;
-  abbreviation: string;
-  orgName?: string
-}
-export interface Grade {
-  srNo?: number;
-  id?: number;
-  name: string;
-  orgName?: string
-}
-
-export interface Holiday {
-  srNo?: number;
-  id?: number;
-  name: string;
-  startHolidayDate: string;
-  endHolidayDate: string;
-  linkWith: any[];
-  orgName?: string
-
-}
-export interface HolidayEdit {
-  srNo?: number;
-  id?: number;
-  name: string;
-  startHolidayDate: string;
-  endHolidayDate: string;
-  orgName?: string
-
-}
-export interface Shifts {
-  id?: number
-  srNo?: number,
-  name: string,
-  startTime: string,
-  endTime: string,
-  startGracePeriod: number,
-  endGracePeriod: number,
-  breakTime: number,
-  defaultShift: boolean
-}
 export interface TokenCompaniesList {
   assigned?: boolean;
   defaultCompany?: boolean;
@@ -239,6 +118,17 @@ export interface Transaction {
   QuantityInMann: number;
   QuantityInKg: number;
   Bill: number;
+}
+export interface MakeTransaction {
+  userId: number;
+  price: number;
+  quantity: number,
+  productId: number,
+  sell: boolean,
+  purchase: boolean,
+  storeId: number;
+  commissionRate: number
+  
 }
 export interface Profile {
   id: number;

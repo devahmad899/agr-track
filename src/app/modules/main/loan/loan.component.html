@@ -1,21 +1,25 @@
 <p-toast position="top-right"></p-toast>
-<div class="grid">
-    <div class="col-12">
-        <div class="card">
-            <div class="page-header">
-                <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
-                <h2>Loans</h2>
-            </div>
-            <div class="block text-right mb-5" *ngIf="userRole === 'Admin' || userRole === 'Employee'">
-                <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right"
-                    (onClick)="ShowModal(1)"></p-button>
-            </div>
-            <!-- <ng-container *ngIf="transactionlist.length > 0; else noData"> -->
-            <p-table [value]="loanList" [paginator]="true" [scrollable]="true" scrollHeight="720px" [rows]="10"
-                [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                [rowsPerPageOptions]="[10, 25, 50,100]">
-                <!-- <ng-template pTemplate="caption">
+<div class="inner-loader relative">
+    <div class="container-loader" *ngIf="showLoader">
+        <div class="lds-dual-ring"></div>
+    </div>
+    <div class="grid">
+        <div class="col-12">
+            <div class="card">
+                <div class="page-header">
+                    <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+                    <h2>Loans</h2>
+                </div>
+                <div class="block text-right mb-5" *ngIf="userRole === 'Admin' || userRole === 'Employee'">
+                    <p-button styleClass="p-button-primary" label="Add New" icon="pi pi-plus-circle" iconPos="right"
+                        (onClick)="ShowModal(1)"></p-button>
+                </div>
+                <!-- <ng-container *ngIf="transactionlist.length > 0; else noData"> -->
+                <p-table [value]="loanList" [paginator]="true" [scrollable]="true" scrollHeight="720px" [rows]="10"
+                    [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 25, 50,100]">
+                    <!-- <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left ml-auto">
                             <i class="pi pi-search"></i>
@@ -23,166 +27,163 @@
                         </span>
                     </div>
                 </ng-template> -->
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Sr No.</th>
-                        <th>Name</th>
-                        <th>Amount</th>
-                        <th>Commision Rate</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th class="text-center">Action</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-item>
-                    <tr>
-                        <td>{{item.srNo}}</td>
-                        <td>{{item.fullaname}}</td>
-                        <td>{{item.amount}}</td>
-                        <td>{{item.commissionRate}}</td>
-                        <td>{{item.description}}</td>
-                        <td>
-                            <div *ngIf="item.Status">Paid</div>
-                            <div *ngIf="!item.Status">Unpaid</div>
-                        </td>
-                        <td class="text-center">
-                            <p-button styleClass="p-button-primary" label="Received" (onClick)="ShowModal();onSelectID(item.id)" *ngIf="item.Status"></p-button>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
-            <!-- </ng-container> -->
-            <!-- <ng-template #noData>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Commision Rate</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr>
+                            <td>{{item.srNo}}</td>
+                            <td>{{item.fullaname}}</td>
+                            <td>{{item.amount}}</td>
+                            <td>{{item.commissionRate}}</td>
+                            <td>{{item.description}}</td>
+                            <td>
+                                <div *ngIf="item.Status">Paid</div>
+                                <div *ngIf="!item.Status">Unpaid</div>
+                            </td>
+                            <td class="text-center">
+                                <p-button styleClass="p-button-primary" label="Received"
+                                    (onClick)="ShowModal();onSelectID(item.id)" *ngIf="item.Status"></p-button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                <!-- </ng-container> -->
+                <!-- <ng-template #noData>
             <h5 style="text-align: center;">No data found</h5>
           </ng-template> -->
-            <ng-template pTemplate="emptymessage">
-                <tr>
-                    <td colspan="8">No records found.</td>
-                </tr>
-            </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">No records found.</td>
+                    </tr>
+                </ng-template>
+            </div>
         </div>
     </div>
+</div>
 
-    <p-dialog header="Header" [(visible)]="displayAddModal" [modal]="true" [style]="{ width: '60rem' }"
-        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false"
-        [closable]="false">
-        <ng-template pTemplate="header">
-            <div class="inline-flex align-items-center justify-content-center gap-2">
-                <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
-                <h3 class="font-bold white-space-nowrap">Create Loan</h3>
-            </div>
-            <div class="icons absolute" style="top: 16px;right: 15px;">
-                <button pbutton="" pripple="" type="button" icon="pi pi-times"
-                    (click)="resetAll();displayAddModal = false"
-                    class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
-                        class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
-                        style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
-                <!-- <button type="button" icon="pi pi-bookmark" (click)="resetAll();displayAddModal = false"
+
+<p-dialog header="Header" [(visible)]="displayAddModal" [modal]="true" [style]="{ width: '60rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false" [closable]="false">
+    <ng-template pTemplate="header">
+        <div class="inline-flex align-items-center justify-content-center gap-2">
+            <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
+            <h3 class="font-bold white-space-nowrap">Create Loan</h3>
+        </div>
+        <div class="icons absolute" style="top: 16px;right: 15px;">
+            <button pbutton="" pripple="" type="button" icon="pi pi-times" (click)="resetAll();displayAddModal = false"
+                class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
+                    class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
+                    style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
+            <!-- <button type="button" icon="pi pi-bookmark" (click)="resetAll();displayAddModal = false"
                     class="p-element p-ripple p-button-secondary p-button-text p-button p-component mr-2 p-1">
                     <span aria-hidden="true" class="p-button-icon pi pi-times"></span>
                     <span class="p-ink" style="height: 42px; width: 42px; top: 0.75px; left: 17px;"></span>
                 </button> -->
-            </div>
-        </ng-template>
-        <div class="form-holder">
-            <form [formGroup]="loanForm" (ngSubmit)="addLoan()">
-                <div class="grid p-fluid">
-                    <div class="col-12 md:col-6">
-                        <label for="price" class="block mb-2">Select Farmer <span class="text-red-700">*</span></label>
-                        <!-- <input pInputText id="fullname" formControlName="price"> -->
-                        <p-dropdown formControlName="userId" [options]="farmersList" optionLabel="fullname"
-                            optionValue="id" placeholder="Select a Farmer"></p-dropdown>
-                        <div class="p-error mb-3" *ngIf="f['userId'].touched && f['userId'].invalid"
-                            class="text-danger">
-                            <small class="p-error" *ngIf="f['userId'].errors && f['userId'].errors['required']">Farmer
-                                is required.</small>
-                        </div>
+        </div>
+    </ng-template>
+    <div class="form-holder">
+        <form [formGroup]="loanForm" (ngSubmit)="addLoan()">
+            <div class="grid p-fluid">
+                <div class="col-12 md:col-6">
+                    <label for="price" class="block mb-2">Select Farmer <span class="text-red-700">*</span></label>
+                    <!-- <input pInputText id="fullname" formControlName="price"> -->
+                    <p-dropdown formControlName="userId" [options]="farmersList" optionLabel="fullname" optionValue="id"
+                        placeholder="Select a Farmer"></p-dropdown>
+                    <div class="p-error mb-3" *ngIf="f['userId'].touched && f['userId'].invalid" class="text-danger">
+                        <small class="p-error" *ngIf="f['userId'].errors && f['userId'].errors['required']">Farmer
+                            is required.</small>
                     </div>
-                    <div class="col-12 md:col-6">
-                        <label for="amount" class="block mb-2">Amount<span class="text-red-700">*</span></label>
-                        <!-- <input pInputText id="fullname" formControlName="amount"> -->
-                        <p-inputNumber inputId="amount" formControlName="amount"></p-inputNumber>
-                        <div class="p-error mb-3" *ngIf="f['amount'].touched && f['amount'].invalid"
-                            class="text-danger">
-                            <small class="p-error" *ngIf="f['amount'].errors && f['amount'].errors['required']">Price is
-                                required.</small>
-                        </div>
+                </div>
+                <div class="col-12 md:col-6">
+                    <label for="amount" class="block mb-2">Amount<span class="text-red-700">*</span></label>
+                    <!-- <input pInputText id="fullname" formControlName="amount"> -->
+                    <p-inputNumber inputId="amount" formControlName="amount"></p-inputNumber>
+                    <div class="p-error mb-3" *ngIf="f['amount'].touched && f['amount'].invalid" class="text-danger">
+                        <small class="p-error" *ngIf="f['amount'].errors && f['amount'].errors['required']">Price is
+                            required.</small>
                     </div>
-                    <div class="col-12 md:col-6">
-                        <label for="commissionRate" class="block mb-2">Commision Rate<span
-                                class="text-red-700">*</span></label>
-                        <p-inputNumber inputId="commissionRate" formControlName="commissionRate"></p-inputNumber>
-                        <div class="p-error mb-3" *ngIf="f['commissionRate'].touched && f['commissionRate'].invalid"
-                            class="text-danger">
-                            <small class="p-error"
-                                *ngIf="f['commissionRate'].errors && f['commissionRate'].errors['required']">Description
-                                 is required.</small>
-                        </div>
+                </div>
+                <div class="col-12 md:col-6">
+                    <label for="commissionRate" class="block mb-2">Commision Rate<span
+                            class="text-red-700">*</span></label>
+                    <p-inputNumber inputId="commissionRate" formControlName="commissionRate"></p-inputNumber>
+                    <div class="p-error mb-3" *ngIf="f['commissionRate'].touched && f['commissionRate'].invalid"
+                        class="text-danger">
+                        <small class="p-error"
+                            *ngIf="f['commissionRate'].errors && f['commissionRate'].errors['required']">Description
+                            is required.</small>
                     </div>
-                    <div class="col-12 md:col-6">
-                        <label for="description" class="block mb-2">Description<span
-                                class="text-red-700">*</span></label>
-                        <input type="text" inputId="description" pInputText formControlName="description" />
-                        <div class="p-error mb-3" *ngIf="f['description'].touched && f['description'].invalid"
-                            class="text-danger">
-                            <small class="p-error"
-                                *ngIf="f['description'].errors && f['description'].errors['required']">Commision
-                                Rate is required.</small>
-                        </div>
+                </div>
+                <div class="col-12 md:col-6">
+                    <label for="description" class="block mb-2">Description<span class="text-red-700">*</span></label>
+                    <input type="text" inputId="description" pInputText formControlName="description" />
+                    <div class="p-error mb-3" *ngIf="f['description'].touched && f['description'].invalid"
+                        class="text-danger">
+                        <small class="p-error"
+                            *ngIf="f['description'].errors && f['description'].errors['required']">Commision
+                            Rate is required.</small>
                     </div>
-                    <!-- <div class="col-12 md:col-6">
+                </div>
+                <!-- <div class="col-12 md:col-6">
                         <label for="TotalQuantity" class="block mb-2">Commision Rate <span class="text-red-700">*</span></label>
                         <p-inputNumber inputId="price" formControlName="commissionRate"></p-inputNumber>
                     </div> -->
-                </div>
-                <div class="btn-holder flex gap-3 mt-5">
-                    <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary"
-                        pAutoFocus [autofocus]="true" [disabled]="loanForm.invalid"></p-button>
-                    <p-button severity="secondary" icon="pi pi-times" (click)="displayAddModal = false" label="Cancel"
-                        pAutoFocus [autofocus]="true"></p-button>
-                </div>
-            </form>
-        </div>
-        <!-- <ng-template pTemplate="footer">
+            </div>
+            <div class="btn-holder flex gap-3 mt-5">
+                <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary" pAutoFocus
+                    [autofocus]="true" [disabled]="loanForm.invalid"></p-button>
+                <p-button severity="secondary" icon="pi pi-times" (click)="displayAddModal = false" label="Cancel"
+                    pAutoFocus [autofocus]="true"></p-button>
+            </div>
+        </form>
+    </div>
+    <!-- <ng-template pTemplate="footer">
             <p-button icon="pi pi-check" (click)="displayAddModal = false" label="Ok" pAutoFocus
             [autofocus]="true"></p-button>
         </ng-template> -->
-    </p-dialog>
-    <p-dialog header="Header" [(visible)]="displayEditModal" [modal]="true" [style]="{ width: '60rem' }"
-        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false"
-        [closable]="false">
-        <ng-template pTemplate="header">
-            <div class="inline-flex align-items-center justify-content-center gap-2">
-                <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
-                <h3 class="font-bold white-space-nowrap">Edit Crops</h3>
-            </div>
-            <div class="icons absolute" style="top: 16px;right: 15px;">
-                <button pbutton="" pripple="" type="button" icon="pi pi-times"
-                    (click)="resetAll();displayEditModal = false"
-                    class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
-                        class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
-                        style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
-                <!-- <button type="button" icon="pi pi-bookmark" (click)="resetAll();displayEditModal = false"
+</p-dialog>
+<p-dialog header="Header" [(visible)]="displayEditModal" [modal]="true" [style]="{ width: '60rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false" [closable]="false">
+    <ng-template pTemplate="header">
+        <div class="inline-flex align-items-center justify-content-center gap-2">
+            <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
+            <h3 class="font-bold white-space-nowrap">Edit Crops</h3>
+        </div>
+        <div class="icons absolute" style="top: 16px;right: 15px;">
+            <button pbutton="" pripple="" type="button" icon="pi pi-times" (click)="resetAll();displayEditModal = false"
+                class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
+                    class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
+                    style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
+            <!-- <button type="button" icon="pi pi-bookmark" (click)="resetAll();displayEditModal = false"
                     class="p-element p-ripple p-button-secondary p-button-text p-button p-component mr-2 p-1">
                     <span aria-hidden="true" class="p-button-icon pi pi-times"></span>
                     <span class="p-ink" style="height: 42px; width: 42px; top: 0.75px; left: 17px;"></span>
                 </button> -->
-            </div>
-        </ng-template>
-        <div class="form-holder">
-
         </div>
-        <!-- <ng-template pTemplate="footer">
+    </ng-template>
+    <div class="form-holder">
+
+    </div>
+    <!-- <ng-template pTemplate="footer">
             <p-button icon="pi pi-check" (click)="displayEditModal = false" label="Ok" pAutoFocus
             [autofocus]="true"></p-button>
         </ng-template> -->
-    </p-dialog>
-    <p-dialog header="Header" [(visible)]="displayReceivedModal" [modal]="true" [style]="{ width: '40rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false"
-    [closable]="false">
+</p-dialog>
+<p-dialog header="Header" [(visible)]="displayReceivedModal" [modal]="true" [style]="{ width: '40rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false" [closable]="false">
     <ng-template pTemplate="header">
         <div class="icons absolute" style="top: 16px;right: 15px;">
-            <button pbutton="" pripple="" type="button" icon="pi pi-times" (click)="this.loanForm.reset();displayReceivedModal = false"
+            <button pbutton="" pripple="" type="button" icon="pi pi-times"
+                (click)="this.loanForm.reset();displayReceivedModal = false"
                 class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
                     class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
                     style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
@@ -190,10 +191,11 @@
     </ng-template>
     <div class="form-holder mb-5">
         <h3>Received Loan!</h3>
-        <p>Are you sure you have received  this loan</p>
+        <p>Are you sure you have received this loan</p>
     </div>
     <div class="btn-holder flex gap-3">
-        <p-button type="submit" icon="pi pi-check mr-3" styleClass="p-button-primary" label="Confirm" pAutoFocus [autofocus]="true" (onClick)="ConfirmReceived()"></p-button>
+        <p-button type="submit" icon="pi pi-check mr-3" styleClass="p-button-primary" label="Confirm" pAutoFocus
+            [autofocus]="true" (onClick)="ConfirmReceived()"></p-button>
         <p-button severity="secondary" icon="pi pi-times" (click)="displayReceivedModal = false" label="Cancel"
             pAutoFocus [autofocus]="true"></p-button>
     </div>
