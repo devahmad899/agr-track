@@ -178,7 +178,7 @@
                     <label for="productName" class="block mb-2">Product Name <span class="text-red-700">*</span></label>
                     <p-dropdown formControlName="productId" [options]="productsList" optionLabel="productName"
                         optionValue="productId" placeholder="Select a Product"
-                        [emptyMessage]="productsList?.length ? 'No crops found in this store' : 'Please select a store first'"></p-dropdown>
+                        [emptyMessage]="!this.cropsForm.get('storeId').value  ? 'Please select a store first' : 'No crops found in this store'"></p-dropdown>
 
                     <div class="p-error mb-3" *ngIf="f['productId'].touched && f['productId'].invalid"
                         class="text-danger">
