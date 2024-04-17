@@ -102,7 +102,7 @@ export class InventoryComponent {
     } else if (id === 2) {
       this.displayEditModal = true;
     } else if (id === 4) {
-      this.displayEditModal = true;
+      this.displayDetailModal = true;
     } else {
       this.displayDeleteModal = true;
     }
@@ -112,6 +112,7 @@ export class InventoryComponent {
     this.displayAddModal = false
     this.displayDetailModal = false
     this.displayEditModal = false
+    this.displayDeleteModal = false
     this.storeForm.reset()
     this.selectedUserId = null
   }

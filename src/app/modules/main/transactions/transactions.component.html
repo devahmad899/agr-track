@@ -212,10 +212,10 @@
                             Quantity is required.</small>
                     </div>
                 </div>
-                <div class="col-12 p-0" *ngIf="quantityInKgs">
+                <!-- <div class="col-12 p-0" *ngIf="quantityInKgs">
                     <small class="text-center block">Total Quantity: <span class="text-primary">{{ quantityInKgs }}
                             KG</span></small>
-                </div>
+                </div> -->
                 <div class="col-12 md:col-6">
                     <label for="price" class="block mb-2">Price in Rupees<span class="text-red-700">*</span></label>
                     <!-- <input pInputText id="fullname" formControlName="price"> -->
@@ -230,16 +230,22 @@
                     <p-inputNumber inputId="minmaxfraction" mode="decimal" [minFractionDigits]="0"
                         [maxFractionDigits]="1" formControlName="commissionRate"> </p-inputNumber>
                 </div>
-                <!-- <div class="col-12 md:col-6" *ngIf="selectedTransaction === 'purchase'">
-                        <label for="TotalQuantity" class="block mb-2">Commision Rate <span class="text-red-700">*</span></label>
-                        <p-inputNumber inputId="price" formControlName="commissionRate"></p-inputNumber>
-                    </div> -->
             </div>
             <div class="btn-holder flex gap-3 mt-5">
                 <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary" pAutoFocus
                     [autofocus]="true" [disabled]="cropsForm.invalid"></p-button>
                 <p-button severity="secondary" icon="pi pi-times" (click)="displayAddModal = false" label="Cancel"
                     pAutoFocus [autofocus]="true"></p-button>
+                <div class="total-holder mx-auto">
+                    <div class="col-12 p-0" *ngIf="quantityInKgs">
+                        <h5 class="mb-1">Total Quantity: <span class="text-primary">{{ quantityInKgs }}
+                                KG</span></h5>
+                    </div>
+                    <div class="col-12 p-0" *ngIf="totalPrice">
+                        <h5 class="mb-1">Total Price: <span class="text-primary">{{ totalPrice }}
+                                Rs.</span></h5>
+                    </div>
+                </div>
             </div>
         </form>
     </div>

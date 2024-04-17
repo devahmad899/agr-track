@@ -49,7 +49,8 @@ export class TransactionsComponent {
   ];
   selectedTransaction = 'sale';
   quantityInKgs: number;
-  showLoader:boolean =false
+  totalPrice: number;
+  showLoader: boolean = false
   get f() {
     return this.cropsForm.controls;
   }
@@ -69,7 +70,7 @@ export class TransactionsComponent {
   private fetchTransactionHistory(): void {
     this.transactionlist = [];
     this.serialNumberArray = [];
-    this.showLoader=true
+    this.showLoader = true
     this.data.getTransaction().subscribe(
       (res: Dictionary) => {
         console.log('API response:', res);
@@ -78,12 +79,12 @@ export class TransactionsComponent {
           this.transactionlist.forEach((user, index) => {
             user.srNo = index + 1;
           });
-          console.log(this.transactionlist,'transactionlist')
+          console.log(this.transactionlist, 'transactionlist')
         }
-        this.showLoader=false
+        this.showLoader = false
       },
       (error) => {
-        this.showLoader=false
+        this.showLoader = false
         console.error('Error in API', error);
       });
 
@@ -114,10 +115,24 @@ export class TransactionsComponent {
     });
     this.cropsForm.get('quantity').valueChanges.subscribe(() => {
       this.updateTotalQuantity();
+      this.updateTotalBill();
+
     });
 
     this.cropsForm.get('quantityInKg').valueChanges.subscribe(() => {
       this.updateTotalQuantity();
+      this.updateTotalBill();
+
+    });
+    this.cropsForm.get('price').valueChanges.subscribe(() => {
+      this.updateTotalQuantity();
+      this.updateTotalBill();
+
+    });
+
+    this.cropsForm.get('commissionRate').valueChanges.subscribe(() => {
+      this.updateTotalQuantity();
+      this.updateTotalBill();
     });
     this.cropsForm.get('storeId').valueChanges.subscribe(storeId => {
       if (storeId) {
@@ -129,6 +144,23 @@ export class TransactionsComponent {
   }
 
   // Function to update the total quantity based on inputs in both fields
+  updateTotalBill() {
+    const price = this.cropsForm.get('price').value;
+    const commissionRate = this.cropsForm.get('commissionRate').value;
+
+    // Ensure both price and commissionRate are valid numbers
+    if (price || commissionRate) {
+      const totalQUnatity = this.quantityInKgs / 40
+      const commissionAmount = price * (commissionRate / 100);
+      const totalPrice = price - commissionAmount;
+      this.totalPrice = totalPrice * totalQUnatity;
+
+    }
+    else {
+      this.totalPrice = null
+    }
+  }
+
   updateTotalQuantity(): void {
     const quantityInMann = this.cropsForm.get('quantity').value;
     const quantityInKg = this.cropsForm.get('quantityInKg').value;
@@ -171,7 +203,7 @@ export class TransactionsComponent {
     import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {
         const doc = new jsPDF.default('p', 'px', 'a4');
-  
+
         // Header content
         const header = `
         Company Name: AgrTrack
@@ -190,17 +222,17 @@ export class TransactionsComponent {
           transaction.QuantityInMann,
           transaction.Bill,
         ]);
-        
-  
+
+
         // Calculate header height
         const headerHeight = doc.getTextDimensions(header).h;
-  
+
         // Add header to PDF
         doc.text(header, 10, 10);
-  
+
         // Add some space after the header
         const startY = 30 + headerHeight + 50; // Adjust this value as needed
-  
+
         // Add table
         (doc as any).autoTable({
           startY: startY,
@@ -210,27 +242,27 @@ export class TransactionsComponent {
           //   fillColor: [100, 100, 255]
           // }
         });
-  
+
         doc.save('transactions-report.pdf');
       });
     });
   }
   getStoreList() {
-      this.data.getStore().subscribe(
-        (res: Dictionary) => {
-          console.log('API response:', res);
-          if (res && res['status'] === 200) {
-            this.storeList = res['data']
-            // this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });
-          }
-          else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
-          }
-        },
-        (error) => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-          console.error('Error in API', error);
-        });
+    this.data.getStore().subscribe(
+      (res: Dictionary) => {
+        console.log('API response:', res);
+        if (res && res['status'] === 200) {
+          this.storeList = res['data']
+          // this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });
+        }
+        else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
+        }
+      },
+      (error) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+        console.error('Error in API', error);
+      });
   }
   getCustomerUsers() {
     const customerUser = 3
@@ -298,7 +330,9 @@ export class TransactionsComponent {
       if (formData.selectedTransaction === "sale") {
         formData.sell = true;
         formData.purchase = false;
+        delete formData.commissionRate
       } else {
+        formData.commissionRate = formData.commissionRate === null ? 0 : formData.commissionRate;
         formData.sell = false;
         formData.purchase = true;
       }
