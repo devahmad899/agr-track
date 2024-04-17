@@ -44,7 +44,7 @@ export class TransactionsComponent {
   exportColumns!: ExportColumn[];
   home: MenuItem | undefined;
   transectionType = [
-    { name: 'Sale', value: 'sale' },
+    { name: 'Sell', value: 'sale' },
     { name: 'Purchase', value: 'purchase' }
   ];
   selectedTransaction = 'sale';
@@ -93,11 +93,11 @@ export class TransactionsComponent {
   ngOnInit() {
     this.cols = [
       { field: 'srNo.', header: 'Sr No.', customExportHeader: 'Sr No.' },
-      { field: 'cropsName', header: 'Crops Name' },
-      { field: 'saller', header: 'Saller' },
-      { field: 'purchaser', header: 'Purchaser' },
       { field: 'date', header: 'Date' },
-      { field: 'saleRate', header: 'Sale Rate' },
+      { field: 'cropsName', header: 'Crops Name' },
+      { field: 'seller', header: 'Seller' },
+      { field: 'purchaser', header: 'Buyer' },
+      { field: 'saleRate', header: 'Sell Rate' },
       { field: 'purchaseRate', header: 'Purchase Rate' },
       { field: 'quantity', header: 'Quantity' },
       { field: 'bill', header: 'Bill' },
@@ -214,10 +214,10 @@ export class TransactionsComponent {
         `;
         const formattedTransactionList = this.transactionlist.map(transaction => [
           transaction.srNo,
+          transaction.date,
           transaction.productName,
           transaction.saleBy,
           transaction.purchaseBy,
-          transaction.date,
           transaction.SalePerRateInMann,
           transaction.purchasePerRateInMann,
           transaction.QuantityInMann,

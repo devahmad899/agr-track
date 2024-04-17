@@ -45,10 +45,10 @@
                             <ng-template pTemplate="body" let-stock>
                                 <tr>
                                     <td>{{stock.srNo}}</td>
+                                    <td>{{stock.date}}</td>
                                     <td>{{stock.productName}}</td>
                                     <td>{{stock.saleBy}}</td>
                                     <td>{{stock.purchaseBy}}</td>
-                                    <td>{{stock.date}}</td>
                                     <td>{{stock.SalePerRateInMann}}</td>
                                     <td>{{stock.purchasePerRateInMann}}</td>
                                     <td>{{stock.QuantityInMann}}</td>
@@ -135,7 +135,7 @@
                         optionValue="value"></p-selectButton>
                 </div>
                 <div class="col-12 md:col-6" *ngIf="selectedTransaction === 'sale'">
-                    <label for="price" class="block mb-2">Sale To<span class="text-red-700">*</span></label>
+                    <label for="price" class="block mb-2">Sell To<span class="text-red-700">*</span></label>
                     <!-- <input pInputText id="fullname" formControlName="price"> -->
                     <p-dropdown formControlName="userId" [options]="customersList" optionLabel="fullname"
                         optionValue="id" placeholder="Select a Customer"></p-dropdown>
@@ -145,7 +145,7 @@
                     </div>
                 </div>
                 <div class="col-12 md:col-6" *ngIf="selectedTransaction === 'purchase'">
-                    <label for="price" class="block mb-2">Sale To<span class="text-red-700">*</span></label>
+                    <label for="price" class="block mb-2">Sell To<span class="text-red-700">*</span></label>
                     <!-- <input pInputText id="fullname" formControlName="price"> -->
                     <p-dropdown formControlName="userId" [options]="farmersList" optionLabel="fullname" optionValue="id"
                         placeholder="Select a Farmer"></p-dropdown>

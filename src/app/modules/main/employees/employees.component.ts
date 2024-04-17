@@ -78,11 +78,11 @@ export class EmployeesComponent {
   ngOnInit() {
     this.cols = [
       { field: 'srNo.', header: 'Sr No.', customExportHeader: 'Sr No.' },
-      { field: 'cropsName', header: 'Crops Name' },
-      { field: 'saller', header: 'Saller' },
-      { field: 'purchaser', header: 'Purchaser' },
       { field: 'date', header: 'Date' },
-      { field: 'saleRate', header: 'Sale Rate' },
+      { field: 'cropsName', header: 'Crops Name' },
+      { field: 'saller', header: 'Seller' },
+      { field: 'purchaser', header: 'Buyer' },
+      { field: 'saleRate', header: 'Sell Rate' },
       { field: 'purchaseRate', header: 'Purchase Rate' },
       { field: 'quantity', header: 'Quantity' },
       { field: 'bill', header: 'Bill' },

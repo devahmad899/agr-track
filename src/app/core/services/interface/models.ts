@@ -135,7 +135,7 @@ export interface MakeTransaction {
   price: number;
   quantity: number,
   productId: number,
-  sell: boolean,
+  sale: boolean,
   purchase: boolean,
   storeId: number;
   commissionRate: number
