@@ -23,9 +23,12 @@ export class InventoryComponent {
   home: MenuItem | undefined;
   displayAddModal: boolean;
   displayDetailModal: boolean;
+  displayEditModal: boolean;
+  displayDeleteModal: boolean;
   selectedUserId: number;
   storeForm: FormGroup;
   showLoader = false
+  inventoryLoader = false
   get f() {
     return this.storeForm.controls;
   }
@@ -45,7 +48,7 @@ export class InventoryComponent {
           this.storeList = res['data']
           this.storeList.forEach((user, index) => {
             user.srNo = index + 1;
-          }); 
+          });
           this.showLoader = false
         }
         else {
@@ -61,9 +64,11 @@ export class InventoryComponent {
   }
   private fetchIinventoryDetail(id: number): void {
     this.serialNumberArray = [];
+    this.inventoryLoader = true
     this.data.storeDetails(id).subscribe(
       (res: Dictionary) => {
         console.log('API response:', res);
+        this.inventoryLoader = false
         if (res && res['status'] === 200) {
           this.inventoryList = res['data']
           this.inventoryList.forEach((user, index) => {
@@ -72,6 +77,7 @@ export class InventoryComponent {
         }
       },
       (error) => {
+        this.inventoryLoader = false
         console.error('Error in API', error);
       });
 
@@ -93,14 +99,19 @@ export class InventoryComponent {
   ShowModal(id: number) {
     if (id === 1) {
       this.displayAddModal = true;
+    } else if (id === 2) {
+      this.displayEditModal = true;
+    } else if (id === 4) {
+      this.displayEditModal = true;
     } else {
-      this.displayDetailModal = true;
+      this.displayDeleteModal = true;
     }
   }
   resetAll() {
     this.inventoryList = [];
     this.displayAddModal = false
     this.displayDetailModal = false
+    this.displayEditModal = false
     this.storeForm.reset()
     this.selectedUserId = null
   }
@@ -136,5 +147,52 @@ export class InventoryComponent {
         });
     }
   }
+  EditStore() {
+    if (this.storeForm && this.storeForm.valid) {
+      let formData = this.storeForm.value;
+      console.log(formData)
+      this.data.editStore(this.selectedUserId, formData).subscribe(
+        (res: Dictionary) => {
+          console.log('API response:', res);
+          if (res && res['status'] === 200) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });
+            this.fetchIinventoryStore()
+            this.resetAll()
 
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
+            this.resetAll()
+          }
+        },
+        (error) => {
+          this.resetAll()
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+          console.error('Error in API', error);
+        });
+    }
+  }
+  ConfirmDelete() {
+    if (this.selectedUserId) {
+      this.data.deleteStore(this.selectedUserId).subscribe(
+        (res: Dictionary) => {
+          console.log('API response:', res);
+          if (res && res['status'] === 200) {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: res['message'] });
+            this.fetchIinventoryStore()
+            this.resetAll()
+
+          }
+          else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: res['message'] });
+            this.resetAll()
+          }
+        },
+        (error) => {
+          this.resetAll()
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+          console.error('Error in API', error);
+        });
+    }
+  }
 }

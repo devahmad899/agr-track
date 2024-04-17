@@ -34,17 +34,36 @@
                                 <th>Sr No.</th>
                                 <th>Store Name</th>
                                 <th>Store Address</th>
+                                <th>Actions</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-item>
                             <tr>
                                 <td>{{item.srNo}}</td>
                                 <td>
-                                    <div (click)="ShowModal();onSelectID(item.id)" class="cursor-pointer">
+                                    <a (click)="ShowModal();onSelectID(item.id)" class="cursor-pointer">
                                         {{item.name}}
-                                    </div>
+                                    </a>
                                 </td>
                                 <td>{{item.address}}</td>
+                                <td>
+                                    <div class="text-center">
+                                        <button type="button" icon="pi pi-bookmark"
+                                            (click)="ShowModal(2);onSelectUser(item)"
+                                            class="p-element p-ripple p-button-secondary p-button-text p-button p-component  mr-2 p-1">
+                                            <span class="p-button-icon pi pi-pencil" aria-hidden="true"></span>
+                                            <span class="p-ink"
+                                                style="height: 42px; width: 42px; top: 0.75px; left: 17px;"></span>
+                                        </button>
+                                        <button type="button" icon="pi pi-bookmark"
+                                            (click)="ShowModal();onSelectUser(item)"
+                                            class="p-element p-ripple p-button-secondary p-button-text p-button p-component  p-1">
+                                            <span class="p-button-icon pi pi-trash" aria-hidden="true"></span>
+                                            <span class="p-ink"
+                                                style="height: 42px; width: 42px; top: 0.75px; left: 17px;"></span>
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="emptymessage">
@@ -113,6 +132,79 @@
         [autofocus]="true"></p-button>
     </ng-template> -->
 </p-dialog>
+<p-dialog header="Header" [(visible)]="displayEditModal" [modal]="true" [style]="{ width: '60rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false" [closable]="false">
+    <ng-template pTemplate="header">
+        <div class="inline-flex align-items-center justify-content-center gap-2">
+            <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle" /> -->
+            <h3 class="font-bold white-space-nowrap">Edit Store</h3>
+        </div>
+        <div class="icons absolute" style="top: 16px;right: 15px;">
+            <button pbutton="" pripple="" type="button" icon="pi pi-times"
+                (click)="this.resetAll();displayEditModal = false"
+                class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
+                    class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
+                    style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
+        </div>
+    </ng-template>
+    <div class="form-holder">
+        <form [formGroup]="storeForm" (ngSubmit)="EditStore()">
+            <div class="grid p-fluid">
+                <div class="col-12 md:col-6">
+                    <label for="name" class="block mb-2">Name <span class="text-red-700">*</span></label>
+                    <input pInputText id="name" formControlName="name">
+                    <div class="p-error mb-3" *ngIf="f['name'].touched && f['name'].invalid" class="text-danger">
+                        <small class="p-error" *ngIf="f['name'].errors && f['name'].errors['required']">Store Name
+                            is
+                            required.</small>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6">
+                    <label for="address" class="block mb-2">Address <span class="text-red-700">*</span></label>
+                    <input pInputText id="address" formControlName="address">
+                    <div class="p-error mb-3" *ngIf="f['address'].touched && f['address'].invalid" class="text-danger">
+                        <small class="p-error" *ngIf="f['address'].errors && f['address'].errors['required']">Store
+                            Address
+                            is
+                            required.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-holder flex gap-3">
+                <p-button type="submit" icon="pi pi-check mr-3" label="Submit" styleClass="p-button-primary" pAutoFocus
+                    [autofocus]="true" [disabled]="storeForm.invalid"></p-button>
+                <p-button severity="secondary" icon="pi pi-times" (click)="displayEditModal = false" label="Cancel"
+                    pAutoFocus [autofocus]="true"></p-button>
+            </div>
+        </form>
+    </div>
+    <!-- <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayAddModal = false" label="Ok" pAutoFocus
+        [autofocus]="true"></p-button>
+    </ng-template> -->
+</p-dialog>
+<p-dialog header="Header" [(visible)]="displayDeleteModal" [modal]="true" [style]="{ width: '40rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false" [closable]="false">
+    <ng-template pTemplate="header">
+        <div class="icons absolute" style="top: 16px;right: 15px;">
+            <button pbutton="" pripple="" type="button" icon="pi pi-times"
+                (click)="this.resetAll();displayDeleteModal = false"
+                class="p-element p-ripple p-button-rounded p-button-danger p-button p-component p-button-icon-only"><span
+                    class="p-button-icon pi pi-times" aria-hidden="true"></span><span class="p-ink"
+                    style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
+        </div>
+    </ng-template>
+    <div class="form-holder mb-5">
+        <h3>Delete Store!</h3>
+        <p>Are you sure you wanna delete this store</p>
+    </div>
+    <div class="btn-holder flex gap-3">
+        <p-button type="submit" icon="pi pi-check mr-3" severity="danger" label="Confirm" pAutoFocus [autofocus]="true"
+            (onClick)="ConfirmDelete()"></p-button>
+        <p-button severity="secondary" icon="pi pi-times" (click)="displayDeleteModal = false" label="Cancel" pAutoFocus
+            [autofocus]="true"></p-button>
+    </div>
+</p-dialog>
 <p-dialog header="Header" [(visible)]="displayDetailModal" [modal]="true"
     [style]="{ width: '60rem', position: 'relative' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
     [draggable]="false" [resizable]="false" [closable]="false">
@@ -132,7 +224,10 @@
                     style="height: 42px; width: 42px; top: 1.75px; left: 6px;"></span></button>
         </div>
     </ng-template>
-    <div class="form-holder">
+    <div class="form-holder relative">
+        <div class="container-loader" *ngIf="inventoryLoader">
+            <div class="lds-dual-ring"></div>
+        </div>
         <ng-container *ngIf="inventoryList && inventoryList.length > 0; else noData">
             <p-table [value]="inventoryList" [paginator]="false" [showCurrentPageReport]="true"
                 [tableStyle]="{ 'min-width': '50rem' }">

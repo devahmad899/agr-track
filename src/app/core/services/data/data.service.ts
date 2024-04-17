@@ -113,6 +113,27 @@ export class DataService {
       { headers }
     );
   }
+  public editStore(id:number,requestBody: Store): Observable<Users> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.patch<Users>(
+      `${environment.apiUrl}/inventory/${id}/`,
+      requestBody,
+      { headers }
+    );
+  }
+  public deleteStore(id:number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    });
+    return this.http.delete<any>(
+      `${environment.apiUrl}/inventory/${id}/`,
+      { headers }
+    );
+  }
   public storeDetails(id:number): Observable<Stocks> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

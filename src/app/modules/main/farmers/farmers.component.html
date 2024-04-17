@@ -37,16 +37,16 @@
                                 <th>CNIC</th>
                                 <th>Phone Number</th>
                                 <th>Issued Loan</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center">Actions</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-user>
                             <tr>
                                 <td>{{user.srNo}}</td>
                                 <td>
-                                    <div (click)="ShowModal(4);onSelectID(user.id)" class="cursor-pointer">
+                                    <a href="javascript:;" (click)="ShowModal(4);onSelectID(user.id)" class="cursor-pointer">
                                         {{user.fullname}}
-                                    </div>
+                                    </a>
                                 </td>
                                 <td>{{user.email}}</td>
                                 <td>{{user.cnic}}</td>
