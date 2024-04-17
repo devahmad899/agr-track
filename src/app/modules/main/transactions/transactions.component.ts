@@ -150,10 +150,11 @@ export class TransactionsComponent {
 
     // Ensure both price and commissionRate are valid numbers
     if (price || commissionRate) {
-      const totalQUnatity = this.quantityInKgs / 40
+      const totalQuantity = this.quantityInKgs / 40
       const commissionAmount = price * (commissionRate / 100);
       const totalPrice = price - commissionAmount;
-      this.totalPrice = totalPrice * totalQUnatity;
+      this.totalPrice = Number((totalPrice * totalQuantity).toFixed(3)); // Convert back to number
+      // this.totalPrice = totalPrice * totalQuantity;
 
     }
     else {
