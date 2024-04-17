@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Dictionary } from '@fullcalendar/core/internal';
 import { MenuItem, MessageService } from 'primeng/api';
-import { DataService, Transaction, Users } from 'src/app/core/core.index';
+import { Column, DataService, ExportColumn, Transaction, Users } from 'src/app/core/core.index';
 import { Product } from 'src/app/demo/api/product';
 
 @Component({
@@ -28,7 +28,8 @@ export class EmployeesComponent {
   showLoader = false
   historyLoader = false
   transactionlist: Transaction[];
-
+  cols: Column[]
+  exportColumns!: ExportColumn[];
 
   get f() {
     return this.userForm.controls;
@@ -52,7 +53,7 @@ export class EmployeesComponent {
     this.userList = [];
     this.serialNumberArray = [];
     let id = 2
-    this.showLoader=true
+    this.showLoader = true
     this.data.getUsers(id).subscribe(
       (res: Dictionary) => {
         console.log('API response:', res);
@@ -75,6 +76,18 @@ export class EmployeesComponent {
 
   }
   ngOnInit() {
+    this.cols = [
+      { field: 'srNo.', header: 'Sr No.', customExportHeader: 'Sr No.' },
+      { field: 'cropsName', header: 'Crops Name' },
+      { field: 'saller', header: 'Saller' },
+      { field: 'purchaser', header: 'Purchaser' },
+      { field: 'date', header: 'Date' },
+      { field: 'saleRate', header: 'Sale Rate' },
+      { field: 'purchaseRate', header: 'Purchase Rate' },
+      { field: 'quantity', header: 'Quantity' },
+      { field: 'bill', header: 'Bill' },
+    ];
+    this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
     this.fetchCusotomerData();
     this.items = [{ label: 'Farmers' }];
     this.home = { icon: 'pi pi-home', routerLink: '/' };
@@ -85,9 +98,10 @@ export class EmployeesComponent {
       this.displayAddModal = true;
     } else if (id === 2) {
       this.displayEditModal = true;
-    } else if (id === 4) { {
-      this.displayHistoryModal = true
-    }
+    } else if (id === 4) {
+      {
+        this.displayHistoryModal = true
+      }
     } else {
       this.displayDeleteModal = true
     }
