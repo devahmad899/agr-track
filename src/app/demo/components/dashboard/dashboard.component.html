@@ -187,7 +187,7 @@
     </div> -->
     <div class="col-12 xl:col-6" *ngIf="rolenName ==='Admin' || rolenName === 'Employee' ">
         <div class="card" style="height: 100%;">
-            <h5>inventory Stats</h5>
+            <h5>Inventory Stats</h5>
             <div class="card flex justify-content-center">
                 <ng-container *ngIf="inventoryList && inventoryList.length > 0; else noData">
                     <p-table [value]="inventoryList" [paginator]="false" [showCurrentPageReport]="true"
